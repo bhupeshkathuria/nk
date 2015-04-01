@@ -1,0 +1,91 @@
+<?php $orders = $this->getOrders();?>
+<style>
+#padd th{border-right:1px solid #000;}
+.menu_font_style th{padding:10px;}
+form th{ text-align:center;}
+.supplier_order_list td{border-right:1px solid #000; border-bottom:1px solid #000; text-align:center;}
+</style>
+<div class="supllier_admin_content  supplier_admin_order_list">
+<h1>COD Remit</h1>
+<div style="padding:10px;">
+<?php if($_GET['success'] == 1){ echo "<h3 style='color:#090;'>Successfully updates COD Remit</h3>"; } else { echo "<h3 style='color:#F00'>COD Mismatch - ".$_GET['success']."</h3>"; }  ?>
+<form name="uploadCsv" method="post" action="<?php echo Mage::getUrl('salesreport/cod/cod'); ?>" enctype="multipart/form-data">
+<input type="file" name="csv" value="" />
+<input type="submit" name="submit" value="Upload" />
+</form>
+</div>
+<table class="supplier_order_list st" style="width:100%; border:1px solid #000;" >
+	    <tr class="menu_font_style " id="padd">
+	        <th><?php echo $this->__('Sr No') ?></th>
+	        <th><?php echo $this->__('Waybill') ?></th>
+	        <th><?php echo $this->__('order No') ?></th>
+	        <th><?php echo $this->__('Order Date') ?></th>
+	        <th><?php echo $this->__('Customer Detail') ?></th>
+            <th><?php echo $this->__('COD') ?></th>
+            <th><?php echo $this->__('Sale') ?></th>
+            <th colspan="2"><?php echo $this->__('COD Remit') ?></th>         
+            <th><?php echo $this->__('Courier Name') ?></th>
+            <th><?php echo $this->__('Vendor Name') ?></th>
+         </tr>
+         
+         <tr class="menu_font_style " id="padd">
+	        <th><?php echo $this->__('OverAll') ?></th>
+	        <th>&nbsp;</th>
+	        <th>&nbsp;</th>
+	        <th>&nbsp;</th>
+	        <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th><?php echo Mage::helper('core')->currency($this->getTotalSale(), true, false); ?></th>
+            <th><?php echo $this->__('Paid'); $total = $this->getSumCodRemit(); echo '<br>'. Mage::helper('core')->currency($total['totalCOD'], true, false); ?></th>
+            <th><?php echo $this->__('Unpaid'); echo "<br>".Mage::helper('core')->currency(($this->getTotalSale()) - ($total['totalCOD']), true, false); ?></th>         
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+         </tr>
+        
+        
+        
+         <?php 
+		 	
+		  		 $i = 0; foreach($orders as $order) : $i++; ?>
+	    <?php
+				$items = $order->getAllVisibleItems();
+				$itemcount= count($items);
+				$data = array();
+				$supplierDetails = $this->getCustomSku($order->getRealOrderId()); 
+				
+				#loop for all order items
+				foreach ($items as $itemId => $item):
+				if($order->getPayment()->getMethodInstance()->getCode()=='cashondelivery'):	?>
+                
+			<tr class="position  <?php if(($i%2) == 0){?>even<?php }else{?>odd<?php } ?>"> 
+                <td><?php echo ++$j; ?></td>
+                <td><?php echo $this->getWaybill($order->getRealOrderId());?></td>
+                <td><?php echo $order->getRealOrderId(); ?></td>
+                <td><?php echo $order->getCreatedAtStoreDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT); ?></td>
+                <td><?php echo $order->getBillingAddress()->getName(); ?></td>
+                <td><?php echo $order->getPayment()->getMethodInstance()->getTitle(); ?></td>
+                <td><?php echo Mage::helper('core')->currency(($item->getPrice())*($item->getData('qty_ordered')), true, false); ?></td>
+                <td><?php $cod = $this->getCodRemit($order->getRealOrderId()); 
+				if($cod['codremit']!='' && $cod['codremit']!='0.0000'){
+				echo Mage::helper('core')->currency($cod['codremit'], true, false);
+				}else{
+				echo '';
+				}
+				 ?></td>
+                <td><?php $uncod = $this->getUnCodRemit($order->getRealOrderId()); 
+				if($uncod['codremit']=='0.0000' && $item->getPrice() != $cod['codremit'])
+				 echo Mage::helper('core')->currency($uncod['price'], true, false); ?></td>
+                
+                <td>Delhivery</td>
+                <td><?php echo $supplierDetails['surname']; ?></td>
+                
+	    </tr>
+        <?php endif ?>
+		<?php endforeach; ?>		
+	    <?php endforeach; ?>
+        
+        
+        
+        
+ </table>       
+</div>

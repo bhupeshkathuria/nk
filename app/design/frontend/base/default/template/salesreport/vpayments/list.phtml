@@ -1,0 +1,81 @@
+<style>
+.supplier_admin_order_list table tr td{border:1px solid #000;}
+.supplier_admin_order_list table tr th{border:1px solid #000;}
+</style>
+<?php $orders = $this->getOrders();?>
+<div class="supllier_admin_content  supplier_admin_order_list">
+<h1>Payments to Vendor</h1>
+<table class="supplier_order_list st" style="width:100%;">
+	    <tr class="menu_font_style " id="padd">
+                <th><?php echo $this->__('Vendor Details') ?></th>
+                <th><?php echo $this->__('Order') ?></th>
+                <th><?php echo $this->__('Category Name') ?></th>
+                <th><?php echo $this->__('Sale Amount') ?></th>
+                <!--<th><?php //echo $this->__('Buy Price') ?></th>-->
+                <th><?php echo $this->__('Payment Made to Vendor') ?></th>
+                <th><?php echo $this->__('Gross Margin') ?></th>
+                <th><?php echo $this->__('Margin %') ?></th>
+                
+	    </tr>
+        
+        	<?php
+			$gdT = array();
+			$trs = array();
+			foreach($orders as $orderT){
+					$supplierPrd1 = $this->getSupplierProduct($orderT['supplier_name']);
+					$payment_made = 0;
+					//echo $orderT['discount_amount']."<br>";
+					$trs[] = $orderT['totalOrder'];
+					$gdT[] = ($orderT['dropshiprice']);
+					
+					foreach($supplierPrd1 as $spid1){
+						$payment_made += ($this->getCustomAttributes('payment_to_be_made', $spid1['itemcode']))*($spid1['qty_ordered']);		
+					}
+				$payment_madeALL[] = $payment_made;	
+			}
+				$grossMarginA = round((array_sum($gdT)) - (array_sum($payment_madeALL)),2);
+				$grossPercentageA = round(($grossMarginA/array_sum($gdT))*100,2);
+			?>
+          <tr>
+        	<th>&nbsp;</th>
+            <th><?php echo array_sum($trs); ?></th>
+            <th>&nbsp;</th>
+            <th><?php echo Mage::helper('core')->currency(array_sum($gdT), true, false); ?></th>
+            <?php /*?><th><?php echo Mage::helper('core')->currency($buyPrice, true, false); ?></th><?php */?>
+            <th><?php echo Mage::helper('core')->currency(array_sum($payment_madeALL), true, false); ?></th>
+            <th><?php echo Mage::helper('core')->currency($grossMarginA, true, false); ?></th>
+            <th><?php echo round($grossPercentageA,2).'%';?></th>
+            
+        </tr>
+        <?php
+			$i = 0; 
+        	foreach($orders as $order){
+					$supplierPrd = $this->getSupplierProduct($order['supplier_name']);
+					$payment_made1 = 0;
+					$product_idSD = 0;
+					$qtyS = 0;
+					foreach($supplierPrd as $spid){
+						$payment_made1 += ($this->getCustomAttributes('payment_to_be_made', $spid['itemcode']))*($spid['qty_ordered']);		
+					}
+					
+					$price = ($order['dropshiprice']);
+			?>
+				<tr>
+					<td><a href="http://www.netakart.com/index.php/salesreport/vendordetails?supplier_name=<?php echo $order['supplier_name'];?>"><?php $vendor =  $this->getSuppliear($order['supplier_name']); echo $vendor['surname']; ?></a></td>
+					<td><?php echo $order['totalOrder'];	?></td>
+                    <td></td>
+					<td><?php echo Mage::helper('core')->currency(($order['dropshiprice'] - $order['discount_amount']), true, false);?> </td>
+					<td><?php echo $payment_made1;	?></td>
+					<td> <?php  echo $grossMargin = round(($price) - ($payment_made1),2); ?></td>
+					<td><?php echo $grossPercentage = round(($grossMargin/$order['dropshiprice'])*100,2); ?>%</td>
+			
+            	</tr>
+		<?php 
+		$i++;
+        	}
+        ?>      
+        
+        
+ </table>       
+</div>
+<?php echo $this->getChildHtml("order_list_toolbar"); ?>

@@ -1,0 +1,29 @@
+<?php echo $this->getChildHtml("order_list_toolbar"); ?>
+<style>
+#padd th{border-right:1px solid #000;}
+.menu_font_style th{padding:10px;}
+form th{ text-align:center;}
+.supplier_order_list td{border-right:1px solid #000; border-bottom:1px solid #000; text-align:center;}
+</style>
+
+<div class="supllier_admin_content  supplier_admin_order_list">
+<h1>Marketing Spend</h1>
+<form method="post" action="" name="frmPayment">
+<table class="supplier_order_list st" style="width:100%; border:1px solid #000;">
+	
+	    <tr class="menu_font_style " id="padd">
+                <td><?php echo $this->__('Amount Spent') ?></td>
+                <td><input type="text" name="spent_amount" /></td>
+        </tr>
+        <tr class="menu_font_style " id="padd">
+                <td><?php echo $this->__('Date') ?></td>
+                <td><input type="text" name="spent_date"/></td>
+        </tr>
+        <tr class="menu_font_style " id="padd">
+                <td colspan="2"><input type="submit" name="submit" class="button" value="Add Amount"/></td>
+        </tr>
+        
+ </table> 
+ </form>    
+</div>
+<?php echo $this->getChildHtml("order_list_toolbar"); ?>

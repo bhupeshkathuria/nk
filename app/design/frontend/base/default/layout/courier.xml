@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <courier_index_index>
+    	<reference name="head">
+            <action method="addCss"><name>courier/style.css</name></action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate"><template>supplier/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+        	<block type="courier/header" name="courier.header" template="courier/order/header.phtml"/>
+            <block type="core/template" name="sub_content" template="courier/login.phtml"/>
+            <block type="core/template" name="courier.footer" template="courier/order/footer.phtml"/>
+        </reference>
+    </courier_index_index>
+	
+	<courier_index_forgot>
+		<reference name="head">
+            <action method="addCss"><name>courier/style.css</name></action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate"><template>courier/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+        	<block type="courier/header" name="courier.header" template="courier/order/header.phtml"/>
+            <block type="core/template" name="sub_content" template="courier/index/forgot.phtml"/>
+            <block type="core/template" name="courier.footer" template="courier/order/footer.phtml"/>
+        </reference>
+   </courier_index_forgot> 
+
+    <courier_order_index>
+        <reference name="head">
+            <action method="addCss"><name>courier/style.css</name></action>
+			<action method="addCss"><name>salesreport/css/default.css</name></action>
+			<action method="addJs"><name>salesreport/js/zebra_datepicker.js</name></action>
+			<action method="addJs"><name>salesreport/js/core.js</name></action>
+        </reference>
+        <reference name="root">
+        	<remove name="right"/>
+            <action method="setTemplate"><template>courier/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="courier/header" name="courier.header" template="courier/order/header.phtml"/>
+			<block type="salesreport/order" name="salesreport.datepicker" template="salesreport/order/datepicker.phtml"/>
+			<block type="courier/orderleft" name="courier.orderleft" template="courier/order/orderleft.phtml"/>
+            <block type="courier/order"  name="orderlist" template="courier/order/list.phtml">
+                <block type="courier/order" name="order_list_toolbar" template="courier/order/toolbar_list.phtml"/>
+            </block>
+			<block type="core/template" name="courier.footer" template="courier/order/footer.phtml"/>
+        </reference>
+    </courier_order_index>
+	
+	<courier_order_manifest>
+        <reference name="head">
+            <action method="addCss"><name>courier/style.css</name></action>
+        </reference>
+        <reference name="root">
+        	<remove name="right"/>
+            <action method="setTemplate"><template>courier/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="courier/header" name="courier.header" template="courier/order/header.phtml"/>
+			<block type="courier/orderleft" name="courier.orderleft" template="courier/order/orderleft.phtml"/>
+            <block type="courier/order"  name="orderlist" template="courier/order/manifest.phtml">
+                <block type="courier/order" name="order_list_toolbar" template="courier/order/toolbar_list.phtml"/>
+            </block>
+			<block type="core/template" name="courier.footer" template="courier/order/footer.phtml"/>
+        </reference>
+    </courier_order_manifest>
+</layout>

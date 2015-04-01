@@ -1,0 +1,309 @@
+<?php	 $orders = $this->getOrders();
+
+		 echo $this->getChildHtml("order_list_toolbar"); ?>
+<?php //$status =  $this->getOrderStatus();
+
+
+$session = Mage::getSingleton('core/session');
+$courierId = $session->getData('courierId');
+$orderStatus = array('paypal_canceled_reversal','payment_review', 'paypal_reversed','pending_payment', 'pending_paypal','fraud','closed','pending','processing','ready_for_dispatch','canceled','holded');
+?>
+
+<?php if(!isset($_GET['s'])){ 
+?>
+
+<?php
+if($_POST['from'] && $_POST['to'])	{
+	$from = date("Y-m-d 00:00:00", strtotime($_POST['from']));
+	$to = date("Y-m-d 23:59:59", strtotime($_POST['to']));
+	$status = array(1);
+	
+} else 
+{
+	$from = date("Y-m-d 00:00:00");
+	$to = date("Y-m-d 23:59:59");
+	$status = array(1);
+}
+
+$processingOrders = Mage::getModel("courier/order")->processingOrders($courierId,$from,$to,$status);
+
+
+?>
+
+
+<div class="supllier_admin_content  supplier_admin_order_list">
+<div class="clsManifest clsManifest-margin" style="margin-top:10px;">
+	<form action="http://www.netakart.com/index.php/courier/order/picklist/" method="post">
+    	<input type="hidden" name="status" value="<?php echo implode(",",$status);?>">
+        <input type="hidden" name="from" value="<?php echo $from;?>"/>
+        <input type="hidden" name="to" value="<?php echo $to;?>"/>
+        <input type="submit" name="submit" class="button" value="Pick List">
+  	</form>
+</div>
+<h1 style="float:left">Dashboard</h1>
+<?php
+$status = $this->getCustomStatus();
+?>
+	<table class="supplier_order_list st" style="width:100%" >
+		<tr class="menu_font_style ">
+	    	<th><?php echo $this->__('Vendor Details') ?></th>
+	        <th><?php echo $this->__('Contact Person') ?></th>
+            <th><?php echo $this->__('Email') ?></th>
+	        <th><?php echo $this->__('Order Processing') ?></th>
+   	    </tr>
+       	<?php
+		$i=1;
+		foreach($processingOrders as $processingOrder){ ?>	
+			<tr class="position  <?php if(($i%2) == 0){?>even<?php }else{?>odd<?php } ?>">
+        		<td><?php echo $processingOrder['surname'];?></td>
+				<td><?php echo $processingOrder['contact'];?><br/>(<?php echo $processingOrder['phone'];?>)</td>
+                <td><?php echo $processingOrder['email'];?></td>
+                <td><?php echo $processingOrder['totalOrders'];?></td>
+			</tr>
+        <?php
+		$i++;
+		}
+		?>
+   	</table>     
+
+
+<h1 style="float:left">Order Summary</h1>
+<table class="supplier_order_list st" style="width:100%" >
+	    <tr class="menu_font_style " id="padd">
+	        <th><?php echo $this->__('Index') ?></th>
+	        <th><?php echo $this->__('Orders') ?></th>
+	        <th><?php echo $this->__('Value') ?></th>
+	        <!--<th><?php echo $this->__('Status') ?></th>-->
+	        <th><?php echo $this->__('Details') ?></th>
+	    </tr>
+	    <?php $i = 0;
+		$priceTotal = 0;
+		 foreach($status as $order) : $i++; ?>
+        	
+        <?php
+		if(!in_array($order['status'],$orderStatus)){
+			echo $order['status']."<br/>";
+			switch($order['status']){
+			case 'processing':
+			$customStatus = 1;
+			break;	
+			case 'ready_for_dispatch':
+			$customStatus = 2;
+			break;	
+			case 'readypickup':
+			$customStatus = 3;
+			break;	
+			case 'handed_courier':
+			$customStatus = 4;
+			break;	
+			case 'complete':
+			$customStatus = 5;
+			break;
+			case 'canceled':
+			$customStatus = 6;
+			break;
+			case 'holded':
+			$customStatus = 7;
+			break;	
+			case 'returns':
+			$customStatus = 8;
+			break;
+			case 'out_of_stock':
+			$customStatus = 11;
+			break;
+			case 'return_confirm':
+			$customStatus = 12;
+			break;		
+		
+	}
+	
+		?>
+        
+        <?php
+		
+		 $countStatus = $this->getOrderByStatus($courierId,$order['status']); ?>
+         <?php 
+			 $priceTotal = $countStatus['price'];
+			 ?>
+	    <tr class="position  <?php if(($i%2) == 0){?>even<?php }else{?>odd<?php } ?>"> 
+	        <td><?php echo $order['label']; ?></td>
+	        <td><?php 
+					if($countStatus['countOrder'] > 0){
+					echo $countStatus['countOrder'];
+					}
+					else {
+					echo 0;
+					}
+			
+			 ?></td>
+	        <td>Rs. <?php echo number_format($priceTotal); ?></td>
+	        <td><a href="<?php echo Mage::getUrl('courier/order/' ).'?s='. $customStatus; ?>"><?php echo $this->__('View') ?></a></td>
+	    </tr>
+        <?php } ?>
+	    <?php endforeach; ?>
+	</table>
+
+
+</div>
+<?php } else { 
+			$cstatus = Mage::app()->getRequest()->getParam('s');
+			switch($cstatus){
+				case '1':
+				$customStatus = 2;
+				$buttonLabel = 'Change Status to Ready for Dispatch';
+				$statusO = 'ready_for_dispatch';
+				break;	
+				case '2':
+				$customStatus = 3;
+				$buttonLabel = 'Change Status to Ready for Pickup';
+				$statusO = 'readypickup';
+				break;	
+				case '3':
+				$customStatus = 4;
+				$buttonLabel = 'Change Status to Handed to Courier';
+				$statusO = 'handed_courier';
+				break;	
+				case '4':
+				$customStatus = 5;
+				$buttonLabel = 'Change Status to Delivered';
+				$statusO = 'complete';
+				break;	
+				case '5':
+				$customStatus = 5;
+				break;
+				case '6':
+				$customStatus = 6;
+				$statusO = 'canceled';
+				break;
+				case '8':
+				$customStatus = 8;
+				$statusO = 'returns';
+				break;
+				default:
+				$customStatus = 0;
+				$buttonLabel = '';
+			}
+			
+	if($cstatus == 4):
+	$cols = 4;
+	else:
+	$cols = 12;
+	endif;		
+
+?>
+<div class="supllier_admin_content  supplier_admin_order_list">
+<div class="clsManifest clsManifest-margin" style="margin-top:10px;">
+<?php
+if($_POST['from'] && $_POST['to'])	{
+	$from = date("Y-m-d 00:00:00", strtotime($_POST['from']));
+	$to = date("Y-m-d 23:59:59", strtotime($_POST['to']));
+	
+} else 
+{
+	$from = '';
+	$to = '';
+		
+}
+if($_GET['s']){
+	$orderstatus = $_GET['s'];	
+}
+ else {
+	$orderstatus = 1;
+ }
+?>
+	<form action="http://www.netakart.com/index.php/courier/order/picklist/" method="post">
+    	<input type="hidden" name="status" value="<?php echo $orderstatus;?>"/>
+        <input type="hidden" name="from" value="<?php echo $from;?>"/>
+        <input type="hidden" name="to" value="<?php echo $to;?>"/>
+        <input type="submit" name="submit" class="button" value="Pick List">
+  	</form>
+</div>
+
+<form name="order-status" id="order-status" action="<?php echo Mage::getUrl('courier/order/customstatus'); ?>" method="post">
+
+	<table class="supplier_order_list st" style="width:100%" >
+    
+   
+	<tr><td colspan="14"><h1 style="float:left; display:block; padding:5px; margin-top:5px; color:#000; font-size:18px;">Order Acception</h1></td></tr>
+	
+	    <tr class="menu_font_style " id="padd">
+        <th><?php echo $this->__('Sr. No.') ?></th>
+        <th><?php echo $this->__('OrderDate') ?></th>
+            <th><?php echo $this->__('Order ID') ?></th>
+            <th><?php echo $this->__('SKUCode') ?></th>
+            <th><?php echo $this->__('Product Details') ?></th>
+            <th><?php echo $this->__('Qty') ?></th>
+            <th><?php echo $this->__('Supplier Details'); ?></th>
+            <th><?php echo $this->__('Customer Details') ?></th>
+            <th><?php echo $this->__('Payment Mode') ?></th>
+            <th><?php echo $this->__('AwbNo') ?></th>
+            <th><?php echo $this->__('Updated Date') ?></th>
+            <th><?php echo $this->__('Logistic Partner') ?></th>
+            <th><?php echo $this->__('Total Amt') ?></th>
+            <th><?php echo $this->__('Status') ?></th>
+            
+	    </tr>
+	    <?php $i = 0; $j=1; foreach($orders as $order) :  ?>
+        
+        <?php
+			$orderPayment = new Mage_Sales_Model_Order();
+			$orderPayment->loadByIncrementId($order['order_number']);
+			$payment_method = $orderPayment->getPayment()->getMethodInstance()->getTitle();
+			$supplierDetails = $this->getSupplierInfo($order['supplier_id']);
+			
+			
+			$order1 = Mage::getModel("sales/order")->load($order['order_id']); //load order by order id 
+			$billing_address = $order1->getBillingAddress(); 
+			
+			//print_r($billing_address);	
+							
+			if($order['courier_id']==1){
+				$courier = 'Red Express';
+			} else {
+				$courier = 'Delhivery';
+			}
+			//if($cstatus == 4):
+			$model = Mage::getModel('lastmile/dlastmile')->getTrackingInfo($order['awbno']);
+			//endif;
+		?>
+        <?php $sku = $this->getCustomSku($order['order_item_id'],$order['supplier_id']);
+		//echo $model->getTrackingInfo($order['awbno']);
+		 ?>
+	    <tr class="position  <?php if(($i%2) == 0){ ?> even <?php } else { ?>odd<?php } ?>"> 
+            <td><?php echo $j.'.'; ?></td>
+            <td><?php echo Mage::helper('core')->formatDate($order['date'], 'short', $showTime=true); ?></td>
+            <td><a href="<?php echo Mage::getUrl('courier/order/view/' ) . 'order_id/' . $order['order_id']; ?>"><?php echo $order['order_number']; ?></a></td>
+            <td><?php echo $sku['sku']; ?></td>
+            <td><?php echo $sku['product_name']; ?></td>
+            <td><?php echo $order['totalorderqty']; ?></td>
+            <td>
+            <?php echo $supplierDetails['company']; ?><br />
+            <?php echo $supplierDetails['address1']."<br>".$supplierDetails['city']."<br>".$supplierDetails['state']."<br>".$supplierDetails['postalcode']."<br>".$supplierDetails['Country']."<br> Phone - ".$supplierDetails['phone']; ?></td>
+            <td><?php echo $billing_address->getName()."<br>".$billing_address->getData('street')."<br>".$billing_address->getData('city')."<br>".$billing_address->getData('state')."<br>".$billing_address->getData('country')."<br>".$billing_address->getTelephone()."<br>".$billing_address->getPostcode(); ?></td>
+            <td><?php echo $payment_method; ?></td>
+            <td><?php echo $order['awbno']; ?></td>
+            <td><?php echo $order['updated_at']; ?></td>
+            <td><?php echo $courier; ?></td>
+            <td><?php echo number_format($order['totalorderprice']); ?></td>
+            
+            <td>
+            	<?php 
+				//if($cstatus == 4):
+				foreach($model as $m){
+					if($m['status']):
+					echo $m['status'];	
+					endif;
+				}
+				//endif;
+				?>
+            </td>
+            
+	    </tr>
+	    <?php $j++; $i++; 
+		endforeach; ?>
+        
+	</table>
+    <input type="hidden" name="chkStatus" value="5">
+    </form>
+</div>
+<?php } ?>

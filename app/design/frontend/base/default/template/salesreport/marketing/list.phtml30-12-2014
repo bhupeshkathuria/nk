@@ -1,0 +1,119 @@
+<?php	$orders = $this->getOrders(); echo $this->getChildHtml("order_list_toolbar"); ?>
+<?php $totalSpend = array(28=>'',27=>'14073',26=>'11177',25=>'11392',24=>'10205.36',23=>'979.87',22=>'2962.49',21=>'18287.19',20=>'8082.34',18=>'0',17=>'654.47',16=>'0',15=>'0',14=>'0',13=>'4045.89',12=>'7228.87',11=>'10000',10=>'3000',9=>'3000',8=>'4882.65',7=>'10056.04',6=>'10631.42',5=>'11150.13',4=>'3313.75',3=>'8985.38',2=>'0',1=>'6752.57'); 
+?>
+<style>
+#padd th{border-right:1px solid #000;}
+.menu_font_style th{padding:10px;}
+form th{ text-align:center;}
+.supplier_order_list td{border-right:1px solid #000; border-bottom:1px solid #000; text-align:center;}
+</style>
+
+<div class="supllier_admin_content  supplier_admin_order_list">
+<h1>Marketing vs. Sales</h1>
+<form method="post" action="" name="frmPayment">
+<table class="supplier_order_list st" style="width:100%; border:1px solid #000;">
+	
+	    <tr class="menu_font_style " id="padd">
+                <th><?php echo $this->__('Date') ?></th>
+                <th colspan="2"><?php echo $this->__('Transactions') ?></th>
+                <th colspan="2"><?php echo $this->__('Payment Method') ?></th>
+                <th colspan="2"><?php echo $this->__('Total Amount') ?></th>
+                <th><?php echo $this->__('Revenue') ?></th>
+                <th colspan="4"><?php echo $this->__('Order Status') ?></th>
+                <th><?php echo $this->__('Marketing Spend') ?></th>
+                
+	    </tr>
+        <tr class="menu_font_style " id="padd">
+                <th><?php echo $this->__('Date') ?></th>
+                <th><?php echo $this->__('Transactions') ?></th>
+                <th><?php echo $this->__('Average Order Value') ?></th>
+                <th><?php echo $this->__('COD') ?></th>
+                <th><?php echo $this->__('PREPAID') ?></th>
+                <th><?php echo $this->__('COD') ?></th>
+                <th><?php echo $this->__('PREPAID') ?></th>
+                <th><?php echo $this->__('Revenue') ?></th>
+                <th><?php echo $this->__('Delivered') ?></th>
+                <th><?php echo $this->__('Processing') ?></th>
+                <th><?php echo $this->__('Cancelled') ?></th>
+                <th><?php echo $this->__('Return') ?></th>
+                <th>&nbsp;</th>
+                
+	    </tr>
+        <?php 
+		//$average = array();
+		$k = 1; foreach($orders as $orderAll):
+				$toSpend = $this->getTotalMarketingSpend(date('Y-m-d',strtotime($orderAll['Orderdate'])));
+				
+		 		$var1 = (int)date('d',strtotime($orderAll['Orderdate']));
+				$transactions[] = round($orderAll['Transactions'],0);
+				$total_orders[] = round($orderAll['total_orders'],0);
+				
+				$cod[] = $orderAll['totalCOD'];
+				$prepaid[] = $orderAll['totalPrePaid'];
+				$codTotal[] = $orderAll['CODTotal'];
+				$processingTotal[] = $orderAll['PROCESSINGTotal'];
+				$pendingTotal[] = $orderAll['PENDINGTotal'];
+				$readypickupTotal[] = $orderAll['READYPICKUPTotal'];
+				$handedcourierTotal[] = $orderAll['HANDEDCOURIERTotal'];
+				$holdTotal[] = $orderAll['HOLDTotal'];
+				$cancelTotal[] = $orderAll['CANCELTotal'];
+				$completeTotal[] = $orderAll['COMPLETETotal'];
+				$returnTotal[] = $orderAll['RETURNTotal'];
+				$prepaidTotal[] = $orderAll['PrePaidTotal'];
+				$revenue[] = $orderAll['total'];
+				$delivered[] = $orderAll['Complete'];
+				$processing[] = $orderAll['Processing'];
+				$pending[] = $orderAll['Pending'];
+				$readypickup[] = $orderAll['Readyforpickup'];
+				$HandedtoCourier[] = $orderAll['HandedtoCourier'];
+				$hold[] = $orderAll['Hold'];
+				$canceled[] = $orderAll['Canceled'];
+				$returns[] = $orderAll['Returns'];
+				$spend[] = $toSpend['totalSpend'];
+				$k++;
+		endforeach;
+		$average = (array_sum($revenue)/array_sum($total_orders));
+		?>
+        
+        <tr class="menu_font_style " id="padd">
+                <th><?php echo $this->__('Over All') ?></th>
+                <th><?php echo array_sum($total_orders) ?></th>
+                <th><?php echo Mage::helper('core')->currency($average, true, false);?></th>
+                <th><?php echo array_sum($cod) ?></th>
+                <th><?php echo array_sum($prepaid) ?></th>
+                <th><?php echo Mage::helper('core')->currency(array_sum($codTotal), true, false); ?></th>
+                <th><?php echo Mage::helper('core')->currency(array_sum($prepaidTotal), true, false); ?></th>
+                <th><?php echo Mage::helper('core')->currency(array_sum($revenue), true, false); ?></th>
+                <th><?php echo 'No. '.array_sum($delivered).'<br/>'.number_format(round(array_sum($completeTotal))); ?></th>
+                <th><?php echo 'No. '.(array_sum($processing) + array_sum($pending) +  array_sum($readypickup) + array_sum($HandedtoCourier) + array_sum($hold)).'<br/>'.number_format(round(array_sum($processingTotal) + array_sum($pendingTotal) +  array_sum($readypickupTotal) + array_sum($handedcourierTotal) + array_sum($holdTotal))); ?></th>
+                <th><?php echo 'No. '.array_sum($canceled).'<br/>'.number_format(round(array_sum($cancelTotal))) ?></th>
+                <th><?php echo 'No. '.array_sum($returns).'<br/>'.number_format(round(array_sum($returnTotal))) ?></th>
+                <th><?php echo Mage::helper('core')->currency($toSpend['totalSpend'], true, false);?></th>
+                
+	    </tr>
+        
+        
+        
+        <?php $i=1; foreach($orders as $order): $var = (int)date('d',strtotime($order['Orderdate'])); $date = $this->getMarketingSpend(date('Y-m-d',strtotime($order['Orderdate'])));?>
+        
+        
+        <tr>
+             <td><?php echo date('d - M - y',strtotime($order['Orderdate'])); ?></td>
+             <td><?php echo round($order['total_orders'],0); ?></td>
+             <td>RS.<?php echo round(($order['total']/$order['total_orders']),0); ?></td>
+             <td><?php echo $order['totalCOD']; ?></td>
+             <td><?php echo $order['totalPrePaid']; ?></td>
+             <td><?php echo Mage::helper('core')->currency($order['CODTotal'], true, false); ?></td>
+             <td><?php echo Mage::helper('core')->currency($order['PrePaidTotal'], true, false); ?></td>
+             <td><?php echo Mage::helper('core')->currency($order['total'], true, false); ?></td>
+             <td><?php echo $order['Complete']; ?></td>
+             <td><?php echo $order['Processing'] + $order['Readyforpickup'] +$order['Pending'] + $order['HandedtoCourier'] + $order['Hold']; ?></td>
+             <td><?php echo $order['Canceled']; ?></td>
+             <td><?php echo $order['Returns']; ?></td>
+             <td><?php if($order['Orderdate']) { echo Mage::helper('core')->currency($date['spend'], true, false); }?></td>
+         </tr>
+         <?php $i++; endforeach;?>
+ </table> 
+ </form>    
+</div>
+<?php echo $this->getChildHtml("order_list_toolbar"); ?>

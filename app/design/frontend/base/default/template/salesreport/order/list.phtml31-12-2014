@@ -1,0 +1,419 @@
+<?php	 $orders = $this->getOrders();
+
+	$payment_method_code = array();
+	$category_name = array();
+	$orderStatus = array('processing','ready_for_dispatch','readypickup','handed_courier','pending');
+	foreach($orders as $order){
+		
+		$order->load($order->getRealOrderId());		
+		
+		$_totalData =$order->getData();
+		
+		if(in_array($order->getData('status'),$orderStatus)){
+			$process[] = $order->getData('status');
+			$totalProcess += $_totalData['grand_total'];
+		} else if($order->getData('status') == 'canceled'){
+			
+			$cancel[] = $order->getData('status');
+			$totalCancel += $_totalData['grand_total'];
+		} else if($order->getData('status') == 'holded'){
+			
+			$holded[] = $order->getData('status');
+			$totalHold += $_totalData['grand_total'];
+		}
+		 else if($order->getData('status') == 'returns'){
+			 $return[] = $order->getData('status');
+			 $totalReturns += $_totalData['grand_total'];
+		}
+		 else if($order->getData('status') == 'complete'){
+			$complete[] = $order->getData('status');
+			$totalComplete += $_totalData['grand_total']; 
+		}
+		
+		
+		
+		//echo $order->getRealOrderId().'---'.$_totalData['grand_total']."<br>";
+		
+		$_grandTotal += $_totalData['grand_total'];
+		
+		if($order->getPayment()->getMethodInstance()->getCode() == 'cashondelivery'){
+		$payment_method_code[] = $order->getPayment()->getMethodInstance()->getCode();
+		$_grand += $_totalData['grand_total'];
+		}
+		else{
+			
+		$payment_method_code1[] = $order->getPayment()->getMethodInstance()->getCode();
+		$_grand1 += $_totalData['grand_total'];
+		}
+	}
+	
+ 
+	$allOrders = $this->getAllOrders();	
+	
+if($_POST['from'] && $_POST['to'])	{
+	
+	$from = date("Y-m-d 00:00:00", strtotime($_POST['from']));
+    $to = date("Y-m-d 24:00:00", strtotime($_POST['to']));	
+	
+	$filterbydate = 'from='.$from.'&to='.$to.'';
+	$currentDate = "Result from ".date('d.m.Y',strtotime($_POST['from']));
+	$toDate = " to ".date('d.m.Y',strtotime($_POST['to']));
+	$date = $currentDate.$toDate;
+} else 
+{
+$from = date("Y-m-d 00:00:00", strtotime('-0 day'));
+$to = date("Y-m-d 24:00:00", strtotime('-0 day'));
+$currentDate = date('d.m.Y',strtotime("-0 days"));	
+$date = "Today";
+}
+
+	
+?>
+<style>
+.ord-report td{border:1px solid #000;}
+.ord-report th{border:1px solid #000;}
+.sales_top_product_selling td{padding:4px 5px;}
+table td{ color:#000;}
+.menu_font_style th{ padding-top:0px;}
+</style>
+<div class="supllier_admin_content  supplier_admin_order_list">
+<h3 style="color:#000;"><?php echo $date; ?></h3>
+<table class="supplier_order_list st" style="width:100%" >
+	    <tr class="menu_font_style " id="padd">
+	        <th colspan="2"><?php echo $this->__('Transactions') ?></th>
+	        <th colspan="2"><?php echo $this->__('payment Method') ?></th>
+	        <th colspan="2"><?php echo $this->__('Total Amount') ?></th>
+	        <th colspan="6"><?php echo $this->__('Revenue & Order Status') ?></th>
+	    </tr>
+	    <tr class="result">
+        	<td>Transactions</td>
+            <td>Average Order Value</td>
+            <td>COD</td>
+            <td>PREPAID</td>
+            <td>COD</td>
+            <td>PREPAID</td>
+            <td>Revenue</td>
+            <td>Delivered</td>
+            <td>Processing</td>
+            <td>Hold</td>
+            <td>Cancelled</td>
+            <td>Return</td>
+		</tr>
+        <tr class="result">
+        	<td><a href="http://www.netakart.com/index.php/salesreport/categorywise/?from=<?php echo $from; ?>&to=<?php echo $to; ?>"><?php echo count($orders); ?></a></td>
+            <td>RS.<?php echo number_format(($_grandTotal/count($orders)),2); ?></td>
+            <td><?php echo count($payment_method_code); ?></td>
+            <td><?php echo count($payment_method_code1); ?></td>
+            <td>RS.<?php echo number_format($_grand,2); ?></td>
+            <td>RS.<?php echo number_format($_grand1,2); ?></td>
+            <td>RS.<?php echo number_format($_grandTotal,2); ?></td>
+            <td>No. <?php echo count($complete).'<br>'. number_format(round(
+            $totalComplete)); ?></td>
+            <td>No. <?php echo count($process).'<br>'. number_format(round(
+            $totalProcess)); ?></td>
+            <td>No. <?php echo count($holded).'<br>'. number_format(round(
+            $totalHold)); ?></td>
+			<td>No. <?php echo count($cancel).'<br>'. number_format(round(
+            $totalCancel)); ?></td>
+            <td>No. <?php echo count($return).'<br>'. number_format(round(
+            $totalReturns)); ?></td>
+		</tr>
+        
+	</table>
+    
+    <!--- MONTHLY REPORT --->
+    
+    <?php  $ordersbymonth = $this->getOrdersByMonth();
+	   $orderStatusM = array('processing','ready_for_dispatch','readypickup','handed_courier','pending');
+	   	$payment_method_codeM = array();
+		foreach($ordersbymonth as $ordermonth){
+		//$ordermonth->load($ordermonth->getRealOrderId());
+		//echo $ordermonth->getData('status')."<br>";
+		
+		$qtyM[] = $ordermonth->getData('qty_ordered');
+		
+		//echo "<br>".$ordermonth->getData('status');
+		$_totalDataM =$ordermonth->getData();
+		if(in_array($ordermonth->getData('status'),$orderStatusM)){
+			$process1[] = $ordermonth->getData('qty_ordered');
+			$totalProcessM += $_totalDataM['grand_total'];
+		} else if($ordermonth->getData('status') == 'canceled'){
+			$cancel1[] = $ordermonth->getData('qty_ordered');
+			$totalCancelM += $_totalDataM['grand_total'];
+		} else if($ordermonth->getData('status') == 'holded'){
+			$holded1[] = $ordermonth->getData('qty_ordered');
+			$totalHoldM += $_totalDataM['grand_total'];
+		}
+		 else if($ordermonth->getData('status') == 'returns'){
+			 $return1[] = $ordermonth->getData('qty_ordered');
+			 $totalReturnsM += $_totalDataM['grand_total'];
+		}
+		 else if($ordermonth->getData('status') == 'complete'){
+			$complete1[] = $ordermonth->getData('qty_ordered'); 
+			$totalCompleteM += $_totalDataM['grand_total'];
+		}
+		if($_totalDataM['status'] == 'handed_courier'){
+			$qtyHandM[] = $ordermonth->getData('qty_ordered');
+			$_grandHandedM += $_totalDataM['grand_total'];
+		}
+		$_grandTotalM += $_totalDataM['grand_total'];
+		
+		if($ordermonth->getPayment()->getMethodInstance()->getCode() == 'cashondelivery'){
+		$payment_method_codeM[] = $ordermonth->getPayment()->getMethodInstance()->getCode();
+		$_grandM += $_totalDataM['grand_total'];
+		}
+		else{
+			
+		$payment_method_code1M[] = $ordermonth->getPayment()->getMethodInstance()->getCode();
+		$_grand1M += $_totalDataM['grand_total'];
+		}
+		
+					if($ordermonth['status']=='complete'){
+					$itemsbyMonth = $ordermonth->getAllVisibleItems();
+					foreach ($itemsbyMonth as $itemId => $byMonth):	
+					$incostbyMonth += ($this->getCustomAttributes('payment_to_be_made', $byMonth->getSku()))*($byMonth->getData('qty_ordered'));
+					endforeach;
+					//$marginAmount = $_grandComp - $incost;
+					}
+	}
+	   
+	   $grandTotalByMonth = $_grandM + $_grand1M;
+	   $marginAmountByMonth = $totalCompleteM - $incostbyMonth;
+	   $fromM = $this->getStartMonth();
+       $toM = $this->getCurrentDate();
+	   $approxShippingCostByMonth = ((count($complete1) + count($return1) + count($qtyHandM))*115);
+	   $serviceTaxByMonth = (12.36/100)*($approxShippingCostByMonth);
+	   
+	   		$packingMaterialMonth = (count($complete1) + count($return1) + count($qtyHandM))*8;
+			$grossPercentageMonth = ($marginAmountByMonth/$totalCompleteM)*100;
+			$netMonth = (($marginAmountByMonth)-(($approxShippingCostByMonth)+($packingMaterialMonth)));
+			$netPercentageMonth = ($netMonth/$totalCompleteM)*100;
+	   		$marketMonthlySpend = $this->getMarketingSpend($fromM,$toM);
+	   ?>
+    <h3 style="color:#000;">Month - <?php echo date('F Y'); ?></h3>
+<table class="supplier_order_list st" style="width:100%" >
+	    <tr id="padd" class="menu_font_style ord-report">
+	         <th><?php echo $this->__('Total Product') ?></th>
+	        <th colspan="3"><?php echo $this->__('Total Amount') ?></th>
+	        <th><?php echo $this->__('Incost') ?></th>
+            <th><?php echo $this->__('Gross Margin') ?></th>
+            <th><?php echo $this->__('Recd.') ?></th>
+            <th><?php echo $this->__('In Process') ?></th>
+            <th><?php echo $this->__('Approx Shipping Cost') ?></th>
+            <th><?php echo $this->__('Packing Material Cost') ?></th>
+            <th><?php echo $this->__('Net Margin') ?></th>
+            <th colspan="5"><?php echo $this->__('Delivery Status') ?></th>
+            <th><?php echo $this->__('Adv. Spent') ?></th>
+            
+	    </tr>
+	    <tr id="padd" class="ord-report">
+	        
+	        <td><a class="sales_summary_link" href="#"><?php echo $this->__('Order') ?></a></td>
+	        <td><?php echo $this->__('COD') ?></td>
+	        <td><?php echo $this->__('PREPAID') ?></td>
+            <td><?php echo $this->__('COD + Prepaid') ?></td>
+            <td>&nbsp;</td>
+            <td><?php echo round($grossPercentageMonth,0);?>%</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td><?php echo round((($approxShippingCostByMonth)/$totalCompleteM)*100,0);?>%</td>
+            <td><?php echo round(($packingMaterialMonth/$totalCompleteM)*100,0); ?>%</td>
+            <td><?php echo round($netPercentageMonth,0);?>%</td>
+            <td><?php echo $this->__('Processing') ?><br/>(<?php echo round((count($process1)/count($qtyM))*100);?>%)</td>
+            <td><?php echo $this->__('Delivered') ?><br/>(<?php echo round((count($complete1)/count($qtyM))*100);?>%)</td>
+            <td><?php echo $this->__('Hold') ?><br/>(<?php echo round((count($holded1)/count($qtyM))*100);?>%)</td>
+            <td><?php echo $this->__('Return') ?><br/>(<?php echo round((count($return1)/count($qtyM))*100);?>%)</td>
+            <td><?php echo $this->__('Cancelled')?><br/>(<?php echo round((count($cancel1)/count($qtyM))*100);?>%)</td>
+            <td>&nbsp;</td>
+	    </tr>
+		
+       
+        <tr class="ord-report">
+	        <td><a href="http://www.netakart.com/index.php/salesreport/categorywise/?from=<?php echo $fromM; ?>&to=<?php echo $toM; ?>"><?php echo count($qtyM); ?></a></td>
+	        <td><?php echo number_format(round(
+            $_grandM)); ?></td>
+	        <td><?php echo number_format(round(
+            $_grand1M)); ?></td>
+            <td><?php echo number_format(round(
+            ($_grandM + $_grand1M))); ?></td>
+            <td><?php echo number_format(round(
+            $incostbyMonth)); ?></td>
+            <td><?php echo number_format(round(
+            $marginAmountByMonth)); ?></td>
+            <td><?php echo number_format(round(
+            $totalCompleteM)); ?></td>
+            <td>&nbsp;</td>
+            <td><?php echo number_format(round(
+            ($approxShippingCostByMonth)));?></td>
+            <td><?php echo number_format(round(
+            ($packingMaterialMonth)));?></td>
+            
+            <td><?php echo number_format(round(
+            (($marginAmountByMonth)-(($approxShippingCostByMonth)+($packingMaterialMonth)))));?></td>
+            <td><?php echo "No. ".count($process1)."<br>".number_format(round(
+            $totalProcessM)); ?></td>
+            <td><?php echo "No. ".count($complete1)."<br>".number_format(round(
+            $totalCompleteM)); ?></td>
+            <td><?php echo "No. ".count($holded1)."<br>".number_format(round(
+            $totalHoldM)); ?></td>
+            <td><?php echo "No. ".count($return1)."<br>".number_format(round(
+            $totalReturnsM)); ?></td>
+            <td><?php echo "No. ".count($cancel1)."<br>".number_format(round(
+            $totalCancelM)); ?></td>
+            <td><?php echo "<br>".number_format(round($marketMonthlySpend)); ?></td>
+            
+        </tr>
+      
+        
+	</table>
+    
+ <!---END MONTHLY REPORT --->   
+<!--- TOATAL REPORT --->  
+		
+ <?php 
+ 		$marketSpend = $this->getMarketingSpend();
+ 		$ordersBy = $this->getAllOrders();
+		$i=1;
+		$orderStatusAll = array('processing','ready_for_dispatch','readypickup','handed_courier','pending','holded');
+		foreach($ordersBy as $orderb) :
+				
+					$_totalData =$orderb->getData();
+		
+					//echo $_totalData['status'];
+					$_grandTotalSummary += $_totalData['grand_total'];
+					
+					if($orderb->getPayment()->getMethodInstance()->getCode() == 'cashondelivery'){
+					$payment_method_code[] = $orderb->getPayment()->getMethodInstance()->getCode();
+					$_grandCash += $_totalData['grand_total'];
+					}
+					else{
+					$payment_method_code1[] = $orderb->getPayment()->getMethodInstance()->getCode();
+					$_grandPay += $_totalData['grand_total'];
+					}
+					
+					
+					$qty[] = $_totalData['qty_ordered'];
+					
+					if(in_array($_totalData['status'],$orderStatusAll)){
+						$processAll[] = $_totalData['qty_ordered'];
+						$_grandProcessAll += $_totalData['grand_total'];
+					}
+					if($_totalData['status']=='complete'){
+						$qtyComp[] = $_totalData['qty_ordered'];
+						$_grandComp += $_totalData['grand_total'];
+					}
+					
+					if($_totalData['status']=='handed_courier'){
+						$qtyHand[] = $_totalData['qty_ordered'];
+						$_grandHanded += $_totalData['grand_total'];
+					}
+					
+					if($_totalData['status']=='returns'){
+						$qtyReturn[] = $_totalData['qty_ordered'];
+						$_grandReturn += $_totalData['grand_total'];
+					}
+					if($_totalData['status']=='canceled'){
+						$qtyCan[] = $_totalData['qty_ordered'];
+						$_grandCan += $_totalData['grand_total'];
+					}
+					
+					if($_totalData['status']=='complete'){
+					$items = $orderb->getAllVisibleItems();
+					foreach ($items as $itemId => $item):	
+					$incost += ($this->getCustomAttributes('payment_to_be_made', $item->getSku()))*($item->getData('qty_ordered'));
+					endforeach;
+					
+					}
+					//endif;
+				//endforeach;
+			$i++;	
+		endforeach;
+			$marginAmount = $_grandComp - $incost;
+			$approxShippingCost = ((count($qtyComp) + count($qtyReturn) + count($qtyHand))*115);
+			$serviceTax = (12.36/100)*($approxShippingCost);
+			$packingMaterial = (count($qtyComp) + count($qtyReturn) + count($qtyHand))*8;
+			$grossPercentage = ($marginAmount/$_grandComp)*100;
+			$net = (($marginAmount)-(($approxShippingCost)+($packingMaterial)));
+			$netPercentage = ($net/$_grandComp)*100;
+		 ?>  
+    <table class="sales_top_product_selling" style="width:100%;" >
+	<tr><td colspan="12"><h3 style="color:#000;">Summary</h3></td></tr>
+        
+     	<tr id="padd" class="menu_font_style ord-report">
+	       <!-- <th><?php echo $this->__('Total Sales Cateogry Wise') ?></th>-->
+	        <th><?php echo $this->__('Total Product') ?></th>
+	        <th colspan="3"><?php echo $this->__('Total Amount') ?></th>
+	        <th><?php echo $this->__('Incost') ?></th>
+            <th><?php echo $this->__('Gross Margin') ?></th>
+            <th><?php echo $this->__('Recd.') ?></th>
+            <th><?php echo $this->__('In Process') ?></th>
+            <th><?php echo $this->__('Approx Shipping Cost') ?></th>
+            <th><?php echo $this->__('Packing Material Cost') ?></th>
+            <!--<th><?php //echo $this->__('Service Tax (on shipping cost)') ?></th>-->
+            <th><?php echo $this->__('Net Margin') ?></th>
+            <th colspan="4"><?php echo $this->__('Delivery Status') ?></th>
+            <th><?php echo $this->__('Adv. Spent') ?></th>
+	    </tr>
+        
+        
+           
+        
+        <tr id="padd" class="ord-report">
+	        
+	        <td><a class="sales_summary_link" href="http://www.netakart.com/index.php/salesreport/margins/<?php if($filterbydate) echo "?".$filterbydate; ?>"><?php echo $this->__('Order') ?></a></td>
+	        <td><?php echo $this->__('COD') ?></td>
+	        <td><?php echo $this->__('PREPAID') ?></td>
+            <td><?php echo $this->__('COD + Prepaid') ?></td>
+            <td>&nbsp;</td>
+            <td><?php echo round($grossPercentage,0); ?>%</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td><?php echo round((($approxShippingCost)/$_grandComp)*100,0);?>%</td>
+            <td><?php echo round(($packingMaterial/$_grandComp)*100,0); ?>%</td>
+            <!--<td>12.36%</td>-->
+            <td><?php echo round($netPercentage,0);?>%</td>
+            <td><?php echo $this->__('Processing') ?></td>
+            <td><a class="sales_summary_link" href="http://www.netakart.com/index.php/salesreport/margins/?s=complete<?php if($filterbydate) echo "&".$filterbydate; ?>"><?php echo $this->__('Delivered') ?></a></td>
+            <td><a class="sales_summary_link" href="http://www.netakart.com/index.php/salesreport/margins/?s=returns<?php if($filterbydate) echo "&".$filterbydate; ?>"><?php echo $this->__('Return') ?></a></td>
+            <td><a class="sales_summary_link" href="http://www.netakart.com/index.php/salesreport/margins/?s=canceled<?php if($filterbydate) echo "&".$filterbydate; ?>"><?php echo $this->__('Cancelled') ?></a></td>
+            <td>&nbsp;</td>
+	    </tr>
+       
+		
+		<tr class="ord-report">
+        	
+	        <td><?php echo count($qty); ?></td>
+	        <td><?php echo number_format(round(
+            $_grandCash)); ?></td>
+	        <td><?php echo number_format(round(
+            $_grandPay)); ?></td>
+            <td><?php echo number_format(round(
+            $_grandTotalSummary)); ?></td>
+            <td><?php echo number_format(round(
+            $incost)); ?></td>
+            <td><?php echo number_format(round(
+            $marginAmount)); ?></td>
+            <td><?php echo number_format(round(
+            $_grandComp)); ?></td>
+            <td>&nbsp;</td>
+            <td><?php echo number_format(round(
+            ($approxShippingCost)));?></td>
+            <td><?php echo number_format(round(
+            ($packingMaterial)));?></td>
+            <!--<td><?php //echo number_format(round($serviceTax));?></td>-->
+            <td><?php echo number_format(round(
+            (($marginAmount)-(($approxShippingCost)+($packingMaterial)))));?></td>
+            <td><?php echo "No. ".count($processAll)."<br>".number_format(round(
+            $_grandProcessAll)); ?></td>
+            <td><?php echo "No. ".count($qtyComp)."<br>".number_format(round(
+            $_grandComp)); ?></td>
+            <td><?php echo "No. ".count($qtyReturn)."<br>".number_format(round($_grandReturn)); ?></td>
+            <td><?php echo "No. ".count($qtyCan)."<br>".number_format(round($_grandCan)); ?></td>
+            <td><?php echo "<br>".number_format(round($marketSpend)); ?></td>
+        </tr>
+		
+		
+		
+    </table> 
+    
+</div>

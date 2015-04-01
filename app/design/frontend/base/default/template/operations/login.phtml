@@ -1,0 +1,65 @@
+<?php 
+$sessionfree = Mage::getSingleton('core/session', array('name' => 'frontend'));
+//if(!$this->isLoggedIn()){
+$login_url  = $this->getUrl('*/*/login', array('_secure'=>(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']==='on'))); 
+$http_mode  = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']==='on'); 
+if($http_mode) {
+    $login_url  = str_replace('http:', 'https:', $login_url);   
+}
+
+?> 
+<div class="left-side"><ul>
+<li class="img-o"><h1>Sales Insights</h1>
+Get all the information related to sales analytics</li>
+<li class="img-t"><h1>Website insights</h1>
+Get all the information related to website analytics</li>
+</ul></div>
+<div class="account-login">
+    <div class="page-title">
+        <h2><?php echo $this->__('Login to Site/ Sales Analytics') ?></h2>
+    </div>
+<?php  echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <form action="<?php echo $login_url ?>" method="post" id="login-form">
+        <fieldset>
+            <legend><?php //echo $this->__('Login') ?></legend>
+            <div class="col2-set">
+                <div class="col-2 registered-users">
+                    <h3><?php //echo $this->__('Courier Login') ?></h3>
+                     <ul class="form-list">
+                        <li>
+                            <label for="username"><?php echo $this->__('Email') ?> <span class="required">*</span></label>
+                            <input class="required-entry input-text" type="text" id="username" name="username" />
+                        </li>
+                        <li>
+                            <label for="password"><?php echo $this->__('Password') ?> <span class="required">*</span></label>
+                            <input class="required-entry input-text" type="password" id="password" name="password" />
+                        </li>
+                    </ul>
+                    <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                </div>
+            </div>
+            <div class="col2-set">
+                <div class="col-2">
+                    <div class="buttons-set">
+                       <a class="f-left" href = "<?php echo Mage::getUrl('courier/index/forgot');?>"><?php echo $this->__('Forgot password'); ?></a>
+                        <button id="send2" name="send" title="Login" class="button" type="submit"><span><?php echo $this->__('Login'); ?></span></button>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<?php //}?> 
+
+<div class="footer">
+<p>Netakart.com is a leading e-commerce marketplace. It provides a platform for vendors across the country to connect with millions of customers. The Platfrorms has the widest assortment of lifestyle products from thousands of national and international brands. Grob your facorite products at best prices.</p>
+
+@2014 Netakart.com
+</div>
+
+<!--<script type="text/javascript"> 
+    //<![CDATA[ 
+        var loginForm = new VarienForm('login-form', true); 
+    //]]> 
+    </script> 
+-->

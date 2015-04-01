@@ -1,0 +1,100 @@
+<!--@subject Welcome, {{var customer.name}}! @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"htmlescape var=$customer.name":"Customer Name",
+"store url=\"customer/account/\"":"Customer Account Url",
+"var customer.email":"Customer Email",
+"htmlescape var=$customer.password":"Customer Password"}
+@-->
+
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+<style>
+ul{ list-style:none; margin:0px; padding:0px;}
+li{float:left; list-style:none; padding:0px; margin:0px;}
+li img{width:100%;}
+</style>
+<body style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+<div style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+<table cellspacing="0" cellpadding="0" border="0" height="100%" width="100%">
+        <tr>
+            <td align="center" valign="top" style="padding:20px 0 20px 0">
+                <!-- [ header starts here] -->
+                <table bgcolor="FFFFFF" cellspacing="0" cellpadding="10" border="0" width="650" style="border:1px solid #E0E0E0;">
+                    <tr>
+                        <td valign="top">
+                            <a href="{{store url=""}}"><img src="{{var logo_url}}" alt="{{var logo_alt}}" style="margin-bottom:10px;" border="0"/></a></td>
+                    </tr>
+                    <tr><td><ul style=" float:left; padding:0px; margin-left:0px; background:#000000; height:25px; width:100%; margin-top:10px; list-style:none;">
+<li style="float:left; list-style:none; padding:0px; margin:0px;"><a href="http://www.netakart.com/index.php/new-arrivals-61.html"><img src="http://www.netakart.com/skin/frontend/blacknwhite/default/images/mail/new-arrivals.jpg" /></a></li>
+<li style="float:left; list-style:none; padding:0px; margin:0px;"><a href="http://www.netakart.com/index.php/men.html"><img src="http://www.netakart.com/skin/frontend/blacknwhite/default/images/mail/men.jpg" /></a></li>
+<li style="float:left; list-style:none; padding:0px; margin:0px;"><a href="http://www.netakart.com/index.php/women.html"><img src="http://www.netakart.com/skin/frontend/blacknwhite/default/images/mail/women.jpg" /></a></li>
+<li style="float:left; list-style:none; padding:0px; margin:0px;"><a href="#"><img src="http://www.netakart.com/skin/frontend/blacknwhite/default/images/mail/look-good.jpg" /></a></li>
+<li style="float:left; list-style:none; padding:0px; margin:0px;"><a href="http://www.netakart.com/index.php/premium-collection.html"><img src="http://www.netakart.com/skin/frontend/blacknwhite/default/images/mail/premium-c.jpg" /></a></li>
+</ul></td></tr>
+                <!-- [ middle starts here] -->
+                    <tr>
+                        <td valign="top">
+                            <h1 style="font-size:22px; font-weight:normal; line-height:22px; margin:0 0 11px 0;"">Dear {{htmlescape var=$customer.name}}</h1>
+                            <div style="width:100%; float:left; text-align:center;"><img src="http://www.netakart.com/skin/frontend/blacknwhite/default/images/mail/welocme-register.jpg" /></div>
+                          <!--  <p style="font-size:12px; line-height:16px; margin:0 0 16px 0;">Welcome to {{var store.getFrontendName()}}. To log in when visiting our site just click <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">Login</a> or <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">My Account</a> at the top of every page, and then enter your e-mail address and password.</p>-->
+<p>What's more, you'll stay updated with our latest offers, special promotions, and everything hot and happening in the fashion world.<br /><br />
+Click on <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">My Account</a> , enter this username  followed by the corresponding password.</p>
+
+<p style="border:1px solid #E0E0E0; font-size:12px; line-height:16px; margin:0; padding:13px 18px; background:#f9f9f9; margin-bottom:10px;">
+Use the following values when prompted to log in:<br/>
+<strong>E-mail</strong>: {{var customer.email}}<br/>
+<strong>Password</strong>: {{htmlescape var=$customer.password}}</p>
+<!--<div style="float:left; width:31%; padding:15px; background:#f0efef; border:2px solid #ccc;">
+<div style="color:#db0505; font-size:20px;">Hey! Here's a 25% off coupon just for you.</div>
+<p style="font-size:13px; line-height:17px;">Coupon: LKN34efdd<br />
+25% off on purchases over Rs 500 <br /> <br /> <img src="http://www.netakart.com/skin/frontend/blacknwhite/default/images/mail/shop-now-btn.jpg" width="98" height="25" /></p>
+Hurry! It's valid only till
+</div>-->
+<div style="float:left; width:80%;">
+<p>At NetAKart you can benefit from: </p>
+
+- Free shipping over Rs. 500 <br />
+- Cash on Delivery<br />
+- Easy returns<br />
+- Quick dispatch<br />
+</div>
+<!--<p style="font-size:12px; line-height:16px; margin:0 0 8px 0;">When you log in to your account, you will be able to do the following:</p>
+                            <ul style="font-size:12px; line-height:16px; margin:0 0 16px 0; padding:0;">
+                                <li style="list-style:none inside; padding:0 0 0 10px;">&ndash; Proceed through checkout faster when making a purchase</li>
+                                <li style="list-style:none inside; padding:0 0 0 10px;">&ndash; Check the status of orders</li>
+                                <li style="list-style:none inside; padding:0 0 0 10px;">&ndash; View past orders</li>
+                                <li style="list-style:none inside; padding:0 0 0 10px;">&ndash; Make changes to your account information</li>
+                                <li style="list-style:none inside; padding:0 0 0 10px;">&ndash; Change your password</li>
+                                <li style="list-style:none inside; padding:0 0 0 10px;">&ndash; Store alternative addresses (for shipping to multiple family members and friends!)</li>
+                            </ul>-->
+                  <!--          <p style="font-size:12px; line-height:16px; margin:0;">If you have any questions about your account or any other matter, please feel free to contact us at <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a> or by phone at {{config path='general/store_information/phone'}}.</p>-->
+                  <div style="float:left; width:100%;">
+<h4 style=" color:#db0505; font-weight:normal; font-size:22px; margin-bottom:20px;"> Happy shopping!</h4>
+         
+ <div style="float:left; margin-bottom:20px;">          
+ Warm regards,<br>
+Team NetAKart<br>
+<a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a>
+</div>
+           <div style="float:left; width:100%; margin-bottom:10px;">Have any questions, need any help, please write us to <a href="mailto:customercare@NetAKart.com">customercare@NetAKart.com</a> or call us at 011- 66470000, Mon- Fri, 9:30am to 6:00pm (with exception of Indian public holidays).</div>
+           
+           <div style="float:left; width:100%;"><span style="float:left; line-height:35px; margin-right:15px;">Connect with us</span>
+              <a href="https://www.facebook.com/Netakart"><img src="http://www.netakart.com/skin/frontend/blacknwhite/default/images/facebook-icon.jpg"></a> 
+           <a href="https://twitter.com/Netakart"><img src="http://www.netakart.com/skin/frontend/blacknwhite/default/images/twitter-icon.jpg"></a> 
+           <a href="#"><img src="http://www.netakart.com/skin/frontend/blacknwhite/default/images/g-pluse-icon.jpg"></a>
+</div>
+</div>
+                        </td>
+                    </tr>
+      <!--              <tr>
+                        <td bgcolor="#EAEAEA" align="center" style="background:#EAEAEA; text-align:center;"><center><p style="font-size:12px; margin:0;">Thank you again, <strong>{{var store.getFrontendName()}}</strong></p></center></td>
+                    </tr>-->
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>

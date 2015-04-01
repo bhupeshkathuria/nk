@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package>
+    <name>MagehouseInfinity</name>
+    <version>1.0.4</version>
+    <stability>stable</stability>
+    <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Get infinite scrolling category pages.</summary>
+    <description>Get infinite scrolling category pages.</description>
+    <notes>First Release 19 -9 -2012&#xD;
+Added Missing Loader Image&#xD;
+&#xD;
+23-9-2012&#xD;
+- Added tool tips for admin settings&#xD;
+- Added default vales of the required fields.&#xD;
+&#xD;
+25-9-2012 : &#xD;
+&#xD;
+Bugs Resolved :&#xD;
+- Not working in list Mode.&#xD;
+&#xD;
+25-9-2012 : &#xD;
+&#xD;
+Bugs Resolved :&#xD;
+- Performance Upgrades</notes>
+    <authors><author><name>Mrugesh Mistry</name><user>mrugeshrocks</user><email>mrugesh.rocks@gmail.com</email></author></authors>
+    <date>2012-09-25</date>
+    <time>18:12:51</time>
+    <contents><target name="magecommunity"><dir name="Magehouse"><dir name="Infinity"><dir name="Helper"><file name="Data.php" hash="a6c41a4bb720289eb76d906a9e5cac66"/></dir><dir name="etc"><file name="adminhtml.xml" hash="465e6ff26e98795805d6556a7bb6e77f"/><file name="config.xml" hash="f25217ca0351c55302464feca34f9f06"/><file name="system.xml" hash="405fa8de7848b44192672bf7f7226683"/></dir></dir></dir></target><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="layout"><file name="infinitescroll.xml" hash="583734765416ed15c6c7689baac93bf0"/></dir><dir name="template"><dir name="infinitescroll"><file name="js.phtml" hash="e202d3273cb1d9d7d091b005d3319899"/></dir></dir></dir></dir></dir></target><target name="mage"><dir name="js"><dir name="infinite"><file name="jquery.ias.min.js" hash="5c1fc8a0c00783b0ffddd978059c1d1f"/></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Magehouse_Infinity.xml" hash="a2471ae1480f2935dddee2f6afdeb12f"/></dir></target><target name="magemedia"><dir name="images"><file name="loader.gif" hash="a83b3386215d34699938f4eec968e372"/></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.2.0</min><max>6.0.0</max></php></required></dependencies>
+</package>

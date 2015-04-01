@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Delhivery
+ * @category   Delhivery
+ * @package    Delhivery_Lastmile
+ * @copyright  Copyright (c) 2010-2011 Delhivery. (http://www.delhivery.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+ -->
+<layout version="0.1.0">
+    <lastmile_adminhtml_lastmile_index>
+        <reference name="content">
+            <block type="lastmile/adminhtml_lastmile" name="lastmile" />
+        </reference>
+    </lastmile_adminhtml_lastmile_index>
+    <lastmile_adminhtml_pincode_index>
+        <reference name="content">
+            <block type="lastmile/adminhtml_pincode" name="pincode" />
+        </reference>
+    </lastmile_adminhtml_pincode_index>
+    <lastmile_adminhtml_shippinglabel_index>
+        <reference name="content">
+            <block type="lastmile/adminhtml_shippinglabel" name="shippinglabel" />
+        </reference>
+    </lastmile_adminhtml_shippinglabel_index>	
+    <lastmile_adminhtml_lastmile_edit>
+        <update handle="editor"/>
+    </lastmile_adminhtml_lastmile_edit>
+    <adminhtml_sales_order_invoice_new>
+        <reference name="invoice_tracking">
+            <action method="setTemplate">
+                <template>delhiverylastmile/invoice/tracking.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_invoice_new>
+	<adminhtml_sales_order_shipment_new>
+        <reference name="shipment_tracking">
+            <action method="setTemplate">
+                <template>delhiverylastmile/shipment/tracking.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_shipment_new>
+    <adminhtml_sales_order_shipment_view>
+        <reference name="invoice_tracking">
+            <action method="setTemplate">
+                <template>delhiverylastmile/shipment/tracking.phtml</template>
+            </action>
+        </reference>
+        <reference name="shipment_tracking">
+            <action method="setTemplate">
+                <template>delhiverylastmile/shipmentview/tracking.phtml</template>
+            </action>
+        </reference>		
+    </adminhtml_sales_order_shipment_view>		
+</layout>

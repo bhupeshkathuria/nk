@@ -1,0 +1,96 @@
+<div class="testimonial-content"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('testimonial-block')->toHtml() ?></div>
+
+<?php if(Mage::getStoreConfig('testimonial/testimonial_options/allow_customers_write_testimonial') == 1):?>
+<div class="testimonial-submit">
+	<div class="page-title">
+		<h1><?php echo $this->__('Share your look'); ?></h1>
+	</div>
+	<form action="<?php echo $this->getUrl('*/*/post'); ?>" method="post" id="testimonial-form" enctype="multipart/form-data" >
+		<ul class="form-list">
+		<?php if ($this->isCustomerLoggedIn()):?>
+			<li  class="name">
+				<label for="name" class="required">
+					<?php echo $this->__('Your Name');?>
+					<em>*</em>
+				</label>
+				<div class="input-box">
+					<input name="name" id="name" class="input-text required-entry" type="text" value="<?php echo $this->getCustomer()->getName();?>"  />
+				</div>
+			</li>
+		<?php else: ?>
+			<li  class="name">
+				<label for="name" class="required">
+					<?php echo $this->__('Your Name');?>
+					<em>*</em>
+				</label>
+				<div class="input-box">
+					<input name="name" id="name" class="input-text required-entry" type="text"  />
+				</div>
+			</li>
+		<?php endif?>
+		<?php if ($this->isCustomerLoggedIn()):?>
+			<li class="email">
+				<label for="email" class="required">
+					<?php echo $this->__('Email ID'); ?>
+					<em>*</em>
+				</label>
+				<div class="input-box">
+					<input name="email" id="email" class="input-text required-entry validate-email" type="text" value="<?php echo $this->getCustomer()->getEmail(); ?>">
+				</div>
+			</li>
+		<?php else: ?>
+			<li class="email">
+				<label for="email" class="required">
+					<?php echo $this->__('Email ID'); ?>
+					<em>*</em>
+				</label>
+				<div class="input-box">
+					<input name="email" id="email" class="input-text required-entry validate-email" type="text">
+				</div>
+			</li>
+		<?php endif ?>
+			<li class="website">
+				<label for="website">
+					<?php echo $this->__('Product You wearing in picture'); ?>
+				</label>
+				<div class="input-box">
+					<input name="website" id="website" type="text" class="input-text">
+				</div>
+			</li>
+			<li class="avatar">
+                <label for="avatar">
+                    <?php echo $this->__('Browse Your Picture'); ?>
+                </label>
+                <div class="input-box">
+                    <input name="avatar" id="avatar" type="file"/>
+                </div>
+            </li>
+			<li class="required-std">
+				<label for="testimonial" class="required">
+					<?php echo $this->__('Your Message'); ?>
+					<em>*</em>
+				</label>
+				<div class="std-input-box">
+					<textarea name="testimonial" id="testimonial" type="text" class="required-entry" style="width: 400px; height: 150px"></textarea>
+				</div>
+			</li>
+
+		</ul>
+		<?php if(Mage::getStoreConfig('testimonial/testimonial_options/testimonial_captcha_enabled', Mage::app()->getStore())==true):?>
+		<?php echo $this->getChildHtml('captcha'); ?>
+		<?php endif ?>
+		<div class="buttons-set">
+			<p class="required"><?php echo $this->__('* Required Fields'); ?></p>
+			<button type="submit" title="<?php echo $this->__('Submit'); ?>" class="button"><span><span><?php echo $this->__('Share You Look'); ?></span></span></button>
+			
+		</div>
+	</form>
+    
+   <div class="disclaimer"><b>Disclaimer:</b> By submitting this form you agree that your picture is being published on this website, and you'll peacefully tolerate the comments and opinions of other members. Your picture will be posted on our website after moderation. Rest assured,we dont share/publish/trade your picture anywhere else. We won't doctor your picture, but we may crop and/or scale them to fit our design and layout.</div>
+	<script type="text/javascript">
+	//<![CDATA[
+		var dataForm = new VarienForm('testimonial-form', true);
+	//]]>
+	</script>
+</div>
+<?php endif ?>

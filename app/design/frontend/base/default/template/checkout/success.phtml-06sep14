@@ -1,0 +1,145 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div class="order-success">
+<div class="page-title">
+    <h1><?php echo $this->__('Dear Customer') ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+		
+    <?php
+		$order = Mage::getModel('sales/order')->loadByIncrementId($this->getOrderId());
+		
+		$connect = Mage::getSingleton( 'core/resource' )->getConnection('core_read');
+		$table = Mage::getSingleton('core/resource')->getTableName('sales_flat_shipment_track');		
+		$sql = "SELECT track_number FROM ".$table." WHERE order_id = ".$order->getEntityId()."";
+		$result = $connect->query( $sql );
+		$track = $result->fetch();	
+		
+       ?>
+            
+       
+<?php if ($this->getOrderId()):?>
+<?php if ($this->getCanViewOrder()) :?>
+<h2 class="sub-title"><?php echo $this->__('Thank you. We are Processing your order %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $this->escapeHtml($this->getOrderId()))) ?></h2>
+    <p><?php echo $this->__('Your AWB No. is');?>  <a class="askTrackBtn" href="javascript:;" onclick="popWin('<?php echo Mage::helper('shipping/data')->getTrackingPopUpUrlByOrderId($order->getEntityId()) ?>', 'tracking the order', 'scrollbars=yes,width=800,height=600,resizable=yes');return false;"><span><?php echo $track['track_number'];  ?></span></a></p>
+    
+    
+<?php  else :?>
+    <p><?php echo $this->__('Your order number: %s.', $this->escapeHtml($this->getOrderId())) ?> has been placed</p>
+<?php endif;?>
+    <p><?php echo $this->__('We&acute;ll keep you updated every stage from dispatch to delivery') ?></p>
+<?php /*if ($this->getCanViewOrder() && $this->getCanPrintOrder()) :?>
+    <p>
+        <?php echo $this->__('Click <a href="%s" onclick="this.target=\'_blank\'">here to print</a> a copy of your order confirmation.', $this->getPrintUrl()) ?>
+        <?php echo $this->getChildHtml() ?>
+    </p>
+<?php endif;*/?>
+<div class="info"><p><strong>Happy Shopping!</strong></p>
+Team NetAkart<br />
+support@netakart.com &nbsp; | &nbsp; 011-66470123</div>
+<?php endif;?>
+
+<?php if ($this->getAgreementRefId()): ?>
+    <p><?php echo $this->__('Your billing agreement # is: %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getAgreementUrl()), $this->escapeHtml($this->getAgreementRefId())))?></p>
+<?php endif;?>
+
+<?php if ($profiles = $this->getRecurringProfiles()):?>
+<p><?php echo $this->__('Your recurring payment profiles:'); ?></p>
+<ul class="disc">
+<?php foreach($profiles as $profile):?>
+<?php $profileIdHtml = ($this->getCanViewProfiles() ? sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getProfileUrl($profile)), $this->escapeHtml($this->getObjectData($profile, 'reference_id'))) : $this->escapeHtml($this->getObjectData($profile, 'reference_id')));?>
+    <li><?php echo $this->__('Payment profile # %s: "%s".', $profileIdHtml, $this->escapeHtml($this->getObjectData($profile, 'schedule_description')))?></li>
+<?php endforeach;?>
+</ul>
+<?php endif;?>
+
+<?php $order_details = Mage::getModel('sales/order')->loadByIncrementId($this->getOrderId()); ?>
+
+	
+<div class="order-summary">
+	<div class="ordersummary">
+    <h3>Order Summary</h3>	
+    <table cellpadding="0" cellspacing="0" width="100%" border="0">
+    
+    <tr><th>Product Name</th><th>Product ID</th><th>Size</th><th>Qty</th><th>Total Cost</th><th>Dispatch Date</th><th>Delivery Date</th></tr>
+   <?php  	
+        foreach ($order_details->getAllItems() as $item) {  
+			
+			
+			
+				
+		echo '<tr>';
+     
+     echo '<td><div class="line"><p class="name">' . $item->getName() . '</p></div></td>';
+	 
+	 	echo '<td><p class="model">' . $item->getSku() . '</p></td>'; 	 
+	  
+	  
+	  	if ($_options = $item->getProductOptions()):
+			echo '<td><p class="model">';	
+						 foreach ($_options as $_option) :
+						
+							
+							
+							if (is_array($_option['value'])):
+							echo $_option[0]['value'];
+							 else:
+							 echo $_option[0]['value'];
+							endif;
+						
+						endforeach;
+			 echo '</p></td>'; 	
+			 else:
+			 echo '<td><p class="model">--</p></td>';	
+			 endif;
+	  
+	 
+	 
+	 echo '<td><p class="qty">' . round($item->getQtyOrdered(), 0) . '</p></td>';      
+     echo '<td><p class="lineprice">' . Mage::helper("core")->currency($item->getPrice() * $item->getQtyOrdered()) . '</p></td>';  
+     echo '<td><p class="dispatch">'.date('d-m-Y').'</p></td>';		
+     echo '<td><p class="delivery">'.date('d-m-Y').'</p></td>';	 
+     
+	 echo '</tr>';  
+}  
+        ?>
+    </table>
+    <div class="total-box">
+    	<p class="subtotal">Subtotal:<span class="amount"><?php echo Mage::helper("core")->currency($order_details->subtotal);?></span></p>
+        <p class="paid">Total Amount Payable:<span class="amount"><?php echo Mage::helper("core")->currency($order_details->getGrandTotal());?></span></p>
+
+    </div>
+	</div>
+</div>
+
+
+<div class="buttons-set">
+    <button type="button" class="button" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+</div>
+</div>
+
+<div class="right-success-content"><img src="<?php echo $this->getSkinUrl('images/thanku-img.jpg'); ?>" alt=""/></div>

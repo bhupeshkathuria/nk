@@ -1,0 +1,22 @@
+<?php 
+
+	$orderStatuses = $this->getCustomStatus();
+	$orderStatus = array('paypal_canceled_reversal','payment_review', 'paypal_reversed','pending_payment', 'pending_paypal','fraud','closed','pending','processing','ready_for_dispatch');
+?>
+
+
+<div class="left-menu">
+<ul>
+<li class="dash"><img src="<?php echo $this->getSkinUrl('courier/images/dashboard.jpg') ?>" />
+
+<a href="http://www.netakart.com/index.php/courier/order">Dashboards </a> </li>
+<li><img src="<?php echo $this->getSkinUrl('courier/images/pick-up.jpg') ?>" /><a href="http://www.netakart.com/index.php/courier/order/?s=3">Ready for Pickup</a></li>
+<li><img src="<?php echo $this->getSkinUrl('courier/images/handed-corier.jpg') ?>" /> <a href="http://www.netakart.com/index.php/courier/order/?s=4">Handed to Courier</a></li>
+<li><img src="<?php echo $this->getSkinUrl('courier/images/delivered.jpg') ?>" /> <a href="http://www.netakart.com/index.php/courier/order/?s=5">Delivered</a></li>
+<li><img src="<?php echo $this->getSkinUrl('courier/images/canceled.jpg');?>" /> <a href="http://www.netakart.com/index.php/courier/order/?s=6">Canceled</a></li>
+<li><img src="<?php echo $this->getSkinUrl('courier/images/return.jpg') ?>" /> <a href="http://www.netakart.com/index.php/courier/order/?s=8">Returns</a></li>
+<li><img src="<?php echo $this->getSkinUrl('courier/images/hold.jpg') ?>" /> <a href="http://www.netakart.com/index.php/courier/order/?s=7">Hold</a></li>
+<li><a href="http://www.netakart.com/index.php/courier/order/manifest">Manifest</a></li>       
+</ul>
+
+</div>

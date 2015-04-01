@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <salesreport_index_index>
+    	<reference name="head">
+            <action method="addCss"><name>salesreport/style.css</name></action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate"><template>salesreport/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+        	<block type="salesreport/header" name="salesreport.header" template="salesreport/order/header.phtml"/>
+            <block type="core/template" name="sub_content" template="salesreport/login.phtml"/>
+            <block type="core/template" name="salesreport.footer" template="salesreport/order/footer.phtml"/>
+        </reference>
+    </salesreport_index_index>
+	
+	<salesreport_index_forgot>
+		<reference name="head">
+            <action method="addCss"><name>salesreport/style.css</name></action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate"><template>salesreport/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+        	<block type="salesreport/header" name="salesreport.header" template="salesreport/order/header.phtml"/>
+            <block type="core/template" name="sub_content" template="salesreport/index/forgot.phtml"/>
+            <block type="core/template" name="salesreport.footer" template="salesreport/order/footer.phtml"/>
+        </reference>
+   </salesreport_index_forgot> 
+
+    <salesreport_order_index>
+        <reference name="head">
+            <action method="addCss"><name>salesreport/style.css</name></action>
+			<action method="addCss"><name>salesreport/acmebase.css</name></action>
+			<action method="addJs"><name>salesreport/js/TreeMenu.js</name></action>
+			<action method="addCss"><name>salesreport/css/default.css</name></action>
+			<action method="addCss"><name>salesreport/css/reset.css</name></action>
+			<action method="addJs"><name>salesreport/js/zebra_datepicker.js</name></action>
+			<action method="addJs"><name>salesreport/js/core.js</name></action>
+        </reference>
+        <reference name="root">
+        	<remove name="right"/>
+            <action method="setTemplate"><template>salesreport/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="salesreport/header" name="salesreport.header" template="salesreport/order/header.phtml"/>
+			<block type="salesreport/order" name="salesreport.datepicker" template="salesreport/order/datepicker.phtml"/>
+			<block type="salesreport/orderleft" name="salesreport.orderleft" template="salesreport/order/orderleft.phtml"/>
+            <block type="salesreport/order"  name="orderlist" template="salesreport/order/list.phtml">
+                <block type="salesreport/order" name="order_list_toolbar" template="salesreport/order/toolbar_list.phtml"/>
+            </block>
+			<block type="core/template" name="salesreport.footer" template="salesreport/order/footer.phtml"/>
+        </reference>
+    </salesreport_order_index>
+	
+	<salesreport_margins_index>
+        <reference name="head">
+            <action method="addCss"><name>salesreport/style.css</name></action>
+			<action method="addCss"><name>salesreport/acmebase.css</name></action>
+			<action method="addJs"><name>salesreport/js/TreeMenu.js</name></action>
+			<action method="addCss"><name>salesreport/css/default.css</name></action>
+			<action method="addCss"><name>salesreport/css/reset.css</name></action>
+			<action method="addJs"><name>salesreport/js/zebra_datepicker.js</name></action>
+			<action method="addJs"><name>salesreport/js/core.js</name></action>
+        </reference>
+        <reference name="root">
+        	<remove name="right"/>
+            <action method="setTemplate"><template>salesreport/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="salesreport/header" name="salesreport.header" template="salesreport/margins/header.phtml"/>
+			<block type="salesreport/order" name="salesreport.datepicker" template="salesreport/order/datepicker.phtml"/>
+			<block type="salesreport/orderleft" name="salesreport.orderleft" template="salesreport/order/orderleft.phtml"/>
+            <block type="salesreport/margins"  name="orderlist" template="salesreport/margins/list.phtml">
+                <block type="salesreport/margins" name="order_list_toolbar" template="salesreport/margins/toolbar_list.phtml"/>
+            </block>
+			<block type="core/template" name="salesreport.footer" template="salesreport/margins/footer.phtml"/>
+        </reference>
+    </salesreport_margins_index>
+	
+	<salesreport_cod_index>
+        <reference name="head">
+            <action method="addCss"><name>salesreport/style.css</name></action>
+			<action method="addCss"><name>salesreport/acmebase.css</name></action>
+			<action method="addJs"><name>salesreport/js/TreeMenu.js</name></action>
+			<action method="addCss"><name>salesreport/css/default.css</name></action>
+			<action method="addCss"><name>salesreport/css/reset.css</name></action>
+			<action method="addJs"><name>salesreport/js/zebra_datepicker.js</name></action>
+			<action method="addJs"><name>salesreport/js/core.js</name></action>
+        </reference>
+        <reference name="root">
+        	<remove name="right"/>
+            <action method="setTemplate"><template>salesreport/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="salesreport/header" name="salesreport.header" template="salesreport/cod/header.phtml"/>
+			<block type="salesreport/order" name="salesreport.datepicker" template="salesreport/order/datepicker.phtml"/>
+			<block type="salesreport/orderleft" name="salesreport.orderleft" template="salesreport/order/orderleft.phtml"/>
+            <block type="salesreport/cod"  name="orderlist" template="salesreport/cod/list.phtml">
+                <block type="salesreport/cod" name="order_list_toolbar" template="salesreport/cod/toolbar_list.phtml"/>
+            </block>
+			<block type="core/template" name="salesreport.footer" template="salesreport/cod/footer.phtml"/>
+        </reference>
+    </salesreport_cod_index>
+	
+	<salesreport_vpayments_index>
+        <reference name="head">
+            <action method="addCss"><name>salesreport/style.css</name></action>
+			<action method="addCss"><name>salesreport/acmebase.css</name></action>
+			<action method="addJs"><name>salesreport/js/TreeMenu.js</name></action>
+			<action method="addCss"><name>salesreport/css/default.css</name></action>
+			<action method="addCss"><name>salesreport/css/reset.css</name></action>
+			<action method="addJs"><name>salesreport/js/zebra_datepicker.js</name></action>
+			<action method="addJs"><name>salesreport/js/core.js</name></action>
+        </reference>
+        <reference name="root">
+        	<remove name="right"/>
+            <action method="setTemplate"><template>salesreport/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="salesreport/header" name="salesreport.header" template="salesreport/margins/header.phtml"/>
+			<block type="salesreport/order" name="salesreport.datepicker" template="salesreport/order/datepicker.phtml"/>
+			<block type="salesreport/orderleft" name="salesreport.orderleft" template="salesreport/order/orderleft.phtml"/>
+            <block type="salesreport/vpayments"  name="orderlist" template="salesreport/vpayments/list.phtml">
+                <block type="salesreport/margins" name="order_list_toolbar" template="salesreport/margins/toolbar_list.phtml"/>
+            </block>
+			<block type="core/template" name="salesreport.footer" template="salesreport/margins/footer.phtml"/>
+        </reference>
+    </salesreport_vpayments_index>
+	
+	
+	<salesreport_vendordetails_index>
+       <reference name="head">
+            <action method="addCss"><name>salesreport/style.css</name></action>
+			<action method="addCss"><name>salesreport/acmebase.css</name></action>
+			<action method="addJs"><name>salesreport/js/TreeMenu.js</name></action>
+			<action method="addCss"><name>salesreport/css/default.css</name></action>
+			<action method="addCss"><name>salesreport/css/reset.css</name></action>
+			<action method="addJs"><name>salesreport/js/zebra_datepicker.js</name></action>
+			<action method="addJs"><name>salesreport/js/core.js</name></action>
+        </reference>
+        <reference name="root">
+        	<remove name="right"/>
+            <action method="setTemplate"><template>salesreport/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="salesreport/header" name="salesreport.header" template="salesreport/margins/header.phtml"/>
+			<block type="salesreport/order" name="salesreport.datepicker" template="salesreport/order/datepicker.phtml"/>
+			<block type="salesreport/orderleft" name="salesreport.orderleft" template="salesreport/order/orderleft.phtml"/>
+            <block type="salesreport/vendordetails"  name="orderlist" template="salesreport/vendordetails/list.phtml">
+                <block type="salesreport/margins" name="order_list_toolbar" template="salesreport/margins/toolbar_list.phtml"/>
+            </block>
+			<block type="core/template" name="salesreport.footer" template="salesreport/margins/footer.phtml"/>
+        </reference>
+    </salesreport_vendordetails_index>
+	
+	<salesreport_marketing_index>
+       <reference name="head">
+            <action method="addCss"><name>salesreport/style.css</name></action>
+			<action method="addCss"><name>salesreport/acmebase.css</name></action>
+			<action method="addJs"><name>salesreport/js/TreeMenu.js</name></action>
+			<action method="addCss"><name>salesreport/css/default.css</name></action>
+			<action method="addCss"><name>salesreport/css/reset.css</name></action>
+			<action method="addJs"><name>salesreport/js/zebra_datepicker.js</name></action>
+			<action method="addJs"><name>salesreport/js/core.js</name></action>
+        </reference>
+        <reference name="root">
+        	<remove name="right"/>
+            <action method="setTemplate"><template>salesreport/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="salesreport/header" name="salesreport.header" template="salesreport/margins/header.phtml"/>
+			<block type="salesreport/order" name="salesreport.datepicker" template="salesreport/order/datepicker.phtml"/>
+			<block type="salesreport/orderleft" name="salesreport.orderleft" template="salesreport/order/orderleft.phtml"/>
+            <block type="salesreport/marketing"  name="orderlist" template="salesreport/marketing/list.phtml">
+                <block type="salesreport/margins" name="order_list_toolbar" template="salesreport/margins/toolbar_list.phtml"/>
+            </block>
+			<block type="core/template" name="salesreport.footer" template="salesreport/margins/footer.phtml"/>
+        </reference>
+    </salesreport_marketing_index>
+	
+	<salesreport_marketing_spend>
+       <reference name="head">
+            <action method="addCss"><name>salesreport/style.css</name></action>
+			<action method="addCss"><name>salesreport/acmebase.css</name></action>
+			<action method="addJs"><name>salesreport/js/TreeMenu.js</name></action>
+			<action method="addCss"><name>salesreport/css/default.css</name></action>
+			<action method="addCss"><name>salesreport/css/reset.css</name></action>
+			<action method="addJs"><name>salesreport/js/zebra_datepicker.js</name></action>
+			<action method="addJs"><name>salesreport/js/core.js</name></action>
+        </reference>
+        <reference name="root">
+        	<remove name="right"/>
+            <action method="setTemplate"><template>salesreport/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="salesreport/header" name="salesreport.header" template="salesreport/margins/header.phtml"/>
+			<block type="salesreport/orderleft" name="salesreport.orderleft" template="salesreport/order/orderleft.phtml"/>
+            <block type="salesreport/marketing"  name="spend" template="salesreport/marketing/spend/list.phtml">
+                <block type="salesreport/margins" name="order_list_toolbar" template="salesreport/margins/toolbar_list.phtml"/>
+            </block>
+			<block type="core/template" name="salesreport.footer" template="salesreport/margins/footer.phtml"/>
+        </reference>
+    </salesreport_marketing_spend>
+	
+	<salesreport_categorywise_index>
+       <reference name="head">
+            <action method="addCss"><name>salesreport/style.css</name></action>
+			<action method="addCss"><name>salesreport/acmebase.css</name></action>
+			<action method="addJs"><name>salesreport/js/TreeMenu.js</name></action>
+			<action method="addCss"><name>salesreport/css/default.css</name></action>
+			<action method="addCss"><name>salesreport/css/reset.css</name></action>
+			<action method="addJs"><name>salesreport/js/zebra_datepicker.js</name></action>
+			<action method="addJs"><name>salesreport/js/core.js</name></action>
+        </reference>
+        <reference name="root">
+        	<remove name="right"/>
+            <action method="setTemplate"><template>salesreport/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="salesreport/header" name="salesreport.header" template="salesreport/margins/header.phtml"/>
+			<block type="salesreport/order" name="salesreport.datepicker" template="salesreport/order/datepicker.phtml"/>
+			<block type="salesreport/orderleft" name="salesreport.orderleft" template="salesreport/order/orderleft.phtml"/>
+            <block type="salesreport/categorywise"  name="orderlist" template="salesreport/categorywise/list.phtml">
+                <block type="salesreport/margins" name="order_list_toolbar" template="salesreport/margins/toolbar_list.phtml"/>
+            </block>
+			<block type="core/template" name="salesreport.footer" template="salesreport/margins/footer.phtml"/>
+        </reference>
+    </salesreport_categorywise_index>
+	
+	
+	
+	
+	<salesreport_categorywise_category>
+       <reference name="head">
+            <action method="addCss"><name>salesreport/style.css</name></action>
+			<action method="addCss"><name>salesreport/acmebase.css</name></action>
+			<action method="addJs"><name>salesreport/js/TreeMenu.js</name></action>
+			<action method="addCss"><name>salesreport/css/default.css</name></action>
+			<action method="addCss"><name>salesreport/css/reset.css</name></action>
+			<action method="addJs"><name>salesreport/js/zebra_datepicker.js</name></action>
+			<action method="addJs"><name>salesreport/js/core.js</name></action>
+        </reference>
+        <reference name="root">
+        	<remove name="right"/>
+            <action method="setTemplate"><template>salesreport/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="salesreport/header" name="salesreport.header" template="salesreport/margins/header.phtml"/>
+			<block type="salesreport/order" name="salesreport.datepicker" template="salesreport/order/datepicker.phtml"/>
+			<block type="salesreport/orderleft" name="salesreport.orderleft" template="salesreport/order/orderleft.phtml"/>
+            <block type="salesreport/categorywise"  name="orderlist" template="salesreport/categorywise/category/list.phtml">
+                <block type="salesreport/margins" name="order_list_toolbar" template="salesreport/margins/toolbar_list.phtml"/>
+            </block>
+			<block type="core/template" name="salesreport.footer" template="salesreport/margins/footer.phtml"/>
+        </reference>
+    </salesreport_categorywise_category>
+	<!--<supplier_vpayments_view>
+        <reference name="head">
+            <action method="addCss"><name>salesreport/style.css</name></action>
+			<action method="addCss"><name>salesreport/acmebase.css</name></action>
+			<action method="addJs"><name>salesreport/js/TreeMenu.js</name></action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate"><template>salesreport/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+           <block type="salesreport/header" name="salesreport.header" template="salesreport/margins/header.phtml"/>
+			<block type="salesreport/orderleft" name="salesreport.orderleft" template="salesreport/order/orderleft.phtml"/>
+            <block type="salesreport/view"  name="orderitem" template="salesreport/vpayments/view.phtml">
+			<block type="core/template" name="salesreport.footer" template="salesreport/order/footer.phtml"/>
+        </reference>
+    </supplier_vpayments_view>-->
+	
+</layout>

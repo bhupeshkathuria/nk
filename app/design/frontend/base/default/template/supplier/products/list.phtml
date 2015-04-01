@@ -1,0 +1,206 @@
+<style>
+
+#supplier-products a{ cursor: pointer; background-color: #999999; display: inline-block; padding: 3px 10px 3px 10px; }
+#supplier-products tr.highlight { background-color: #6C9; }
+.supplier-loader { display: inline-block; margin-left: 5px; } 
+#supplier-products input.qty { padding: 3px; }
+p.note { margin-left: 10px; }
+
+.button{
+	background-color: #222222;
+	border:0px;
+	padding:7px;
+	}
+
+</style>
+
+
+<?php 
+
+$collection = $this->getCollection(); 
+
+
+
+?>
+<div style="text-align:right;margin-bottom:5px"><a class='inline' href="#inline_content"><button class="button"><span>Upload</span></button></a>&nbsp;<a href="http://www.netakart.com/index.php/supplier/product/export"><button id="exportCSV" title="" class="button"><span>Download</span></button></a></div>
+<p class="note"><?php echo $this->__('Setting the Stock to Zero will set the product offline') ?></p>
+
+<div id="message"></div>
+<table id="supplier-products">
+<tr class="menu_font_style">
+	<th><?php echo $this->__('Product Name') ?></th>
+    <th><?php echo $this->__('SKU') ?></th>
+    <th><?php echo $this->__('QTY') ?></th>
+    <th><?php echo $this->__('Brand') ?></th>
+    <th><?php echo $this->__('Price') ?></th>
+    <th><?php echo $this->__('Special Price') ?></th>
+    <th><?php echo $this->__('Action') ?></th>
+</tr>
+<?php 
+$session = Mage::getSingleton('core/session');
+		$supplierId = $session->getData('supplierId');
+		$supplier =  Mage::getModel('supplier/supplier')->getSupplierById($supplierId);
+		$suppliername = $supplier['name'];
+
+$attribute = Mage::getModel('supplier/supplier')->getSupplierOptionsId($suppliername);
+
+$productModel = Mage::getModel('catalog/product');
+$attr = $productModel->getResource()->getAttribute("supplier");
+
+if ($attr->usesSource()) {
+    $color_id = $attr->getSource()->getOptionId($attribute['value']);
+}
+
+if($color_id == $attribute['option_id']){
+?>
+
+<?php foreach($collection as $_product): ?>
+
+
+<?php $_product->getResource()->getAttribute('supplier')->getFrontend()->getValue($_product); ?>
+
+<?php 
+$attributeSetModel = Mage::getModel("eav/entity_attribute_set");
+$attributeSetModel->load($_product->getAttributeSetId());
+$attributeSetName  = $attributeSetModel->getAttributeSetName();
+$stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product);
+$manageStock = $stock->getManageStock();
+$qty = $stock->getQty();
+$qty = round($qty);
+$i = 0;
+?>
+ 
+    <?php $i++; ?>
+
+    <tr id="row-<?php echo $_product->getId(); ?>" class="<?php if(($i%2) == 0){?>even<?php } else{?>odd<?php } ?>">
+        <td width="50%"><?php echo $_product->getName(); ?></td>
+        <td width="20%"><?php echo $_product->getSku(); ?></td>
+        <td width="5%"><?php if($manageStock): ?><input type="text" name="qty-<?php echo $_product->getId(); ?>" value="<?php echo $qty; ?>" style="width: 24px" class="qty"/><?php endif; ?></td>
+        <td width="20%">
+		<?php
+			 if($attributeSetName == 'Women'){
+				echo $_product->getResource()->getAttribute('women_brands')->getFrontend()->getValue($_product);		
+			} else if($attributeSetName == 'Men'){
+				echo $_product->getResource()->getAttribute('men_brands')->getFrontend()->getValue($_product);
+			} else if($attributeSetName == 'Gifting'){
+				echo $_product->getResource()->getAttribute('gift_brand')->getFrontend()->getValue($_product);
+			}
+			
+			?></td>
+        <td width="20%"><?php echo Mage::helper('core')->currency($_product->getPrice(),true,false); ?></td>
+        <td width="20%"><?php echo Mage::helper('core')->currency($_product->getFinalPrice(),true,false); ?></td>    
+        <td width="15%"><?php if($manageStock): ?><a class="save" id="<?php echo $_product->getId(); ?>"><?php echo $this->__('Save') ?></a><div class="supplier-loader" style="display: none;">Saving...</div><?php endif; ?></td>
+    
+    </tr>
+    
+<?php  endforeach; ?> 
+<?php } ?>
+
+</table>
+<link rel="stylesheet" href="http://www.netakart.com/js/colorbox.css" />
+
+<script src="http://www.netakart.com/js/jquery.colorbox.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
+<script>
+jQuery(document).ready(function(){
+	
+				jQuery(".inline").colorbox({inline:true, width:"50%",height:"50%"});								       
+	   			jQuery('#supplier-products a.save').click(function() {
+					
+					jQuery(this).next().text(' Saving...')
+					
+					jQuery(this).next().show(); // View loader
+					
+					var intRegex = /[0-9 -()+]+$/; 	
+					var id = jQuery(this).attr('id');
+					var qty = jQuery(this).parent().parent().find('.qty').val();
+					var test = qty.match(intRegex);
+					
+					if(test){
+									
+					jQuery.post('<?php echo Mage::getUrl('supplier/product/save/' ); ?>', {id: id, qty: qty}, function(data) {
+						
+						
+						//jQuery("#message").show();
+						jQuery("#message").html(data);
+						//jQuery('#message').delay(4000).fadeOut('slow');
+																		
+						jQuery('#row-' + id ).addClass("highlight").delay(3000).queue(function(next){
+							jQuery(this).removeClass("highlight");
+							next();
+						});
+						
+						jQuery('#row-' + id + ' .supplier-loader').html(' Saved!').delay(3000).queue(function(next){
+							jQuery(this).hide();
+							next();
+						});
+						
+					});
+						
+					return false;
+				
+					} else {
+						
+						jQuery('#row-' + id + ' .supplier-loader').html(' Only numbers').delay(3000).queue(function(next){
+							jQuery(this).hide();
+							next();
+						});
+						
+					}
+				
+				})
+			
+});
+</script>
+<div style='display:none'>
+
+
+   
+	<div id='inline_content' style='padding:10px; background:#fff;font-size:12px'>
+		<?php
+			$currentUrl = Mage::helper('core/url')->getCurrentUrl();
+			$url = Mage::getSingleton('core/url')->parseUrl($currentUrl);
+			$path = $url->getPath();
+			?>
+        <form method="post" action="<?php echo Mage::getUrl('supplier/product/inventory/'); ?>" enctype="multipart/form-data">
+        	<label for="upload">Upload File : </label>
+            <input type="file" name="import" id="upload"/>
+            <input type="submit" name="submit" value="Submit"/>
+        </form>
+        <div class="progress">
+        <div class="bar"></div >
+        <div class="percent">0%</div >        
+         <div id="status"></div>  
+    </div>
+</div>
+
+ <script>
+        (function() {
+ 
+            var bar = jQuery('.bar');
+            var percent = jQuery('.percent');
+            var status = jQuery('#status');
+ 
+            jQuery('form').ajaxForm({
+                beforeSend: function() {
+                    status.empty();
+                    var percentVal = '0%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+                uploadProgress: function(event, position, total, percentComplete) {
+                    var percentVal = percentComplete + '%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+                success: function() {
+                    var percentVal = '100%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+                complete: function(xhr) {
+                    status.html(xhr.responseText);
+                }
+            });
+        })();
+    </script>

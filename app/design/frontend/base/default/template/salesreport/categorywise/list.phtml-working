@@ -1,0 +1,110 @@
+<?php
+		$orders = $this->getOrders(); 
+	    $processing = $this->getProcessingOrders('processing');
+		$readypickup = $this->getProcessingOrders('readypickup');
+		$ready_for_diapatch = $this->getProcessingOrders('ready_for_diapatch');
+		$pending = $this->getProcessingOrders('pending');
+		$handed_courier = $this->getProcessingOrders('handed_courier');
+		$holded = $this->getProcessingOrders('holded');
+		
+		$complete = $this->getProcessingOrders('complete');
+		$canceled = $this->getProcessingOrders('canceled');
+		$returns = $this->getProcessingOrders('returns');
+		
+		$totalProcessing = $processing + $readypickup + $ready_for_diapatch + $pending + $handed_courier + $holded;
+		$overAll = $totalProcessing + $complete + $canceled + $returns;
+		$paymentCOD = $this->getPaymentMethod();
+	echo $this->getChildHtml("order_list_toolbar"); ?>
+<style>
+#padd th{border-right:1px solid #000;}
+.menu_font_style th{padding:10px;}
+form th{ text-align:center;}
+.supplier_order_list td{border-right:1px solid #000; border-bottom:1px solid #000; text-align:center;}
+</style>
+
+<div class="supllier_admin_content  supplier_admin_order_list">
+<h1>
+<?php
+
+	if($this->getRequest()->getParam('catId')){
+		echo $this->getCategoryByName($this->getRequest()->getParam('catId'));
+	}
+	else{
+		echo'Category-Wise Sale'; 
+	}
+	?>
+</h1>
+
+<form method="post" action="" name="frmPayment">
+<table class="supplier_order_list st" style="width:100%; border:1px solid #000; margin-top:20px;">
+	
+	    <tr class="menu_font_style " id="padd">
+                <th>&nbsp;</th>
+                <th><?php echo $this->__('Transactions') ?></th>
+                <th colspan="2"><?php echo $this->__('Payment Method') ?></th>
+                <th colspan="2"><?php echo $this->__('Total Amount') ?></th>
+                <th><?php echo $this->__('Revenue') ?></th>
+                <th colspan="4"><?php echo $this->__('Order Status') ?></th>
+                
+                
+	    </tr>
+        <tr class="menu_font_style " id="padd">
+                <th><?php echo $this->__('Category') ?></th>
+                <th><?php echo $this->__('Total Order') ?></th>
+                <th><?php echo $this->__('COD') ?></th>
+                <th><?php echo $this->__('PREPAID') ?></th>
+                <th><?php echo $this->__('COD') ?></th>
+                <th><?php echo $this->__('PREPAID') ?></th>
+                <th><?php echo $this->__('Revenue') ?></th>
+                <th><?php echo $this->__('Delivered') ?></th>
+                <th><?php echo $this->__('Processing') ?></th>
+                <th><?php echo $this->__('Cancelled') ?></th>
+                <th><?php echo $this->__('Return') ?></th>
+                
+                
+	    </tr>
+                
+        <tr class="menu_font_style " id="padd">
+                <th><?php echo $this->__('Over All') ?></th>
+                <th><?php echo $overAll; ?></th>
+                <th><?php echo $this->getPaymentMethod('cashondelivery'); ?></th>
+                <th><?php echo $this->getPaymentMethod('payucheckout_shared'); ?></th>
+                <th><?php echo Mage::helper('core')->currency(array_sum($tCOD), true, false); ?></th>
+                <th><?php echo Mage::helper('core')->currency(array_sum($tPre), true, false); ?></th>
+                <th><?php echo Mage::helper('core')->currency(array_sum($rVenue), true, false); ?></th>
+                <th><?php echo $complete ?></th>
+                <th><?php echo $totalProcessing; ?></th>
+                <th><?php echo $canceled ?></th>
+                <th><?php echo $returns ?></th>
+                
+	    </tr>
+        
+        <?php 
+		$catOrders = array();
+			 $i=0;
+		foreach($orders as $order): 
+			$catId[] = $this->getCategoryName($order->getData('product_id'),$level=0);
+			$pid[] = $order->getData('product_id');
+		endforeach;
+		$catOrders = $this->getCategoryByProduct($pid,$catId);
+		foreach($catOrders as $catOrder):
+			
+		?>
+        <tr>
+             <td><a href="http://www.netakart.com/index.php/salesreport/categorywise/<?php echo ($level >= 2)?'category':'index';?>/catId/<?php echo $catOrder['category_id'];?>/<?php echo ($level >= 2)?'?from='.$_REQUEST['from'].'&to='.$_REQUEST['to'].'':'level/'.$nextLevel.'/?from='.$_REQUEST['from'].'&to='.$_REQUEST['to']?>"><?php echo $this->getCategoryByName($catOrder['category_id']); ?></a></td>
+             <td><?php echo round($catOrder['week1'],0); ?></td>
+             <td><?php echo $catOrder['totalCOD']; ?></td>
+             <td><?php echo $catOrder['totalPrePaid']; ?></td>
+             <td><?php echo Mage::helper('core')->currency($catOrder['CODTotal'], true, false); ?></td>
+             <td><?php echo Mage::helper('core')->currency($catOrder['PrePaidTotal'], true, false); ?></td>
+             <td><?php echo Mage::helper('core')->currency($catOrder['total'], true, false); ?></td>
+             <td><?php echo $catOrder['Complete']; ?></td>
+             <td><?php echo ($catOrder['Processing'] + $catOrder['Readyforpickup'] + $catOrder['Pending'] + $catOrder['HandedtoCourier'] + $catOrder['Hold']); ?></td>
+             <td><?php echo $catOrder['Canceled']; ?></td>
+             <td><?php echo $catOrder['Returns']; ?></td>
+         </tr>
+         <?php  $i++; endforeach;?>
+ </table> 
+ </form>    
+</div>
+<?php echo $this->getChildHtml("order_list_toolbar"); ?>

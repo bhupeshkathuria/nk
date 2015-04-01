@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * @project     SocialLogin
+ * @package     LitExtension_SocialLogin
+ * @author      LitExtension
+ * @email       litextension@gmail.com
+ */
+-->
+<layout version="0.1.0">
+    <customer_account_login>
+        <reference name="customer_form_login">
+            <action method="setTemplate"><template>le_sociallogin/form/login.phtml</template></action>
+        </reference>
+    </customer_account_login>
+    <checkout_onepage_index>
+        <reference name="checkout.onepage">
+            <action method="setTemplate"><template>le_sociallogin/form/onepage.phtml</template></action>
+        </reference>
+    </checkout_onepage_index>
+    <aw_onestepcheckout_index_index>
+        <block type="le_sociallogin/button" name="le.sociallogin.aw" />
+        <reference name="content">
+            <action ifconfig="le_sociallogin/general/showoncheckout" method="insert">
+                <block>le.sociallogin.aw</block>
+            </action>
+        </reference>
+    </aw_onestepcheckout_index_index>
+</layout>

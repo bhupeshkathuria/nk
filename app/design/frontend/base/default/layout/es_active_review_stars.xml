@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  
+  <default translate="label">
+    <reference name="head">
+      <action method="addJs" ifconfig="ActiveReviewStars/additional/enabled_jquery"><script>es_active_review_stars/jquery-1.8.2.min.js</script></action>
+      <action method="addJs" ifconfig="ActiveReviewStars/general/enabled"><script>es_active_review_stars/jquery.rating.js</script></action>
+      <action method="addJs" ifconfig="ActiveReviewStars/general/enabled"><script>es_active_review_stars/es_stars.js</script></action>
+      <action method="addCss" ifconfig="ActiveReviewStars/general/enabled"><stylesheet>es_active_review_stars/jquery.rating.css</stylesheet></action>
+    </reference>
+  </default>
+  
+  <catalog_product_view translate="label">
+    <reference name="product.review.form">
+      <action method="setTemplate" ifconfig="ActiveReviewStars/general/enabled">
+        <template>es_active_review_stars/review/form.phtml</template>
+      </action>
+    </reference>
+  </catalog_product_view>
+  
+  <review_product_list translate="label">
+    <reference name="product.review.form">
+      <action method="setTemplate" ifconfig="ActiveReviewStars/general/enabled">
+        <template>es_active_review_stars/review/form.phtml</template>
+      </action>
+    </reference>
+  </review_product_list>
+  
+</layout>

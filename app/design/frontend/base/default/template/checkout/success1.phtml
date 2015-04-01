@@ -1,0 +1,268 @@
+<?php
+error_reporting(0);
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div class="order-success">
+<div class="thanku">
+    <h1><?php echo $this->__('Thank you for your order!') ?></h1>
+    <div class="text-content">You will get confirmation email and SMS shortly.<br /><br />
+</div>
+</div>
+<script type="text/javascript">
+  jQuery(document).ready(function() {
+    jQuery(".tabLink").each(function(){
+      jQuery(this).click(function(){
+        tabeId = $(this).attr('id');
+        jQuery(".tabLink").removeClass("activeLink");
+        jQuery(this).addClass("activeLink");
+        jQuery(".tabcontent").addClass("hide");
+        jQuery("#"+tabeId+"-1").removeClass("hide")   
+        return false;	  
+      });
+    });  
+  });
+</script>
+
+
+<div style="float:left; margin-top:25px; width:100%;" class="update-order">You can now <span class="track">Track</span> <span class="cancel">Cancel</span> & <span class="return">Return</span> ordered items from <span class="button"><a href="#">My Order</a></span></div>
+<div class="success-img"><img src="<?php echo $this->getSkinUrl('images/success--img.jpg'); ?>" alt=""/></div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+		
+    <?php
+		$order = Mage::getModel('sales/order')->loadByIncrementId($this->getOrderId());
+		$store_name= Mage::app()->getStore()->getName();
+		$_customerId = Mage::getSingleton('customer/session')->getCustomerId();
+		$visitorData = Mage::getModel('customer/customer')->load($_customerId);
+		$billingaddress = Mage::getModel('customer/address')->load($visitorData->default_billing);
+		$addressdata = $billingaddress ->getData();
+		$telephone=$addressdata['telephone'];
+ 		$actOrderId = $this->getOrderId();
+     
+       
+       
+      ?>
+      
+<?php if ($this->getOrderId()):?>
+<?php if ($this->getCanViewOrder()) :?>
+<?php /*?><h2 class="sub-title"><?php echo $this->__('Thank you. We are Processing your order %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $this->escapeHtml($this->getOrderId()))) ?></h2><?php */?>
+<?php /*?>    <p><?php echo $this->__('Your AWB No. is');?>  <a class="askTrackBtn" href="javascript:;" onclick="popWin('<?php echo Mage::helper('shipping/data')->getTrackingPopUpUrlByOrderId($order->getEntityId()) ?>', 'tracking the order', 'scrollbars=yes,width=800,height=600,resizable=yes');return false;"><span><?php echo $track['awbno'];  ?></span></a></p><?php */?>
+    
+    
+<?php  else :?>
+    <p ><?php echo $this->__('Your order number.: %s.', $this->escapeHtml($this->getOrderId())) ?> 
+    <span>Order Placed on :</span></p>
+
+<?php endif;?>
+   <?php /*?> <p><?php echo $this->__('We&acute;ll keep you updated every stage from dispatch to delivery') ?></p><?php */?>
+<?php /*if ($this->getCanViewOrder() && $this->getCanPrintOrder()) :?>
+    <p>
+        <?php echo $this->__('Click <a href="%s" onclick="this.target=\'_blank\'">here to print</a> a copy of your order confirmation.', $this->getPrintUrl()) ?>
+        <?php echo $this->getChildHtml() ?>
+    </p>
+<?php endif;*/?>
+
+<?php endif;?>
+
+<?php if ($this->getAgreementRefId()): ?>
+    <p><?php echo $this->__('Your billing agreement # is: %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getAgreementUrl()), $this->escapeHtml($this->getAgreementRefId())))?></p>
+<?php endif;?>
+
+<?php if ($profiles = $this->getRecurringProfiles()):?>
+<p><?php echo $this->__('Your recurring payment profiles:'); ?></p>
+<ul class="disc">
+<?php foreach($profiles as $profile):?>
+<?php $profileIdHtml = ($this->getCanViewProfiles() ? sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getProfileUrl($profile)), $this->escapeHtml($this->getObjectData($profile, 'reference_id'))) : $this->escapeHtml($this->getObjectData($profile, 'reference_id')));?>
+    <li><?php echo $this->__('Payment profile # %s: "%s".', $profileIdHtml, $this->escapeHtml($this->getObjectData($profile, 'schedule_description')))?></li>
+<?php endforeach;?>
+</ul>
+<?php endif;?>
+
+<?php $order_details = Mage::getModel('sales/order')->loadByIncrementId($this->getOrderId()); ?>
+
+	
+<div class="order-summary">
+   <p ><?php echo $this->__('Your order number.: %s.', $this->escapeHtml($this->getOrderId())) ?> 
+    <span>Order Placed on :</span></p>
+    <table cellpadding="0" cellspacing="0" width="100%" border="0">
+    
+    <tr><th>Product Name</th><th>Product ID</th><th>Size</th><th>Qty</th><th>Total Cost</th><th>Dispatch Date</th></tr>
+   <?php  	
+    // $orderItems = Mage::getModel('sales/order')->loadByIncrementId($this->getOrderId()); 
+	//$orderItems = $orderObj->getAllVisibleItems();	
+		
+	foreach($order_details->getAllItems() as $items){
+		
+		 
+		
+		if($items->getPrice()!= 0 && $items->getPrice()!=''){
+			$_product = Mage::getModel('catalog/product')->load($items->getProductId());
+			$product_small_image_path = Mage::helper('catalog/image')->init($_product, 'small_image')->resize(135);	
+			
+			 if ($_product->getData('type_id') == "configurable")
+            {
+				$config = $_product->getTypeInstance(true);
+				foreach($config->getConfigurableAttributesAsArray($_product) as $attributes)
+                {
+					foreach($attributes["values"] as $values)
+                                    {
+                                        $optValue =  $values["value"];
+                                    }
+				}
+			} else {
+				if ($_options = $item->getProductOptions()):
+				foreach ($_options as $_option) :
+					if (is_array($_option['value'])):
+						$optValue = $_option[0]['value'];
+					endif;
+				endforeach;
+				else:
+				$optValue = '--';
+				endif;
+			}
+			
+			?>
+            	<tr>
+                <td><?php echo $items->getName();?></td>
+                <td><?php echo $items->getSku();?></td>
+                <td><?php echo $optValue;?></td>
+				<td><?php echo round($items->getQtyOrdered(), 0); ?></td>
+                <td><?php echo Mage::helper("core")->currency($items->getPrice() * $items->getQtyOrdered()); ?></td>
+                <td><?php echo date('d-m-Y'); ?></td>
+                </tr>
+            
+            <?php
+		}
+	}
+   	?>
+    </table>			
+    <div class="total-box">
+    	<p class="subtotal">Subtotal:<span class="amount"><?php echo Mage::helper("core")->currency($order_details->subtotal);?></span></p>
+        <?php if(Mage::helper("core")->currency($order_details->discount_amount)):?>
+        <p class="subtotal">Discount:<span class="amount"><?php echo Mage::helper("core")->currency($order_details->discount_amount);?></span></p>
+        <?php endif; ?>
+        <p class="paid">Total Amount Payable:<span class="amount"><?php echo Mage::helper("core")->currency($order_details->getGrandTotal());?></span></p>
+
+    </div>
+	</div>
+
+
+
+<div class="buttons-set">
+    <button type="button" class="button" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+</div>
+</div>
+
+
+<?php
+$totalAmount = $order_details->getGrandTotal();
+$messageM = str_replace(" ","%20","Thank you for shopping at NET.A.KART. Your order $actOrderId for RS. $totalAmount is confirmed and is being processed.");
+$url="http://www.netakart.com/sms_code.php?number=$telephone&message=$messageM";
+  $v=file_get_contents($url);
+?>
+
+
+
+<!-- Facebook Conversion Code for Net-A-Kart -->
+<script>(function() {
+  var _fbq = window._fbq || (window._fbq = []);
+  if (!_fbq.loaded) {
+    var fbds = document.createElement('script');
+    fbds.async = true;
+    fbds.src = '//connect.facebook.net/en_US/fbds.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(fbds, s);
+    _fbq.loaded = true;
+  }
+})();
+window._fbq = window._fbq || [];
+window._fbq.push(['track', '6017572043505', {'value':'0.00','currency':'INR'}]);
+</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6017572043505&amp;cd[value]=0.00&amp;cd[currency]=INR&amp;noscript=1" /></noscript>
+
+<!-- Facebook Conversion Code for Net-A-Kart -->
+
+<!-- Google Ecommerce Conversion Code -->
+  <!--
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-54134657-1']);
+  _gaq.push(['_trackPageview']);
+  _gaq.push(['_addTrans',
+    '<?php //echo $this->getOrderId(); ?>',           // transaction ID - required
+    '<?php //echo $store_name; ?>',  // affiliation or store name
+    '<?php //echo $order->getGrandTotal(); ?>',          // total - required
+    '0.00',           // tax
+    '0',              // shipping
+    '<?php //echo $addressdata['city']; ?>',       // city
+    '<?php //echo $addressdata['state']; ?>',     // state or province
+    '<?php //echo $addressdata['country']; ?>'             // country
+  ]);
+
+   // add item might be called for every item in the shopping cart
+   // where your ecommerce engine loops through each item in the cart and
+   // prints out _addItem for each
+  _gaq.push(['_addItem',
+    '<?php //echo $this->getOrderId(); ?>',                                     // transaction ID - required
+    '<?php //echo $items->getSku(); ?>',                                        // SKU/code - required
+    '<?php //echo $items->getName(); ?>',                                       // product name
+    '<?php 
+    $catCollection = $_product->getCategoryCollection();
+  //  foreach($catCollection as $cat){
+  //  print_r($cat->getData());
+  //  echo $cat->getName();
+    }
+    ?>',                                                                      // category or variation
+    '<?php //echo Mage::helper("core")->currency($order_details->getGrandTotal());?>',          // unit price - required
+    '<?php //echo round($items->getQtyOrdered(), 0); ?>'                        // quantity - required
+  ]);
+  _gaq.push(['_trackTrans']);                                                 //submits transaction to the Analytics servers
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+-->
+<!-- Google Ecommerce Conversion Code -->
+
+
+<br/><br/><br/>
+<h2>GA Data</h2>
+    transaction ID = <?php echo $this->getOrderId(); ?><br/>
+    SKU/code = <?php echo $items->getSku(); ?><br/>
+    product name = <?php echo $items->getName(); ?><br/>
+    category = <?php 
+    $catCollection = $_product->getCategoryCollection();
+    foreach($catCollection as $cat){
+    print_r($cat->getData());
+    echo $cat->getName();
+    }
+    ?><br/>
+    unit price = <?php echo Mage::helper("core")->currency($order_details->getGrandTotal());?><br/>
+    quantity = <?php echo round($items->getQtyOrdered(), 0); ?><br/>

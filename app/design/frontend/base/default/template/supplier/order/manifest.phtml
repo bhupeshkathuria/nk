@@ -1,0 +1,78 @@
+<?php	 $orders = $this->getOrders();
+		 echo $this->getChildHtml("order_list_toolbar"); ?>
+<?php //$status =  $this->getOrderStatus();
+
+$status = $this->getCustomStatus();
+$session = Mage::getSingleton('core/session');
+ $supplierId = $session->getData('supplierId');
+ 
+ $menifests = $this->getAllManifests($supplierId);
+ 
+$path = 'http://www.netakart.com'.DS.'media'.DS.'manifest'.DS; 
+
+
+?>
+
+	<h1>Manifest</h1>
+
+<div class="supllier_admin_content  supplier_admin_order_list">
+
+
+	<table class="supplier_order_list st" style="width:100%" >
+    	<tr class="menu_font_style " id="padd">
+	        <th><?php echo $this->__('Sr. No.') ?></th>
+            <th><?php echo $this->__('Manifest ID') ?></th>
+            <th><?php echo $this->__('Date') ?></th>
+            <th><?php echo $this->__('Courier') ?></th>
+            <th><?php echo $this->__('View Manifest') ?></th>
+            
+	    </tr>
+	    <?php
+		
+		
+		 $i = 1; foreach($menifests as $menifest) :  ?>
+        
+	    <tr class="position  <?php if(($i%2) == 0){ ?> even <?php } else { ?>odd<?php } ?>"> 
+	        <td><?php echo $i; ?></td>
+            <td><?php echo $menifest['manifest_id']; ?></td>
+            <td><?php echo $menifest['date_time']; ?></td>
+            <td><?php echo 'Delhivery' ?></td>
+            <td><a href="<?php echo $path.$menifest['file_name']; ?>" target="_blank">View</a></td>
+       
+	    </tr>
+	    <?php $i++; 
+		endforeach; ?>
+        
+	</table>
+  
+</div>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+
+jQuery("#dept").change(function(){
+ // change fn on dept id
+ var selected_dept = jQuery(this).children(":selected").val(); // Get the selected option value
+ switch(selected_dept){
+ case "print":
+ jQuery("#order-status").attr('action','<?php echo Mage::getUrl('supplier/order/shippingprint'); ?>');
+ jQuery("#order-status").attr('target','_self');
+ break;
+
+ case "customstatus":
+ jQuery("#order-status").attr('action','<?php echo Mage::getUrl('supplier/order/customstatus'); ?>');
+ jQuery("#order-status").attr('target','_self');
+ break;
+ case "manifest":
+ jQuery("#order-status").attr('action','http://www.netakart.com/manifest.php');
+ jQuery("#order-status").attr('target','_blank');
+ break;
+ default:
+ jQuery("#order-status").attr('action','#');
+ jQuery("#order-status").attr('target','_self');
+ // Default action
+ }
+ });
+ });
+
+</script>

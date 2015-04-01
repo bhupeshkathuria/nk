@@ -1,0 +1,53 @@
+<div class="left-side"><ul>
+<li ><img src="<?php echo $this->getSkinUrl('images/sup-img1.jpg') ?>" /> <div class="content-li"><h1>List Your Products</h1> Showcase your products in NET*A*KART's rich catalog assortment.</div></li>
+<li> <img src="<?php echo $this->getSkinUrl('images/sup-img2.jpg') ?>" /> <div class="content-li"><h1>Manage your catalog</h1>
+Benefit from our business intelligence. Manage Stock and Prices of your catalog real time.</div></li>
+<li> <img src="<?php echo $this->getSkinUrl('images/sup-img3.jpg') ?>" /> <div class="content-li"><h1>Manage fulfillment</h1>
+Manage customer orders for hassle-free fulfillment.</div></li>
+<li> <img src="<?php echo $this->getSkinUrl('images/sup-img4.jpg') ?>" /> <div class="content-li"><h1>Track your payment</h1>
+View your past payments and reconcile unpaid and debited orders.</div></li>
+</ul></div>
+
+<div class="account-login">
+    <div class="page-title">
+        <h2><?php echo $this->__('Login as Supplier') ?></h2>
+    </div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <form action="<?php echo Mage::getUrl('supplier/index/login') ?>" method="post" id="login-form">
+        <fieldset>
+            <?php /*?><legend><?php echo $this->__('Login or Create an Account') ?></legend><?php */?>
+            <div class="col2-set">
+                <div class="col-2 registered-users">
+                    <?php /*?><h3><?php echo $this->__('Supplier Login') ?></h3>
+                    <p><?php echo $this->__('Supplier Login long text') ?></p><?php */?>
+                    <ul class="form-list">
+                        <li>
+                            <label for="username"><?php echo $this->__('Email') ?> <span class="required">*</span></label>
+                            <input class="required-entry input-text" type="text" id="username" name="username" />
+                        </li>
+                        <li>
+                            <label for="password"><?php echo $this->__('Password') ?> <span class="required">*</span></label>
+                            <input class="required-entry input-text" type="password" id="password" name="password" />
+                        </li>
+                    </ul>
+                   <?php /*?> <p class="required"><?php echo $this->__('* Required Fields') ?></p><?php */?>
+                </div>
+            </div>
+            <div class="col2-set">
+                <div class="col-2">
+                    <div class="buttons-set">
+                       <a class="f-left" href = "<?php echo Mage::getUrl('supplier/index/forgot')?>"><?php echo $this->__('Forgot seller password') ?></a>
+                        <button id="send2" name="send" title="Login" class="button" type="submit"><span><?php echo $this->__('Supplier Login') ?></span></button>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+   
+</div>
+
+<div class="footer">
+<p>Netakart.com is a leading e-commerce marketplace. It provides a platform for vendors across the country to connect with millions of customers. The Platfrorms has the widest assortment of lifestyle products from thousands of national and international brands. Grob your facorite products at best prices.</p>
+
+@2014 Netakart.com
+</div>

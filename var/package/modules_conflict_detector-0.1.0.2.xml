@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+    <name>modules_conflict_detector</name>
+    <version>0.1.0.2</version>
+    <stability>stable</stability>
+    <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Check if you don't have any conflicts in rewrites between installed modules.</summary>
+    <description>Check if you don't have any conflicts in rewrites between installed modules.</description>
+    <notes>Check if you don't have any conflicts in rewrites between installed modules.</notes>
+    <authors><author><name>Marcin Frymark</name><user>Alekseon</user><email>contact@alekseon.com</email></author></authors>
+    <date>2014-04-02</date>
+    <time>08:41:11</time>
+    <contents><target name="magecommunity"><dir name="Alekseon"><dir name="ModulesConflictDetector"><dir><dir name="Block"><dir name="Adminhtml"><file name="Explanations.php" hash="0a8cd813571b686b427307494d826fc6"/><dir name="Rewrites"><dir name="Grid"><dir name="Renderer"><file name="DetailsButton.php" hash="753b63ad8085bbd3548de5abde49d7fa"/><file name="Rewrites.php" hash="af21f07ab44dca9154185fd0c67dfd31"/></dir></dir><file name="Grid.php" hash="845bafca998a83cb7a87ee014c8f6955"/></dir><file name="Rewrites.php" hash="8ab82af5797da19d5313940164a4d178"/><dir name="System"><dir name="Config"><dir name="Form"><dir name="Field"><file name="AlekseonLogo.php" hash="80da1af8a2e13d2060344b3d3847556e"/><file name="AlekseonNotification.php" hash="e23d75a2055777ac9f22d8f1ffd4114e"/></dir></dir></dir></dir></dir></dir><dir name="Helper"><file name="Data.php" hash="2c25602ee805b609b3d3a46b1c1aa589"/></dir><dir name="Model"><dir name="AlekseonAdminNotification"><file name="Feed.php" hash="6faab757204424af0d927a176ed8bfa1"/><file name="Observer.php" hash="ac86f372eae98573fe3527b09e046e03"/></dir><dir name="Resource"><file name="Collection.php" hash="7b5a67fcca9a7d6f5961a4a54d4dcfbb"/><file name="NonDbCollection.php" hash="cd0722371feb7187a19fb68b808d78e5"/></dir><file name="Rewrites.php" hash="a32ea587fcca993fe66a65e3dae7d582"/></dir><dir name="controllers"><dir name="Adminhtml"><file name="ModulesConflictDetectorController.php" hash="23c14b7da46203a1541691fe236829cf"/></dir></dir><dir name="etc"><file name="adminhtml.xml" hash="6e508d19181289bde12dcff8c72e01dc"/><file name="config.xml" hash="44eeaed1dcf934bc9a6757c4f87f5680"/><file name="system.xml" hash="2e87963d966b5190906bbb282564855b"/></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Alekseon_ModulesConflictDetector.xml" hash="a398b22450033be787cd8e0b990589ed"/></dir></target><target name="magedesign"><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="template"><dir name="alekseon"><dir name="modulesConflictDetector"><file name="explanations.phtml" hash="5dac6251ba74bce38b92d1b809848bbf"/></dir></dir></dir></dir></dir></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.3.0</min><max>6.0.0</max></php></required></dependencies>
+</package>

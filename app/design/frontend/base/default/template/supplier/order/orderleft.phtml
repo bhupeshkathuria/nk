@@ -1,0 +1,46 @@
+<?php 
+
+	$orderStatuses = $this->getCustomStatus();
+	$orderStatus = array('paypal_canceled_reversal','payment_review', 'paypal_reversed','pending_payment', 'pending_paypal','fraud','closed','pending');
+	if($_GET['s']){
+		 $currentUrl = substr_replace(Mage::helper('core/url')->getCurrentUrl(),"",-4);
+	} else {
+	$currentUrl = Mage::helper('core/url')->getCurrentUrl();
+	}
+?>
+<script src="http://www.netakart.com/skin/frontend/base/default/supplier/script.js"></script>
+<div id='cssmenu'>
+<ul>
+   <li class='has-sub'><a href='#'><span>My Orders</span></a>
+   <ul>
+    <li><a href="http://www.netakart.com/index.php/supplier/order/">Dashboard</a></li>
+    <li><a href="http://www.netakart.com/index.php/supplier/order/?s=1">Pending</a></li>
+    <!--<li><a href="http://www.netakart.com/index.php/supplier/order/?s=2">Ready for Dispatch</a></li>-->
+    <li><a href="http://www.netakart.com/index.php/supplier/order/?s=3">Ready for Pickup</a></li>
+    <li><a href="http://www.netakart.com/index.php/supplier/order/?s=4">Handed to Courier</a></li>
+    <li><a href="http://www.netakart.com/index.php/supplier/order/?s=5">Delivered</a></li>
+    <li><a href="http://www.netakart.com/index.php/supplier/order/?s=6">Cancel</a></li>
+    <li><a href="http://www.netakart.com/index.php/supplier/order/?s=8">Returns</a></li>
+    <li><a href="http://www.netakart.com/index.php/supplier/order/?s=7">Hold</a></li>
+    
+    
+    
+    
+    </ul></li>
+   <li class='has-sub'><a href='#'><span>My Products</span></a>
+   		<ul>
+   	 		<li><a href="http://www.netakart.com/index.php/supplier/product/">Manage Inventory</a></li>
+    	</ul>
+    
+   </li>
+   <li class='has-sub'><a href='#'><span>My Sales</span></a>
+    <ul>
+   	 <li><a href="http://www.netakart.com/index.php/supplier/order/?s=5">Delivered</a></li>
+     <li><a href="http://www.netakart.com/index.php/supplier/order/manifest">Manifest</a></li>
+    </ul>
+   </li>
+  
+</ul>
+</div>
+
+

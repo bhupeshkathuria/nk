@@ -1,0 +1,138 @@
+<?php	$orders = $this->getOrders(); echo $this->getChildHtml("order_list_toolbar"); ?>
+			
+<?php  foreach($orders as $orderToatal) : 
+				//$itemsT = $orderToatal->getAllItems();
+ 				
+					$totalQtyItem += $orderToatal['qty_ordered'];
+					$totalPaid  += ($orderToatal['dropshiprice']);
+					$paymentToVendor += ($this->getCustomAttributes('payment_to_be_made', $orderToatal['itemcode']))*($orderToatal['qty_ordered']);
+				
+			 endforeach;
+			 
+			 $grossMargin = ($totalPaid) - ($paymentToVendor);
+			 
+ ?>
+
+<style>
+.supplier_order_list tr{ border:1px solid #000;}
+.supplier_order_list th{ border:1px solid #000; text-align:center;}
+.supplier_order_list td{ border-right:1px solid #000; text-align:center;}
+</style>
+<div class="supllier_admin_content  supplier_admin_order_list">
+<h1><?php $supplierInfo = $this->getSuppliear($_REQUEST['supplier_name']);  echo $supplierInfo['surname']; ?></h1>
+<form method="post" action="<?php echo Mage::getUrl('salesreport/vendordetails/changepaymentstatus');?>" name="frmPayment">
+<table class="supplier_order_list st" style="width:100%; border:1px solid #000;">
+	<!--<tr><td colspan="14" align="right"><input style="text-align:right; float:right;" class="dp_span" type="submit" name="supplierPay" value="submit" /></td></tr>-->
+	    <tr class="menu_font_style " id="padd">
+                <th><?php echo $this->__('SR. No.') ?></th>
+                <th><?php echo $this->__('Order Id') ?></th>
+                <th><?php echo $this->__('Product Details') ?></th>
+                <th><?php echo $this->__('Quantity') ?></th>
+                <th><?php echo $this->__('Payment Method') ?></th>
+                <!--<th><?php echo $this->__('Product Revenue') ?></th>-->
+                <th><?php echo $this->__('Sale Amount') ?></th>
+                <!--<th><?php echo $this->__('G.T Purchase (Transfer Price)') ?></th>-->
+                <th><?php echo $this->__('Gross Margin') ?></th>
+                <th><?php echo $this->__('Delivered Date') ?></th>
+                <th><?php echo $this->__('Payment to Vendor') ?></th>
+                <th><?php echo $this->__('Payment Due Date') ?></th>
+                <th><?php echo $this->__('COD Remit') ?></th>
+                <th><?php echo $this->__('Vendor Payment Status') ?></th>
+	    </tr>
+        <tr style="border-bottom:1px solid #000;">
+        		<td>Overall</td>
+        		<td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><?php echo $totalQtyItem; ?></td>
+                <td>COD + Prepaid</td>
+                <!--<td><?php echo Mage::helper('core')->currency($totalPaid, true, false); ?></td>-->
+                <td><?php echo Mage::helper('core')->currency($totalPaid, true, false); ?></td>
+                <!--<td><?php echo Mage::helper('core')->currency($paymentToVendor, true, false); ?></td>-->
+                <td><?php echo Mage::helper('core')->currency($grossMargin, true, false); ?></td>
+                <td>&nbsp;</td>
+                <td><?php echo Mage::helper('core')->currency($paymentToVendor, true, false); ?></td>
+                <td>&nbsp;</td>	
+                <td>Paid</td>
+                <td>&nbsp;</td>	
+        </tr>
+      
+        <?php  
+		$i=1;
+		foreach($orders as $order) :  ?>
+        
+        	<tr class="position  <?php if(($i%2) == 0){?>even<?}else{?>odd<?php } ?>"> 
+	        <td><?php echo $i; ?></td>
+	        <td><?php echo $order['order_number']; ?></td>
+	        <td><?php echo $order['itemname']; ?></td>
+	        <td><?php echo $order['qty_ordered']; ?></td>
+            <td>
+            <?php
+				$orderPayment = Mage::getModel("sales/order")->load($order['order_id']); //load order by order id 
+				echo $payment_method_code = $orderPayment->getPayment()->getMethodInstance()->getTitle();
+			?>
+            </td>
+           <!-- <td><?php //echo ($order['dropshiprice']) - ($order['discount']); ?></td>-->
+            <td><?php echo ($order['dropshiprice']); ?></td>
+            <!--<td>
+			
+			<?php 
+			echo ($this->getCustomAttributes('payment_to_be_made', $order['itemcode']))*($order['qty_ordered']);
+			
+			
+			?></td>-->
+            <td><?php echo ($order['dropshiprice'])*($order['qty_ordered']) - ($this->getCustomAttributes('payment_to_be_made', $order['itemcode']))*($order['qty_ordered']); ?></td>
+            <td>&nbsp;<?php
+						$orderInv = Mage::getModel('sales/order')->load($order['order_id']);
+						if($orderInv->getInvoiceCollection()){
+						foreach ($orderInv->getInvoiceCollection() as $inv) {
+							
+							echo Mage::helper('core')->formatDate($inv->getCreatedAt(), 'short', $showTime=false);
+							
+						} } else {
+								echo '---';
+							}
+				?>
+            </td>
+            <td><?php   echo ($this->getCustomAttributes('payment_to_be_made', $order['itemcode']))*($order['qty_ordered']); ?></td>
+            <td>&nbsp;<?php 
+				
+							if ($orderInv->hasInvoices()) {
+								$invIncrementIDs = array();
+								foreach ($orderInv->getInvoiceCollection() as $inv) {
+									$date = $inv->getCreatedAt();
+									$dateDue = date_create($date);
+									date_add($dateDue,date_interval_create_from_date_string("15 days"));
+									
+									echo date_format($dateDue,"m/d/Y");
+								}
+							}
+							else {
+								echo "---";	
+							}
+				
+				
+				 ?></td>
+                 
+             <td>
+             <?php if($order['codremit'] > 0){?>
+            <!-- <input type="checkbox" name="chkpaid" value="<?php //echo $order['order_number']; ?>" />-->
+			<?php echo 'paid'; ?>
+            <?php }else{ 
+             	echo '';
+              }?>
+             </td>   
+             <td><?php if($order['supplier_payment_status'] == 0){?>
+             <input type="checkbox" name="chkpaidstatus" value="<?php echo $order['order_number']; ?>" />
+             <?php }else{ ?>
+             Yes
+             <?php }?></td> 
+	    </tr>
+	    <?php $i++; endforeach; ?>
+        
+        
+        
+ </table> 
+ 			<input type="hidden" name="supplier_name" value="<?php echo $_GET['supplier_name'];?>" />  
+ </form>    
+</div>
+<?php echo $this->getChildHtml("order_list_toolbar"); ?>

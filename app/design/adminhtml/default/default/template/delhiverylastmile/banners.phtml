@@ -1,0 +1,59 @@
+<!--
+/**
+ * Delhivery
+ * @category   Delhivery
+ * @package    Delhivery_Lastmile
+ * @copyright  Copyright (c) 2010-2011 Delhivery. (http://www.delhivery.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<?php echo $this->getTabsHtml() ?>
+<script type="text/javascript">
+    //<![CDATA[
+    function load_lastmile_funcs(){        
+<?php if (($block = $this->getLayout()->getBlock('pincode.grid.lastmile')) && ($_gridJsObject = $block->getJsObjectName())): ?>
+            if(!$('in_pincode_lastmiles')){
+                setTimeout('load_lastmile_funcs()',500);
+                return false;
+            }
+            var selectedLastmiles=$H(<?php echo $this->getLastmilesJson(); ?>);            
+            $('in_pincode_lastmiles').value = selectedLastmiles.toQueryString();
+            
+            function registerSelectedLastmile(grid, element, checked){
+                if(checked){
+                    selectedLastmiles.set(element.value, element.value);
+                }
+                else{
+                    selectedLastmiles.unset(element.value);
+                }
+                $('in_pincode_lastmiles').value = selectedLastmiles.toQueryString();                
+                grid.reloadParams = {'selected_lastmiles[]':selectedLastmiles.keys()};
+            }    
+            function selectedLastmileRowClick(grid, event){
+                var trElement = Event.findElement(event, 'tr');
+                var isInput   = Event.element(event).tagName == 'INPUT';
+                if(trElement){
+                    var checkbox = Element.getElementsBySelector(trElement, 'input');
+                    if(checkbox[0]){
+                        var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
+<?php echo $_gridJsObject ?>.setCheckboxChecked(checkbox[0], checked);
+                    }
+                }
+            }
+
+            var tabIndex = 1000;
+            function selectedLastmileRowInit(grid, row){
+                var checkbox = $(row).getElementsByClassName('checkbox')[0];
+            }
+
+
+<?php echo $_gridJsObject ?>.rowClickCallback 		= selectedLastmileRowClick;
+<?php echo $_gridJsObject ?>.initRowCallback 		= selectedLastmileRowInit;
+<?php echo $_gridJsObject ?>.checkboxCheckCallback	= registerSelectedLastmile;
+<?php echo $_gridJsObject ?>.rows.each(function(row){selectedLastmileRowInit(<?php echo $_gridJsObject ?>, row)});
+
+<?php endif; ?>
+    }
+    load_lastmile_funcs();
+    //]]>
+</script>

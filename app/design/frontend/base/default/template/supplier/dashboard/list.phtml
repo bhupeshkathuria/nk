@@ -1,0 +1,79 @@
+<?php	$orders = $this->getOrders(); echo $this->getChildHtml("order_list_toolbar"); ?>
+<?php
+
+/*$processingOrdersCount = Mage::getModel('sales/order')->getCollection()
+    ->addFilter('status', Mage_Sales_Model_Order::STATE_PROCESSING)
+    ->getSize()
+;*/
+$status =  $this->getOrderStatus();
+
+$session = Mage::getSingleton('core/session');
+$supplierId = $session->getData('supplierId');
+
+
+
+
+// $countStatus['countOrder'];
+?>
+
+
+<div class="supllier_admin_content  supplier_admin_order_list">
+<h1>Order Summary</h1>
+
+<table class="supplier_order_list st" style="width:100%" >
+	    <tr class="menu_font_style " id="padd">
+	        <th><?php echo $this->__('Index') ?></th>
+	        <th><?php echo $this->__('Orders') ?></th>
+	        <th><?php echo $this->__('Value') ?></th>
+	        <!--<th><?php echo $this->__('Status') ?></th>-->
+	        <th><?php echo $this->__('Details') ?></th>
+	    </tr>
+	    <?php $i = 0; foreach($status as $order) : $i++; ?>
+        <?php $countStatus = $this->getOrderByStatus($supplierId, $order['status']); ?>
+        
+	    <tr class="position  <?php if(($i%2) == 0){?>even<?}else{?>odd<?php } ?>"> 
+	        <td><?php echo $order['label']; ?></td>
+	        <td><?php 
+					if($countStatus['countOrder'] > 0)
+					echo $countStatus['countOrder'];
+					else
+					echo 0;
+			
+			 ?></td>
+	        <td>Rs. <?php echo number_format($countStatus['price']); ?></td>
+	        
+	        <td>	 
+     <a href=""><?php echo $this->__('View') ?></a>
+     
+	           <?php /*?> <?php if($this->canShip($order->getEntityId())): ?><a href="<?php echo Mage::getUrl('supplier/shipping/ship/' ) . 'order_id/' . $order->getEntityId()  ?>"><?php echo $this->__('Ship') ?></a><?php endif; ?><?php */?>
+	        </td>
+	    </tr>
+	    <?php endforeach; ?>
+	</table>
+
+
+</div>
+
+<!--<div class="supllier_admin_content  supplier_admin_order_list">
+	<table class="supplier_order_list st" style="width:100%" >
+	    <tr class="menu_font_style " id="padd">
+	        <th><?php echo $this->__('Ordernumber') ?></th>
+	        <th><?php echo $this->__('Name') ?></th>
+	        <th><?php echo $this->__('OrderDate') ?></th>
+	        <th><?php echo $this->__('Status') ?></th>
+	        <th><?php echo $this->__('Action') ?></th>
+	    </tr>
+	    <?php $i = 0; foreach($orders as $order) : $i++; ?>
+	    <tr class="position  <?php if(($i%2) == 0){?>even<?}else{?>odd<?php } ?>"> 
+	        <td><?php echo $order->getRealOrderId(); ?></td>
+	        <td><?php echo $order->getCustomerName(); ?></td>
+	        <td><?php echo Mage::helper('core')->formatDate($order->getCreatedAt(), 'short', $showTime=true); ?></td>
+	        <td><?php if($this->canShip($order->getEntityId())): //echo $order['state'] ?><?php echo $this->__('Waiting') ?><?php else: ?><?php echo $this->__('Shipped') ?><?php endif; ?></td>
+	        <td>
+	            <a href="<?php echo Mage::getUrl('supplier/order/view/' ) . 'order_id/' . $order->getEntityId(); ?>"><?php echo $this->__('View') ?></a>
+	            <?php if($this->canShip($order->getEntityId())): ?><a href="<?php echo Mage::getUrl('supplier/shipping/ship/' ) . 'order_id/' . $order->getEntityId()  ?>"><?php echo $this->__('Ship') ?></a><?php endif; ?>
+	        </td>
+	    </tr>
+	    <?php endforeach; ?>
+	</table>
+</div>-->

@@ -1,0 +1,178 @@
+<?php $orders = $this->getOrders(); ?>
+
+<?php
+foreach($orders as $order1) :
+	
+	$items1 = $this->getOrderItems($order1['entity_id']);
+	//$items1 = $order1->getAllVisibleItems();
+
+	$totalRevenue += $order1->getData('grand_total');
+foreach ($items1 as $item1):
+	$totalQty += $item1['qty_ordered'];
+	$gtPurchase += ($this->getCustomAttributes($item1['sku'],$item1['entity_id']))*($item1['qty_ordered']);
+	$grossMargin += (($item1['price'])*($item1['qty_ordered'])) - (($this->getCustomAttributes($item1['sku'],$item1['entity_id']))*($item1['qty_ordered']));
+	if ($order1['complete']) {
+		//$paymentVendor += ($this->getCustomAttributes('payment_to_be_made', $item1->getSku()))*($item1->getData('qty_ordered'));
+		$paymentVendor += ($this->getCustomAttributes($item1['sku'],$item1['entity_id']))*($item1['qty_ordered']);
+	}
+	
+	if ($order1['complete']) { $paymentReceived += ($item1['price'])*($item1['qty_ordered']); }
+endforeach;
+endforeach;
+
+?>
+<?php if($_REQUEST['s'] == '' || $_REQUEST['s'] == 'complete'):
+$width = 'style="width:160%; overflow-x:scroll;"'; 
+else:
+$width = 'style="width:100%"'; 
+ endif;
+ ?>
+<div class="supllier_admin_content  supplier_admin_order_list">
+<h1>Sales & Margins </h1>
+<table class="supplier_order_list st" <?php echo $width; ?> >
+	    <tr class="menu_font_style " id="padd">
+                <th><?php echo $this->__('SR. No.') ?></th>
+                <th><?php echo $this->__('Order Id') ?></th>
+                <th><?php echo $this->__('Product Details') ?></th>
+                <th><?php echo $this->__('Quantity') ?></th>
+                <th><?php echo $this->__('Location') ?></th>
+                
+                <th><?php echo $this->__('Product Revenue') ?></th>
+                 <?php if($_REQUEST['s'] != 'canceled' && $_REQUEST['s'] != 'returns'):?>
+                <th><?php echo $this->__('Sale Amount') ?></th>
+                <?php endif; ?>
+                <!--<th><?php echo $this->__('Payment Method') ?></th>-->
+                <th><?php echo $this->__('Status') ?></th>
+                
+                <?php if($_REQUEST['s'] == 'canceled'): ?>
+                <th>Remarks</th>
+                <?php endif; ?>
+                
+                <?php if($_REQUEST['s'] == '' || $_REQUEST['s'] == 'complete'):?>
+                
+                <th><?php echo $this->__('G.T Purchase (Transfer Price)') ?></th>
+                <th><?php echo $this->__('Gross Margin') ?></th>
+                <th><?php echo $this->__('Delivered Date') ?></th>
+                <th><?php echo $this->__('Vendor Details') ?></th>
+                <th><?php echo $this->__('Payment to Vendor') ?></th>
+                <th><?php echo $this->__('Payment Due Date') ?></th>
+                <?php endif; ?>
+	    </tr>
+         <?php if($_REQUEST['s'] == '' || $_REQUEST['s'] == 'complete'):?>
+        		<tr style="border-bottom:1px solid #000;">
+                <td colspan="3">&nbsp;</td>
+                <td colspan="2"><?php echo $totalQty; ?></td>
+                <td><?php echo Mage::helper('core')->currency($totalRevenue, true, false); ?></td>
+                <td><?php echo Mage::helper('core')->currency($totalRevenue, true, false);?></td>
+                <td>&nbsp;</td>
+                <td><?php echo Mage::helper('core')->currency($gtPurchase, true, false); ?></td>
+                <td><?php echo Mage::helper('core')->currency($grossMargin, true, false); ?></td>
+                <td colspan="2">&nbsp;</td>
+                <td colspan="2"><?php echo Mage::helper('core')->currency($paymentVendor, true, false); ?></td>
+                
+	    </tr>
+        <?php endif; ?>
+        
+         <?php if($_REQUEST['s'] == 'canceled' || $_REQUEST['s'] == 'returns'):?>
+        		<tr style="border-bottom:1px solid #000;">
+                <td colspan="3">&nbsp;</td>
+                <td colspan="2"><?php echo $totalQty; ?></td>
+                <td colspan="4"><?php echo Mage::helper('core')->currency($totalRevenue, true, false); ?></td>
+                
+                
+	    </tr>
+        <?php endif; ?>
+        
+         <?php $i = 0; $j=1; foreach($orders as $order) :  ?>
+	    <?php
+				//$items = $order->getAllVisibleItems();
+				$items = $this->getOrderItems($order['entity_id']);
+				$order1 = Mage::getModel("sales/order")->loadByIncrementId($order->getRealOrderId()); //load order by order id
+				$billingAddress = $this->getOrderBillingAddress($order['entity_id']);
+							
+				//$itemcount= count($items);
+				$data = array();
+				#loop for all order items
+				$supplierDetails = $this->getCustomSku($order['increment_id']);
+				foreach ($items as $itemId => $item):
+				?>
+             			 
+			<tr class="position  <?php if(($i%2) == 0){?>even<?php }else{ ?>odd<?php } ?>"> 
+                <td><?php echo $j; ?></td>
+                <td><?php echo $order['increment']; ?></td>
+                <td><?php echo $item['name']; ?></td>
+                <td><?php echo $item['qty_ordered']; ?></td>
+                 <td><?php echo $billingAddress['city'];?></td>
+                <td><?php echo ($item['price'])*($item['qty_ordered']); ?></td>
+               <?php if($_REQUEST['s'] != 'canceled' && $_REQUEST['s'] != 'returns'):?>
+                <td><?php if ($order['status'] == 'complete') {echo ($item['price'])*($item['qty_ordered']); }?></td>
+                <?php endif; ?>
+                <td><?php 
+								if($order['status']=='complete'):
+								echo 'Delivered';
+								else:
+								echo $order['status'];
+								endif;
+				 ?></td>
+                 <?php if($_REQUEST['s'] == 'canceled'): ?>
+                <td><?php 
+				 $orderComments = $order->getAllStatusHistory();
+
+				foreach ($orderComments as $comment) {
+					echo $body = wordwrap($comment->getData('comment'), 20, "<br />\n");
+					/*if (strpos(strtolower($body),'some text') !== false) {
+						// do something cool here...
+					}*/
+				}
+				 ?></td>
+                <?php endif; ?>
+                
+                <?php if($_REQUEST['s'] == '' || $_REQUEST['s'] == 'complete'):?>
+                <td><?php   echo ($this->getCustomAttributes($item['sku'],$item['entity_id']))*($item1['qty_ordered']);  ?></td>
+                
+                <td><?php echo (($item['price'])*($item['qty_ordered'])) - (($this->getCustomAttributes($item['sku'],$item['entity_id']))*($item1['qty_ordered'])); ?></td>
+                <td><?php 
+				
+						if ($order['status'] == 'complete'){
+								/*$invIncrementIDs = array();
+								foreach ($order->getInvoiceCollection() as $inv) {
+									echo Mage::helper('core')->formatDate($inv->getCreatedAt(), 'short', $showTime=false);
+								}*/
+							}  else {
+								echo "";
+							}
+				
+				 ?></td>
+                <td><?php echo $supplierDetails['surname']; ?></td>
+               <td><?php if ($order['status']=='complete'): echo (($this->getCustomAttributes($item['sku'],$item['entity_id']))*($item1['qty_ordered'])); endif; ?></td>
+                <td><?php 
+				
+							if ($order['status']=='complete'){/*
+								$invIncrementIDs = array();
+								foreach ($order->getInvoiceCollection() as $inv) {
+									$date = $inv->getCreatedAt();
+									$dateDue = date_create($date);
+									date_add($dateDue,date_interval_create_from_date_string("15 days"));
+									
+									echo date_format($dateDue,"m/d/Y");
+								}*/
+							}
+							else {
+								echo "";	
+							}
+				
+				
+				 ?></td>
+                 <?php endif; ?>
+                
+	    </tr>
+        
+		<?php endforeach; ?>		
+	    <?php $i++; $j++; endforeach; ?>
+        
+        
+        
+        
+ </table>       
+</div>
+<?php echo $this->getChildHtml("order_list_toolbar"); ?>

@@ -1,0 +1,44 @@
+<?php 
+
+	$orderStatuses = $this->getCustomStatus();
+	$orderStatus = array('paypal_canceled_reversal','payment_review', 'paypal_reversed','pending_payment', 'pending_paypal','fraud','closed','pending','processing','ready_for_dispatch');
+?>
+<div class="menu_order">
+    <ul>
+    
+    <?php foreach($orderStatuses as $orderS): ?>
+    <?php switch($orderS['status']){
+			case 'processing':
+			$customStatus = 1;
+			break;	
+			case 'ready_for_dispatch':
+			$customStatus = 2;
+			break;	
+			case 'readypickup':
+			$customStatus = 3;
+			break;	
+			case 'handed_courier':
+			$customStatus = 4;
+			break;	
+			case 'complete':
+			$customStatus = 5;
+			break;	
+			case 'canceled':
+			$customStatus = 6;
+			break;
+			case 'holded':
+			$customStatus = 7;
+			break;	
+			case 'returns':
+			$customStatus = 8;
+			break;	
+		
+	}
+		?>
+    <?php if(!in_array($orderS['status'],$orderStatus)){?>
+    <li><a href="<?php echo Mage::getUrl('courier/order/' ).'?s='. $customStatus; ?>"><?php echo $orderS['label']; ?></a></li>
+    <?php } ?>
+    <?php endforeach; ?>
+    
+    </ul>
+</div>

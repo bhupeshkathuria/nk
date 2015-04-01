@@ -1,0 +1,118 @@
+<?php $droppedItems = $this->getDroppedItems(); ?>
+<?php $items = $this->getOrder()->getAllItems(); ?>
+
+<?php if (Mage::getStoreConfig('supplier/suppconfig/manual')):?>
+	<form id="supplier_dropship" name="supplier_dropship" action="<?php echo $this->getFormUrl(); ?>" method="post" enctype="multipart/form-data">
+	<input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
+	
+	<div align="right" style="margin-bottom:18px">
+	    <table cellspacing="0" class="grid-header">
+	        <tr>
+	            <td class="a-right">
+	
+					<button class="scalable " type="submit"><span><span><span><?php echo $this->__('Dropship'); ?></span></span></span></button>
+	
+	            </td>
+	        </tr>
+	    </table>
+	</div>
+	
+	<div class="entry-edit">
+	    <div class="entry-edit-head">
+	        <h4 class="icon-head head-products"><?php echo $this->__('Items Ordered'); ?></h4>
+	    </div>
+	</div>
+	
+	<div class="grid np">
+	  <div class="hor-scroll">
+		<table cellspacing="0" class="dropship-table">
+				<thead>
+		            <tr class="headings">
+		            	<th>&nbsp;</th>
+		                <th><?php echo $this->__('Product'); ?></th>
+		                <th><?php echo $this->__('SKU'); ?></th>
+		                <th><?php echo $this->__('Qty'); ?></th>
+		                <th class="last"><?php echo $this->__('Supplier'); ?></th>
+		            </tr>
+		        </thead>
+				<tbody class="even">
+					<?php $i = 0; ?>
+					<?php foreach($items as $item): ?>
+					<?php if(!$this->getIsDropped($item) && $item->getProductType()!="configurable"):?>
+					<?php $supplierId = Mage::getModel('supplier/supplier')->getSupplierIdByAttribute($item->getProductId()); ?>	
+					<tr class="border">
+						<td width="1"><input type="checkbox" name="supplier[<?php echo $i; ?>][item_id]" value="<?php echo $item->getId()?>" /></td>
+		    			<td><?php echo $item->getName(); ?></td>
+		    			<td><?php echo $item->getSku(); ?></td>
+		    			<td><?php echo round($item->getQtyOrdered()); ?></td>
+			        	<td>
+			        		<select name="supplier[<?php echo $i; ?>][id]">
+			        			<option value=""></option>
+			        			<?php foreach($this->getSuppliers() as $supplier):?>
+			        				<option value="<?php echo $supplier->getId(); ?>" <?php if($supplier->getId()==$supplierId):?>SELECTED<?php endif; ?>><?php echo $supplier->getName(); ?></option>
+			        			<?php endforeach; ?>
+			        		</select>
+			        	</td>
+					</tr>
+					<?php endif;?>
+		            <?php $i++; endforeach; ?>    
+		    </tbody>
+		</table>
+		</div>
+	</div>
+	
+	</form>
+<br/>
+<br/>
+<?php endif; ?>
+<?php echo $this->getRequest()->getParam('tab'); ?>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-products"><?php echo $this->__('Dropshipped Items'); ?></h4>
+    </div>
+    <div class="grid np">
+  		<div class="hor-scroll">
+  			<table cellspacing="0" class="dropshipped-table">
+	  			<thead>
+		            <tr class="headings">
+		            	<th><?php echo $this->__('Dropship number'); ?></th>
+		            	<th><?php echo $this->__('Product'); ?></th>
+		                <th><?php echo $this->__('SKU'); ?></th>
+		                <th><?php echo $this->__('Qty'); ?></th>
+		                <th><?php echo $this->__('Supplier'); ?></th>
+		                <th><?php echo $this->__('Method'); ?></th>
+		                <th><?php echo $this->__('Status'); ?></th>
+		                <th class="last"><?php echo $this->__('Date'); ?></th>
+		            </tr>
+		        </thead>
+		        <?php if(count($droppedItems)):?>
+		        	<?php foreach($droppedItems as $droppedItem):?>
+		        	<tbody class="even">
+		        		<tr class="border">
+		        			<td><?php echo $droppedItem->getDropshipId(); ?></td>
+					        <td><?php echo $droppedItem->getProductName(); ?></td>
+					        <td><?php echo $droppedItem->getSku(); ?></td>
+					        <td><?php echo round($droppedItem->getQty()); ?></td>
+					        <td><?php echo $droppedItem->getSupplierName(); ?></td>
+					        <td><?php echo $this->getMethod($droppedItem->getMethod()); ?></td>
+					        <td><?php echo $this->getStatus($droppedItem->getStatus()); ?></td>
+					        <td><?php echo $droppedItem->getDate(); ?></td>
+			  			</tr>
+	  				</tbody>
+		        	<?php endforeach; ?>
+		        <?php else : ?>
+		        	<tbody class="even">
+		        		<tr class="border">
+					        <td colspan="8" align="center">
+				  			<?php echo $this->__('No Items Dropped'); ?>
+				  			</td>
+			  			</tr>
+	  				</tbody>
+  				<?php endif; ?>
+			</table>
+  		</div>
+	</div>		
+</div>
+
+<script type="text/javascript">decorateTable('dropship-table')</script>
+<script type="text/javascript">decorateTable('dropshipped-table')</script>

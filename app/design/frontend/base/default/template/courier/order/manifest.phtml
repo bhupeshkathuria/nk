@@ -1,0 +1,44 @@
+<?php	 
+	$orders = $this->getOrders();
+	echo $this->getChildHtml("order_list_toolbar"); 
+?>
+<?php //$status =  $this->getOrderStatus();
+
+$status = $this->getCustomStatus();
+$session = Mage::getSingleton('core/session');
+$courierId = $session->getData('courierId');
+$menifests = $this->getAllManifests($courierId);
+$path = 'http://www.netakart.com'.DS.'media'.DS.'manifest'.DS;
+?>
+
+
+<div class="supllier_admin_content  supplier_admin_order_list">
+<h1>Manifest</h1>
+
+	<table class="supplier_order_list st" style="width:100%" >
+    	<tr class="menu_font_style " id="padd">
+	        <th><?php echo $this->__('Sr. No.') ?></th>
+            <th><?php echo $this->__('Manifest ID') ?></th>
+            <th><?php echo $this->__('Date') ?></th>
+            <th><?php echo $this->__('Supplier') ?></th>
+            <th><?php echo $this->__('View Manifest') ?></th>
+            
+	    </tr>
+	    <?php
+		
+		
+		 $i = 1; foreach($menifests as $menifest) :  ?>
+        
+	    <tr class="position  <?php if(($i%2) == 0){ ?> even <?php } else { ?>odd<?php } ?>"> 
+	        <td><?php echo $i; ?></td>
+            <td><?php echo $menifest['manifest_id']; ?></td>
+            <td><?php echo $menifest['date_time']; ?></td>
+            <td><?php echo $menifest['surname']; ?></td>
+            <td><a href="<?php echo $path.$menifest['file_name']; ?>" target="_blank">View</a></td>
+       
+	    </tr>
+	    <?php $i++; 
+		endforeach; ?>
+        
+	</table>
+</div>

@@ -1,0 +1,242 @@
+<?php	
+
+$orders = $this->getCategoryOrders($this->getRequest()->getParam('catId')); echo $this->getChildHtml("order_list_toolbar"); ?>
+
+<style>
+#padd th{border-right:1px solid #000;}
+.menu_font_style th{padding:10px;}
+form th{ text-align:center;}
+.supplier_order_list td{border-right:1px solid #000; border-bottom:1px solid #000; text-align:center;}
+</style>
+
+<div class="supllier_admin_content  supplier_admin_order_list">
+<h1><?php echo $this->getCategoryByName($this->getRequest()->getParam('catId'));?></h1>
+<div id="visualization" style="width: 31%; height: 400px; border:1px solid #ccc; float:left;"></div>
+<div id="chart_payment" style="width: 33%; height: 400px; border:1px solid #ccc; float:left;">&nbsp;</div>
+<div id="chart_div" style="width: 33%; height: 400px; border:1px solid #ccc; float:left; margin:0px 10px;"></div>
+
+<div style="clear:both;"></div>
+<?php
+			$catOrdersChart = array();
+			 $i=0; foreach($orders as $orderChart){
+		
+			$catIdChart[] = $this->getCategoryName($orderChart['product_id'],'2');
+			$pidChart[] = $orderChart['product_id'];
+			
+			}
+			
+			$catOrdersChart = $this->getCategoryByProduct($pidChart,$catIdChart);
+			
+			if(count($catOrdersChart > 0)){ ?>
+				<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+			<script type="text/javascript">
+                //load package
+                google.load('visualization', '1', {packages: ['corechart']});
+            </script>	
+				<script type="text/javascript">
+            function drawVisualization() {
+                // Create and populate the data table.
+                var data = google.visualization.arrayToDataTable([
+                    ['PL', 'Ratings'],
+                    <?php
+                    foreach($catOrdersChart as $catOrderChart):
+                        $name = $this->getCategoryByName($catOrderChart['category_id']);
+						$ratings = round($catOrderChart['week1'],0);
+                        echo "['{$name}', {$ratings}],";
+                    endforeach;
+                    ?>
+                ]);
+ 				var options = {
+						  title: 'Categories-wise sale %'
+						  
+        		};
+                // Create and draw the visualization.
+                new google.visualization.PieChart(document.getElementById('visualization')).
+                draw(data, options);
+            }
+			
+			
+			function drawPaymentGraph() {
+                // Create and populate the data table.
+				<?php
+				$cod = array();
+				$prepaid = array();
+				foreach($catOrdersChart as $catOrderPChart):
+                  	$cod[] = $catOrderPChart['totalCOD'];		
+					$prepaid[] = $catOrderPChart['totalPrePaid'];		  
+                 endforeach;
+				?>	
+                var data = google.visualization.arrayToDataTable([
+                    ['PL', 'Ratings', { role: 'style' }],
+                    ['COD', <?php echo array_sum($cod);?>,'color: grey'],['Prepaid', <?php echo array_sum($prepaid);?>, 'color: #76A7FA'],
+                ]);
+ 				var options = {
+						  title: 'Payment Method'
+						  
+        		};
+                // Create and draw the visualization.
+                new google.visualization.PieChart(document.getElementById('chart_payment')).
+                draw(data, options);
+            }
+			
+			
+			function drawChart () {
+				
+				<?php
+					$del = array();	
+					$pro = array();
+					$ret = array();
+					$can = array();
+                    foreach($catOrdersChart as $catOrderChart):
+                       $del[] = $catOrderChart['Complete'];
+					   $pro[] = ($catOrderChart['Processing'] + $catOrderChart['Readyforpickup'] + $catOrderChart['Pending'] + $catOrderChart['HandedtoCourier']);
+					   $hol[] = $catOrderChart['Hold'];
+					   $ret[] = $catOrderChart['Returns'];
+					   $can[] = $catOrderChart['Canceled'];
+					  
+                    endforeach;
+					$d = array_sum($del);
+					$p = array_sum($pro);
+					$h = array_sum($hol);
+					$r = array_sum($ret);
+					$c = array_sum($can);
+                    ?>
+					
+				var data = google.visualization.arrayToDataTable([
+					 ['Element', '', { role: 'style' }],
+					 ['Delivered', <?php echo $d;?>, 'green'],            // RGB value
+					 ['Processing', <?php echo $p;?>, 'silver'],            // English color name
+					 ['Hold', <?php echo $h;?>, 'grey'],            // English color name
+					 ['Canceled', <?php echo $c;?>, 'red'],
+					 ['Returns', <?php echo $r;?>, 'color: red' ], // CSS-style declaration
+				  ]);
+
+				
+				var options = {
+						  title: 'Order Status'
+						  
+        		};
+
+				 new google.visualization.BarChart(document.getElementById('chart_div')).
+                draw(data, options);
+			}
+
+            google.setOnLoadCallback(drawVisualization);
+			google.setOnLoadCallback(drawChart);
+			google.setOnLoadCallback(drawPaymentGraph);
+        </script>
+        
+			<?php }	?>
+
+<form method="post" action="" name="frmPayment">
+<table class="supplier_order_list st" style="width:100%; border:1px solid #000; margin-top:20px;">
+	
+	    <tr class="menu_font_style " id="padd">
+                <th>&nbsp;</th>
+                <th><?php echo $this->__('Transactions') ?></th>
+                <th colspan="2"><?php echo $this->__('Payment Method') ?></th>
+                <th colspan="2"><?php echo $this->__('Total Amount') ?></th>
+                <th><?php echo $this->__('Revenue') ?></th>
+                <th colspan="5"><?php echo $this->__('Order Status') ?></th>
+                
+                
+	    </tr>
+        <tr class="menu_font_style " id="padd">
+                <th><?php echo $this->__('Category') ?></th>
+                <th><?php echo $this->__('Total Order') ?></th>
+                <th><?php echo $this->__('COD') ?></th>
+                <th><?php echo $this->__('PREPAID') ?></th>
+                <th><?php echo $this->__('COD') ?></th>
+                <th><?php echo $this->__('PREPAID') ?></th>
+                <th><?php echo $this->__('Revenue') ?></th>
+                <th><?php echo $this->__('Delivered') ?></th>
+                <th><?php echo $this->__('Processing') ?></th>
+                <th><?php echo $this->__('Hold') ?></th>
+                <th><?php echo $this->__('Cancelled') ?></th>
+                <th><?php echo $this->__('Return') ?></th>
+                
+                
+	    </tr>
+        <?php 
+				$i=0; foreach($orders as $orderChart){
+					
+					//$catIdChart[] = $this->getCategoryName($orderChart['product_id'],'2');
+					$pidChart[] = $orderChart['product_id'];
+			
+				}
+				$catIdChart = array();
+				$catIdChart[] = $this->getRequest()->getParam('catId');
+				$catOrdersChart = $this->getProductByCategory($pidChart,$catIdChart);
+			
+				foreach($catOrdersChart as $catOrderOverAll):
+					$cod1[] = $catOrderOverAll['totalCOD'];		
+					$prepaid1[] = $catOrderOverAll['totalPrePaid'];	
+					$del1[] = $catOrderOverAll['Complete'];
+					$pro1[] = ($catOrderOverAll['Processing'] + $catOrderOverAll['Readyforpickup'] + $catOrderOverAll['Pending'] + $catOrderOverAll['HandedtoCourier']);
+					$hol1[] = $catOrderOverAll['Hold'];
+					$ret1[] = $catOrderOverAll['Returns'];
+					$can1[] = $catOrderOverAll['Canceled'];
+					$tCOD[] = $catOrderOverAll['CODTotal'];
+					$tPre[] = $catOrderOverAll['PrePaidTotal'];
+					$rVenue[] =  $catOrderOverAll['total'];  
+					$tCatOrder[] = 	round($catOrderOverAll['week1'],0);   
+                 endforeach;
+		
+		
+		?>
+        
+        <tr class="menu_font_style " id="padd">
+                <th><?php echo $this->__('Over All') ?></th>
+                <th><?php echo array_sum($tCatOrder) ?></th>
+                <th><?php echo array_sum($cod1) ?></th>
+                <th><?php echo array_sum($prepaid1) ?></th>
+                <th><?php echo Mage::helper('core')->currency(array_sum($tCOD), true, false); ?></th>
+                <th><?php echo Mage::helper('core')->currency(array_sum($tPre), true, false); ?></th>
+                <th><?php echo Mage::helper('core')->currency(array_sum($rVenue), true, false); ?></th>
+                <th><?php echo array_sum($del1) ?></th>
+                <th><?php echo array_sum($pro1) ?></th>
+                <th><?php echo array_sum($hol1) ?></th>
+                <th><?php echo array_sum($can1) ?></th>
+                <th><?php echo array_sum($ret1) ?></th>
+                
+	    </tr>
+
+        <?php
+			$catOrders = array();
+			 $i=0; foreach($orders as $order){
+		
+			//$catId[] = $this->getCategoryName($order['product_id']);
+			$pid[] = $order['product_id'];
+			
+			}
+			$catId = array();
+			$catId[] = $this->getRequest()->getParam('catId');
+			$catOrders = $this->getProductByCategory($pid,$catId);
+			
+			
+			
+			
+			
+			
+			foreach($catOrders as $catOrder):
+			
+		?>
+        <tr>
+             <td><?php echo $catOrder['name']; ?></td>
+             <td><?php echo round($catOrder['week1'],0); ?></td>
+             <td><?php echo $catOrder['totalCOD']; ?></td>
+             <td><?php echo $catOrder['totalPrePaid']; ?></td>
+             <td><?php echo Mage::helper('core')->currency($catOrder['CODTotal'], true, false); ?></td>
+             <td><?php echo Mage::helper('core')->currency($catOrder['PrePaidTotal'], true, false); ?></td>
+             <td><?php echo Mage::helper('core')->currency($catOrder['total'], true, false); ?></td>
+             <td><?php echo $catOrder['Complete']; ?></td>
+             <td><?php echo ($catOrder['Processing'] + $catOrder['Readyforpickup'] + $catOrder['Pending'] + $catOrder['HandedtoCourier']); ?></td>
+             <td><?php echo $catOrder['Hold']; ?></td>
+             <td><?php echo $catOrder['Canceled']; ?></td>
+             <td><?php echo $catOrder['Returns']; ?></td>
+         </tr>
+         <?php  $i++; endforeach;?>
+ </table> 
+ </form>    
+</div>
+<?php echo $this->getChildHtml("order_list_toolbar"); ?>

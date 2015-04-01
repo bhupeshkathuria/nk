@@ -1,0 +1,107 @@
+<div class="entry-edit">
+	<div class="entry-edit-head">
+    	<h4 class="icon-head head-edit-form fieldset-legend">Order Level</h4>
+	</div>
+	<div class="fieldset">
+		<br/><strong>Order Info</strong><br/>
+		Complete order object. All columns of the sales_flat_order table and more<br/>
+		{{var order.getCustomerName()}},<br/>
+		
+		<br/><strong>Address Info</strong><br/>
+		Examples<br/>
+		{{var shipping_firstname}}<br/>
+		{{var shipping_city}}<br>
+		{{var billing_city}}<br>
+		{{var billing_lastname}}<br>
+		<br/>
+		Complete Addresses<br/>
+		{{var order.getBillingAddress().format('html')}}<br/>
+		{{var order.getShippingAddress().format('html')}}<br/>
+		
+		<br/><strong>Supplier Info</strong><br/>
+		Examples (Most Common)<br/>
+		{{var supplier_name}}<br>
+		{{var supplier_surname}}<br>
+		{{var supplier_email1}}<br>
+		{{var supplier_email1}}<br>
+		{{var supplier_address1}}<br>
+		{{var supplier_address1}}<br>
+		{{var supplier_custom1}}<br>
+		{{var supplier_custom2}}<br>
+		{{var supplier_custom3}}<br>
+		{{var supplier_custom4}}<br>
+		{{var supplier_city}}<br>
+		{{var supplier_postalcode}}<br>
+		{{var supplier_company}}<br>
+		{{var email_header}}<br>
+		{{var email_message}}<br>
+		
+		<br/><strong>Giftmessage</strong><br/>
+		{{var order_giftmessage_sender}}<br/>
+		{{var order_giftmessage_recipient}}<br/>
+		{{var order_giftmessage_message}}<br/>
+		
+		<br/><strong>Customer</strong><br/>
+		Customer Field. (Can only be used if there was no guest checkout)<br/>
+		{{var customer_phone}}<br>
+		{{var customer_email}}<br>
+		<br><br>
+		For Basic Customer info for Guest checkout use.<br>
+		<br>
+		Examples<br/>
+		{{htmlescape var=$order.getBillingAddress().getName()}}<br/>
+		
+		<br/><strong>Magento Configuration Info</strong><br/>
+		{{config path='trans_email/ident_support/email'}}<br/>
+		
+		<br/><strong>Various</strong><br/>
+		{{var payment_html}}<br/>
+		{{var logo_pdf}}<br/>
+		{{var logo_email}}<br/>
+		{{var dropship_date}}<br/>
+		{{var billing_address}}<br/>
+		{{var shipping_address}}<br/>
+		{{var email_header}}<br/>
+		{{var email_message}}<br/>
+		{{var email_items}}<br/>
+		{{var pdf_header}}<br/>
+		{{var pdf_message}}<br/>
+		{{var pdf_items}}<br/>
+		{{var thumbnail}}<br/>
+		{{var product_image_pdf}} // Must be jpg<br/>
+		{{var product_image}}
+	</div>
+</div>
+
+
+<div class="entry-edit">
+	<div class="entry-edit-head">
+    	<h4 class="icon-head head-edit-form fieldset-legend">Item level</h4>
+	</div>
+	<div class="fieldset">
+	<br/><strong>Item</strong><br/>
+	Complete item object. All columns of the sales_flat_order_item table and more<br/>
+	{{var item.getQtyOrdered()}},<br/>
+	
+	<br/><strong>Product</strong><br/>
+	All Product Attributes.<br/>
+	<br/>
+	Examples<br/>
+	{{var attribute_color}}<br/>
+	{{var attribute_cost}}<br/>
+	{{var attribute_supplier}}<br/>
+	
+	<br/><strong>Various</strong><br/>
+	{{var sku}}<br/>
+	{{var product_name}}<br/>
+	{{var qty}}<br/>
+	{{var options}}<br/>
+	{{var xml_options}} For XML output of choosen product options<br/> 
+	{{var finalprice}}<br/>
+	<br/>
+	<br/><strong>Giftmessage</strong><br/>
+	{{var item_giftmessage_sender}}<br/>
+	{{var item_giftmessage_recipient}}<br/>
+	{{var item_giftmessage_message}}<br/>
+	</div>
+</div>

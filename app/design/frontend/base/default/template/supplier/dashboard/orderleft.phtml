@@ -1,0 +1,29 @@
+<?php 
+
+	$orderStatuses = Mage::getModel('sales/order_status')->getResourceCollection()->getData();
+	
+?>
+<div class="menu_order">
+    <ul>
+    
+    <?php foreach($orderStatuses as $orderS): ?>
+    <li><a href=""><?php echo $orderS['label']; ?></a></li>
+    <?php endforeach; ?>
+    
+    </ul>
+</div>
+
+<!--<div class="menu_order">
+    <ul>
+        <li><a href="#">Same Day Delivery Orders</a></li>
+        <li><a href="#">Pending for Dispatch</a></li>
+        <li><a href="#">Ready for Pickup</a></li>
+        <li><a href="#">Handed To Courier</a></li>
+        <li><a href="#">My Own Dispatches</a></li>
+        <li><a href="#">Dispatched</a></li>
+        <li><a href="#">Delivered</a></li>
+        <li><a href="#">Cancelled</a></li>
+        <li><a href="#">Hold</a></li>
+        <li><a href="#">Reverse Pickup</a></li>
+    </ul>
+</div>-->

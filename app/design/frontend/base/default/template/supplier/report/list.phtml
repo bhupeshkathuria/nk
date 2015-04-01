@@ -1,0 +1,61 @@
+<?php	
+
+	$orders = $this->getOrders();
+	
+ echo $this->getChildHtml("order_list_toolbar"); ?>
+<div class="supllier_admin_content  supplier_admin_order_list">
+	<table class="supplier_order_list st" style="width:100%" >
+	    <tr class="menu_font_style " id="padd">
+	        <th><?php echo $this->__('Ordernumber') ?></th>
+	        <th><?php echo $this->__('Products') ?></th>
+	        <th><?php echo $this->__('SKU') ?></th>
+	        <th><?php echo $this->__('Qty') ?></th>
+	        <th><?php echo $this->__('VAT/CST') ?></th>
+            <th><?php echo $this->__('Price') ?></th>
+            <th><?php echo $this->__('Sell Price') ?></th>
+            <th><?php echo $this->__('Tranfer Price') ?></th>
+             <th><?php echo $this->__('Status') ?></th>
+             <th><?php echo $this->__('Order Date') ?></th>
+             <th><?php echo $this->__('Delivered Date') ?></th>
+             <th><?php echo $this->__('Payment to be made') ?></th>
+              <th><?php echo $this->__('Credit Period') ?></th>
+	    </tr>
+	    <?php $i = 0; foreach($orders as $order) : $i++; ?>
+        
+        		
+                
+	    <?php
+				$items = $order->getAllVisibleItems();
+				$itemcount= count($items);
+				$data = array();
+				#loop for all order items
+				foreach ($items as $itemId => $item):
+				?>
+                
+			<tr class="position  <?php if(($i%2) == 0){?>even<?}else{?>odd<?php } ?>"> 
+                <td><?php echo $order->getRealOrderId(); ?></td>
+                <td><?php echo $item->getName(); ?></td>
+                <td><?php echo $item->getSku(); ?></td>
+                <td><?php echo $item->getData('qty_ordered'); ?></td>
+                <td><?php echo $this->getCustomAttributes('tax_percentage', $item->getSku()); ?></td>
+                <td><?php echo ($item->getPrice())*($item->getData('qty_ordered')); ?></td>
+                <td><?php 
+				if($item->getFinalPrice()){
+						echo ($item->getFinalPrice())*($item->getData('qty_ordered'));
+					} else {
+						echo ($item->getPrice())*($item->getData('qty_ordered'));
+					}
+				 ?></td>
+                <td><?php echo $this->getCustomAttributes('transfer_price', $item->getSku()); ?></td>
+                <td><?php echo $order['state']; ?></td>
+                <td><?php echo Mage::helper('core')->formatDate($order->getCreatedAt(), 'short', $showTime=true); ?></td>
+                <td><?php echo Mage::helper('core')->formatDate($order->getCreatedAt(), 'short', $showTime=true); ?></td>
+                <td><?php echo ($this->getCustomAttributes('payment_to_be_made', $item->getSku()))*($item->getData('qty_ordered')); ?></td>
+                
+                <td>15 days after product delivered and received</td>
+	    </tr>
+        
+		<?php endforeach; ?>		
+	    <?php endforeach; ?>
+	</table>
+</div>

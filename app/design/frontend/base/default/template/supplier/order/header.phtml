@@ -1,0 +1,21 @@
+<?php if($this->isLoggedIn()): ?>
+<div class="supplier-menu">
+<?php /*?><ul>
+	<?php if(Mage::getStoreConfig('supplier/interfaceoptions/interface_shipping')!='0'): ?>
+	<li><a href="<?php echo Mage::getUrl('supplier/order/'); ?>"><?php echo $this->__('My Orders') ?></a></li>
+	<?php endif; ?>
+	<?php if(Mage::getStoreConfig('supplier/interfaceoptions/interface_stock')!='0'): ?>
+	<li><a href="<?php echo Mage::getUrl('supplier/product/'); ?>"><?php echo $this->__('My Products') ?></a></li>
+	<?php endif; ?>
+    <li><a href="<?php echo Mage::getUrl('supplier/report/'); ?>"><?php echo $this->__('My Sales') ?></a></li>
+</ul><?php */?>
+<div class="menu-top">Welcome <?php echo $this->getSupplierName();?>! <a href="<?php echo Mage::getUrl( 'supplier/index/logout' );  ?>" class="supplier-logout"><?php echo $this->__('Log out') ?></a></div>
+<div class="clear"></div>
+</div>
+<?php endif; ?>
+
+<div class="supplier_content">
+	
+
+
+

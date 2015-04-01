@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout  version="0.1.0">
+    <adminhtml_sales_order_view>	
+        <reference name="sales_order_tabs">
+                <action method="addTab"><name>order_dropship</name><block>supplier/adminhtml_tab_dropship</block></action>
+        </reference>
+    </adminhtml_sales_order_view>
+	<supplier_adminhtml_web_dropshipments>
+	        <block type="core/text_list" name="root" output="toHtml">
+	            <block type="supplier/adminhtml_web_edit_tab_dropshipments" name="selections.grid"/>
+	        </block>
+	</supplier_adminhtml_web_dropshipments>
+	<supplier_adminhtml_templates_index>
+		<reference name="content">
+		  <block type="supplier/adminhtml_templates" name="templates" />
+		</reference>
+	</supplier_adminhtml_templates_index>
+	<adminhtml_catalog_product_grid>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="supplier/adminhtml_catalog_product_grid" name="supplier.product.grid"/>
+		</block>
+	</adminhtml_catalog_product_grid>
+	
+	<supplier_adminhtml_web_productsgrid>
+	        <block type="core/text_list" name="root" output="toHtml">
+	            <block type="supplier/adminhtml_web_edit_tab_products" name="products.grid"/> 
+	        </block>
+	</supplier_adminhtml_web_productsgrid>
+	
+	<supplier_adminhtml_web_products>
+       <block type="core/text_list" name="root" output="toHtml">
+           <block type="supplier/adminhtml_web_edit_tab_products" name="products.grid"/>
+           <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+               <reference name="grid_serializer">
+                   <action method="initSerializerBlock">
+                       <grid_block_name>products.grid</grid_block_name>
+                       <data_callback>getSelectedProducts</data_callback> 
+                       <hidden_input_name>links[products]</hidden_input_name>
+                       <reload_param_name>productsIds</reload_param_name>
+                   </action>
+                   <!--<action method="addColumnInputName">
+                       <input_name>position</input_name>
+                </action>-->
+               </reference>
+           </block>
+       </block>
+   </supplier_adminhtml_web_products>
+</layout>
+

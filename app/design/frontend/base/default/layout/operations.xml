@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <operations_index_index>
+    	<reference name="head">
+            <action method="addCss"><name>operations/style.css</name></action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate"><template>operations/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+        	<block type="operations/header" name="operations.header" template="operations/order/header.phtml"/>
+            <block type="core/template" name="sub_content" template="operations/login.phtml"/>
+            <block type="core/template" name="operations.footer" template="operations/order/footer.phtml"/>
+        </reference>
+    </operations_index_index>
+	
+	<operations_index_forgot>
+		<reference name="head">
+            <action method="addCss"><name>operations/style.css</name></action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate"><template>operations/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+        	<block type="operations/header" name="operations.header" template="operations/order/header.phtml"/>
+            <block type="core/template" name="sub_content" template="operations/index/forgot.phtml"/>
+            <block type="core/template" name="operations.footer" template="operations/order/footer.phtml"/>
+        </reference>
+   </operations_index_forgot> 
+
+    <operations_order_index>
+        <reference name="head">
+            <action method="addCss"><name>operations/style.css</name></action>
+        </reference>
+        <reference name="root">
+        	<remove name="right"/>
+            <action method="setTemplate"><template>operations/template/template.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="operations/header" name="operations.header" template="operations/order/header.phtml"/>
+			<block type="operations/orderleft" name="operations.orderleft" template="operations/order/orderleft.phtml"/>
+            <block type="operations/order"  name="orderlist" template="operations/order/list.phtml">
+                <block type="operations/order" name="order_list_toolbar" template="operations/order/toolbar_list.phtml"/>
+            </block>
+			<block type="core/template" name="operations.footer" template="operations/order/footer.phtml"/>
+        </reference>
+    </operations_order_index>
+</layout>

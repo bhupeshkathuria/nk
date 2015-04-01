@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Author     : Rocky
+    Copyright  : Copyright (c) 2013 Rocky.
+-->
+
+<layout version="0.1.0">
+    
+    <customer_account_index >
+        <reference name="customer_account_dashboard_top">
+            <block type="newcustomercoupon/info" name="newcustomercoupon.info" 
+                   as="newcustomercoupon_info" before="customer_account_dashboard_top" />
+        </reference>
+    </customer_account_index>
+
+</layout>

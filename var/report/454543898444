@@ -1,0 +1,9 @@
+a:5:{i:0;s:248:"Error in file: "/home/netakart/public_html/dev/app/code/community/Magebuzz/Testimonial/sql/testimonial_setup/mysql4-upgrade-0.1.1-0.1.2.php" - SQLSTATE[42S02]: Base table or view not found: 1146 Table 'netakart_dev.simple_testimonial' doesn't exist";i:1;s:1001:"#0 /home/netakart/public_html/dev/app/code/core/Mage/Core/Model/Resource/Setup.php(645): Mage::exception('Mage_Core', 'Error in file: ...')
+#1 /home/netakart/public_html/dev/app/code/core/Mage/Core/Model/Resource/Setup.php(422): Mage_Core_Model_Resource_Setup->_modifyResourceDb('upgrade', '0.1.0', '0.1.4')
+#2 /home/netakart/public_html/dev/app/code/core/Mage/Core/Model/Resource/Setup.php(327): Mage_Core_Model_Resource_Setup->_installResourceDb('0.1.4')
+#3 /home/netakart/public_html/dev/app/code/core/Mage/Core/Model/Resource/Setup.php(235): Mage_Core_Model_Resource_Setup->applyUpdates()
+#4 /home/netakart/public_html/dev/app/code/core/Mage/Core/Model/App.php(417): Mage_Core_Model_Resource_Setup::applyAllUpdates()
+#5 /home/netakart/public_html/dev/app/code/core/Mage/Core/Model/App.php(343): Mage_Core_Model_App->_initModules()
+#6 /home/netakart/public_html/dev/app/Mage.php(684): Mage_Core_Model_App->run(Array)
+#7 /home/netakart/public_html/dev/index.php(87): Mage::run('', 'store')
+#8 {main}";s:3:"url";s:70:"/dev/index.php/admin/cache/index/key/eac1c1a30b9915b866c45d06997d259f/";s:11:"script_name";s:14:"/dev/index.php";s:4:"skin";s:7:"default";}
