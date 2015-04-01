@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Rocky_Newcustomercoupon.xml
+    Author     : Rocky
+    Copyright Copyright (c) 2013 Rocky.
+-->
+
+<config>
+    <modules>
+        <Rocky_Newcustomercoupon>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Rocky_Newcustomercoupon>
+    </modules>
+</config>

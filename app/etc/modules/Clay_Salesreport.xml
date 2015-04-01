@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<config>     
+    <modules> 
+        <Clay_Salesreport> 
+           <active>true</active> 
+           <codePool>local</codePool> 
+        </Clay_Salesreport> 
+    </modules> 
+</config> 

@@ -1,0 +1,90 @@
+
+<?php $active=Mage::getStoreConfig('categorysearch/categorysearch/active');
+if($active==1){
+?>
+<?php $currentCategory = $this->getCurrentCategory();?>
+<?php $currentCatId = ($currentCategory)?$currentCategory->getEntityId():0; ?>
+<form id="search_mini_form" onsubmit="return validate_form(this)" action="<?php echo $this->getUrl('categorysearch/categorysearch/search')?>" method="get">
+    <fieldset>
+    <div class="form-search">
+		<div class="mw_form_search">
+			<input size="50" id="casearch" type="text" name="<?php echo $this->helper('catalogSearch')->getQueryParamName() ?>" value="<?php echo $this->getProductName()?>" class="input-text" />
+			<select id="s" name="s">	        
+				   <option value="">All Categories</option>
+				   <optgroup label="--&nbsp;--&nbsp;--&nbsp;--&nbsp;--&nbsp;--&nbsp;--&nbsp;"></optgroup>
+				<?php foreach ($this->getCategoryCollection(0) as $cat):?>
+					<option value="<?php echo $cat->getEntityId()?>"<?php echo $currentCatId==$cat->getEntityId()?" selected=\"selected\"":"";?>><?php echo $cat->getName()?></option>
+					<?php echo $this->getCatCollection($cat->getEntityId())?>
+				<?php endforeach;?>
+			</select>
+			<button type="submit" title="<?php echo $this->__('Search') ?>" class="form-button button"><span><span><?php echo $this->__('Search') ?></span></span></button>
+			<div class="clear_both"><span></span></div>
+		</div>
+    </div>
+    </fieldset>
+	 <div id="divex">
+	<input type="hidden" name="expec" id="expec" />
+	</div>
+</form><script type="text/javascript">
+		
+		function validate_required(field,alerttxt)
+			{
+			with (field)
+			  { 
+			  if (value==null||value=="")
+				{
+				alert(alerttxt);return false;
+				}
+			  else
+				{						
+						var v =document.getElementById("casearch").value;			
+						if(isNaN(v)) 
+							{		
+								var k=v.indexOf('-',0) ;
+								if(k<=0||k>=(v.length-1)) {
+									document.getElementById("divex").innerHTML='<input type="hidden" name="expec" id="expec" value ="t"/>'	;	
+									return true;
+								}else
+									{
+										var u =v.replace('-','3');t=u.replace('.','3');
+										var min=  v.substring(0,k);
+										var max= v.substring(k+1,v.length);
+										if(isNaN(t)){
+											document.getElementById("divex").innerHTML='<input type="hidden" name="expec" id="expec" value ="t"/>'	;	
+											return true;
+										}else
+										{
+											if( parseFloat(min) <= parseFloat (max)){ 
+												document.getElementById("divex").innerHTML='<input type="hidden" name="expec" id="expec" value ="p"/> <input type="hidden" name="max" id="max" value ="'+max+'"/><input type="hidden" name="min" id="min" value ="'+min+'"/>'	;	
+												return true;
+											}else
+											{
+												document.getElementById("divex").innerHTML='<input type="hidden" name="expec" id="expec" value ="t"/>'	;												
+												return true;
+											}
+										}
+									}
+								
+							}
+						else 
+						{
+						document.getElementById("divex").innerHTML='<input type="hidden" name="expec" id="expec" value ="n"/>'	;	
+							return true;	
+						}
+				
+				}
+			  }
+			}
+
+		function validate_form(thisform)
+			{
+			with (thisform)
+			  {
+			  if (validate_required(casearch,"Searching box must be filled out!")==false)
+			  {casearch.focus();return false;}
+			  }
+			}	
+		</script>
+
+<?php }?>           
+              

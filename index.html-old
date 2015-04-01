@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Site Under Maintenance</title>
+<style type="text/css">
+body {	margin: 0px;}
+.error-heading{font:bold 38px Arial, Helvetica, sans-serif; color:#333; text-shadow: 2px 2px 5px #f8f8f8;}
+.error-detail{font:normal 14px Arial, Helvetica, sans-serif; color:#666; text-shadow: 1px 1px 2px #f1f1f1;}
+.copy{width:100%; height:auto; float:left;font:normal 11px Arial, Helvetica, sans-serif; color:#666; text-align:center; position:fixed; bottom:0}
+</style>
+</head>
+
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="29%" align="right" style="border-top:3px solid #000;"><img src="http://www.netakart.com/bk-29dec14/skin/frontend/blacknwhite/default/images/logo.png" width="320" alt="Clay Telecom" /></td>
+    <td width="71%" align="center" style="border-top:3px solid #000;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><img src="maintenance.jpg" alt="" width="500" height="286" border="0" style="margin:3% 0 1% 0" /></td>
+  </tr>
+  <!--<tr>
+    <td colspan="2" align="center"><span class="error-heading">Sorry for Inconvenience</span> <br />
+    <br />
+    <span class="error-detail">We are currently doing some enhancement to our site. STAY TUNED....!<br />
+    <br />
+For the details please contact our Support Team at Toll-free :
++91-011-66470123 Or mail us at : <a href="mailto:enquiry@clay.co.in" style="color:#666">support@netakart.com</a></span></td>
+  </tr>-->
+</table>
+<div class="copy">&copy; 2014 NET•A•KART</div>
+</body>
+</html>

@@ -1,0 +1,2 @@
+[31-Dec-2014 15:13:50 UTC] PHP Fatal error:  Class 'PHPGraphLib' not found in /home/netakart/public_html/graphlib/phpgraphlib_pie.php on line 39
+[31-Dec-2014 15:14:33 UTC] PHP Fatal error:  Class 'PHPGraphLib' not found in /home/netakart/public_html/graphlib/phpgraphlib_stacked.php on line 39

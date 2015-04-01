@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <modules>
+ <Chand_Skiping>
+ <version>0.0.2</version>
+ </Chand_Skiping>
+  </modules>
+  <global>
+ <blocks>
+ <checkout>
+ <rewrite>
+<onepage_shipping_method>Chand_Skiping_Block_Onepage_Shipping_Method</onepage_shipping_method>
+ </rewrite>
+ </checkout>
+   <checkout>
+ <rewrite>
+<onepage_review>Chand_Skiping_Block_Onepage_Review</onepage_review>
+ </rewrite>
+ </checkout>
+ </blocks>
+  </global>
+  <frontend>
+ <routers>
+ <checkout>
+ <args>
+ <modules>
+ <Chand_skiping before="Mage_Checkout">Chand_Skiping</Chand_skiping>
+ </modules>
+ </args>
+ </checkout>
+ </routers>
+  </frontend>
+</config>

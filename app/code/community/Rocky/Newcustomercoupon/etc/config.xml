@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Author     : Rocky
+    Copyright  : Copyright (c) 2013 Rocky.
+-->
+
+<config>
+    <modules>
+        <Rocky_Newcustomercoupon>
+            <version>0.1.1</version>
+        </Rocky_Newcustomercoupon>
+    </modules>
+    <global>
+        <blocks>
+            <newcustomercoupon>
+                <class>Rocky_Newcustomercoupon_Block</class>
+            </newcustomercoupon>
+        </blocks>
+        <helpers>
+            <newcustomercoupon>
+                <class>Rocky_Newcustomercoupon_Helper</class>
+            </newcustomercoupon>
+        </helpers>
+        <models>
+            <customer>
+                <rewrite>
+                    <customer>Rocky_Newcustomercoupon_Model_Customer_Customer</customer>
+                </rewrite>
+            </customer>
+            <newcustomercoupon>
+                <class>Rocky_Newcustomercoupon_Model</class>
+                <resourceModel>newcustomercoupon_mysql4</resourceModel>
+            </newcustomercoupon>
+            <newcustomercoupon_mysql4>
+                <class>Rocky_Newcustomercoupon_Model_Mysql4</class>
+                <entities>
+                    <coupon>
+                        <table>rocky_coupon</table>
+                    </coupon>
+                </entities>
+            </newcustomercoupon_mysql4>
+			
+			<newcustomercoupon>
+                <class>Rocky_Newcustomercoupon_Model</class>
+            </newcustomercoupon>
+			
+        </models>
+		
+		<template>
+            <email>
+              <notify_new_customer1>
+                    <label>Template to send promo code for new registered customer</label>
+                    <file>notify_new_customer.html</file>
+                    <type>html</type>
+                </notify_new_customer1>
+            </email>
+        </template>
+		
+        <resources>
+            <newcustomercoupon_setup>
+                <setup>
+                    <module>Rocky_Newcustomercoupon</module>
+                    <class>Rocky_Newcustomercoupon_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </newcustomercoupon_setup>
+            <newcustomercoupon_read>
+                <use>core_read</use>
+            </newcustomercoupon_read>
+            <newcustomercoupon_write>
+                <use>core_write</use>
+            </newcustomercoupon_write>
+        </resources>
+        <events>
+            <!--<customer_register_success>
+                <observers>
+                    <newcustomercoupon>
+                        <class>newcustomercoupon/observer</class> 
+                        <method>newCustomerCouponGenerator</method>
+                    </newcustomercoupon>
+                </observers>
+            </customer_register_success>
+            -->
+			
+			
+            
+        
+			
+            <core_block_abstract_to_html_after>
+                 <observers>
+                     <newcustomercoupon>
+                         <type>singleton</type>
+                         <class>newcustomercoupon/observer</class>
+                         <method>afterOutput</method>
+                     </newcustomercoupon>
+                  </observers>
+            </core_block_abstract_to_html_after>
+			
+			<!--<customer_save_after> 
+                <observers>
+                    <newcustomercoupon>
+                        <type>singleton</type>
+                        <class>newcustomercoupon/observer</class>
+                        <method>customerSaveAfter</method>
+                    </newcustomercoupon>
+                </observers>
+            </customer_save_after>-->
+			
+        </events>
+    </global>
+
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <newcustomercoupon>
+                                            <title>newcustomercoupon</title>
+                                        </newcustomercoupon>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl> 
+    </adminhtml>
+    <frontend>
+        <translate>
+            <modules>
+                <Rocky_Newcustomercoupon>
+                    <files>
+                        <default>Rocky_Newcustomercoupon.csv</default>
+                    </files>
+                </Rocky_Newcustomercoupon>
+            </modules>
+        </translate>
+        <routers>
+            <newcustomercoupon>
+                <use>standard</use>
+                <args>
+                    <module>Rocky_Newcustomercoupon</module>
+                    <frontName>newcustomercoupon</frontName>
+                </args>
+            </newcustomercoupon>
+        </routers>
+        <layout>
+            <updates>
+                <newcustomercoupon>
+                    <file>newcustomercoupon.xml</file>
+                </newcustomercoupon>
+            </updates>
+        </layout>
+    </frontend>
+</config>

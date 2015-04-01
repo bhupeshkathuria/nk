@@ -1,0 +1,128 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<?php
+$_product    = $this->getProduct();
+$_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
+?>
+<?php if ($_product->isSaleable() && count($_attributes)):?>
+    <dl>
+    <?php foreach($_attributes as $_attribute): ?>
+        <dt><label class="required"><em>*</em><?php //echo $_attribute->getLabel() ?></label>
+              <!--Shoe size chart start-->
+              <div class="shoe_size">
+                <?php         
+$cat_shoe = Mage::registry('current_category')->getParentCategory()->getId();
+if ($cat_shoe == "40" || $cat_shoe == "103" ) { ?>
+              <a href="#shoe" id="login_pop" style="padding-left:25px; border:none;">Size Chart</a> 
+
+   <!-- popup form #1 -->
+   
+    <a href="#x" class="overlay" id="shoe" style="background:none; border:none;"></a>
+<?php } ?>    
+    <div class="popup">
+    
+    <h3>Size Chart for Shoes </h3>
+  <table width="800" border="0" cellspacing="0" cellpadding="0">
+  
+  <tr>
+    <td width="154" bgcolor="#d5d5d5">India/UK</td>
+    <td width="53" align="center" valign="middle">6</td>
+    <td width="60" align="center" valign="middle">7</td>
+    <td width="57" align="center" valign="middle">8</td>
+    <td width="63" align="center" valign="middle">9</td>
+    <td width="55" align="center" valign="middle">10</td>
+    <td width="68" align="center" valign="middle">11</td>
+    <td width="69" align="center" valign="middle">12</td>
+    <td width="221" rowspan="5" align="left" valign="top"><img src="http://www.netakart.com/dev/skin/frontend/blacknwhite/default/images/shoe_icon.jpg" width="177" height="265" /></td>
+    </tr>
+  <tr>
+    <td bgcolor="#d5d5d5">US</td>
+    <td align="center" valign="middle">7</td>
+    <td align="center" valign="middle">8</td>
+    <td align="center" valign="middle">9</td>
+    <td align="center" valign="middle">10</td>
+    <td align="center" valign="middle">11</td>
+    <td align="center" valign="middle">12</td>
+    <td align="center" valign="middle">13</td>
+    </tr>
+  <tr>
+    <td bgcolor="#d5d5d5">Euro</td>
+    <td align="center" valign="middle">40</td>
+    <td align="center" valign="middle">41</td>
+    <td align="center" valign="middle">42</td>
+    <td align="center" valign="middle">43</td>
+    <td align="center" valign="middle">44</td>
+    <td align="center" valign="middle">45</td>
+    <td align="center" valign="middle">46</td>
+    </tr>
+  <tr>
+    <td bgcolor="#d5d5d5">Length (in cm)</td>
+    <td align="center" valign="middle">25.1</td>
+    <td align="center" valign="middle">25.7</td>
+    <td align="center" valign="middle">26</td>
+    <td align="center" valign="middle">26.7</td>
+    <td align="center" valign="middle">27.9</td>
+    <td align="center" valign="middle">28.3</td>
+    <td align="center" valign="middle">28.9</td>
+    </tr>
+  <tr>
+    <td colspan="8" align="left" valign="top" style="padding-left:0px;">
+    <ul>
+    <li>1. Set your foot on a piece of paper    </li>   
+<li>2. Draw an outline of your foot     
+</li>
+<li>3. Mark points at the end of your heel & tip of your toe                        
+</li>
+<li>4. The size of your feet is the length between the marks                        
+</li>   
+</ul>
+</td>
+    </tr>
+</table>
+
+
+      <a class="close" href="#close"></a> </div>
+    <!-- popup form #1 -->
+    </div>
+              
+                  <!--Shoe size chart End-->
+
+        </dt>
+        <dd<?php if ($_attribute->decoratedIsLast){?> class="last"<?php }?>>
+            <div class="input-box">
+                <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute-select">
+                    <option><?php echo $this->__('Choose your size...') ?></option>
+                  </select>
+              </div>
+        </dd>
+    <?php endforeach; ?>
+    </dl>
+    <script type="text/javascript">
+        var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);
+    </script>
+<?php endif;?>

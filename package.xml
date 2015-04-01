@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package>
+    <name>Delhivery_Lastmile</name>
+    <version>0.2.0</version>
+    <stability>beta</stability>
+    <license>Creative Commons Licence (CCL)</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Shipment Extension for Delhivery Last </summary>
+    <description>The purpose of this plug-in is to integrate Delhivery LastMile processes with ecommerce stores running on Magento. It provides following feature&#xD;
+&#xD;
+1. Download and Store client specific AWB series from Delhivery system.&#xD;
+&#xD;
+2. Download and Store list of serviceable Pin Code from Delhivery system.&#xD;
+&#xD;
+3. Allocate AWB to Order automatically from stored list while shipping order and Delhivery &#xD;
+&#xD;
+selected as Carrier&#xD;
+&#xD;
+4. Pin code Check while shipping order.&#xD;
+&#xD;
+5. Facility to submit manifest for the allocated AWB.&#xD;
+&#xD;
+6. Facility to print shipping label for the selected AWB.</description>
+    <notes>After installation configure the plugin from System &gt; Configuration &gt; Shipping Methods &gt; Delhivery LastMile</notes>
+    <authors><author><name>Delhivery</name><user>dhanpat</user><email>dhanpat.saran@gmail.com</email></author></authors>
+    <date>2014-04-25</date>
+    <time>13:49:47</time>
+    <contents><target name="magecommunity"><dir name="Delhivery"><dir name="Lastmile"><dir name="Block"><dir name="Adminhtml"><dir name="Lastmile"><file name="Grid.php" hash="59e5ffc4ecf0cc05107c39dfe556d5f3"/></dir><file name="Lastmile.php" hash="2ad7d9bf0679c5dc765d3dd5a466de88"/><dir name="Pincode"><file name="Grid.php" hash="dcff6b2f19d8ef40d9f34ecdd14de7ba"/></dir><file name="Pincode.php" hash="4af37af65c0c89bd3de33507f603c546"/><dir name="Renderer"><file name="Orderstatus.php" hash="45a4172a1252371ab7ffd2a1289d52e1"/></dir><dir name="Widget"><dir name="Grid"><file name="Column.php" hash="7ec81384fe654c7e05dfab4d5f5b3653"/></dir><file name="Grid.php" hash="f052fa0236ce156a6b0cae6417645e91"/></dir></dir></dir><dir name="Helper"><file name="Data.php" hash="c1ca5b93582828c23a4c33087349cbf2"/></dir><dir name="Model"><file name="Dlastmile.php" hash="c27cf206b1bd5f7423d16b9810216e91"/><file name="Lastmile.php" hash="2074852f23cd2468ba6d01b4f1dbdefc"/><dir name="Mysql4"><dir name="Lastmile"><file name="Collection.php" hash="487b8ed1db403633d4e06e887c949a42"/></dir><file name="Lastmile.php" hash="7202a64a1000543d6c3b0a045f1f737b"/><dir name="Pincode"><file name="Collection.php" hash="f2954b98ed5e81f2fb4ec31a627f159e"/></dir><file name="Pincode.php" hash="d24b35c361414ab47fb0714fc57233a4"/></dir><file name="Observer.php" hash="d4e6ed6e7cac8977ebebc812c784cbec"/><file name="Pincode.php" hash="e289a3b51af58434a536ce9c08016fbc"/><file name="Shippinglabel.php" hash="0040393318bd3cb10041cfed82b0107a"/><file name="Status.php" hash="fefd7927fe2da7dfbc3d99a7aab548be"/></dir><dir name="controllers"><dir name="Adminhtml"><file name="LastmileController.php" hash="184b8aae8d4438b6d1910168bb4e0849"/><file name="PincodeController.php" hash="c79758b8e02f99b7beeec1d38c5ca59d"/></dir></dir><dir name="etc"><file name="config.xml" hash="ddc023ab2c7c91a6f2ff93698f58c367"/><file name="system.xml" hash="e790ff79124e68a8a2845ae1147ee7ab"/></dir><dir name="sql"><dir name="lastmile_setup"><file name="mysql4-install-0.1.0.php" hash="4a49096722c5a317347b2e82522faf5e"/><file name="mysql4-upgrade-0.1.0-0.2.0.php" hash="bac08317b3692332e53129404cd7b244"/></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Delhivery_Lastmile.xml" hash="cb2356613f16b7bc78ccc5131070d715"/></dir></target><target name="magedesign"><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="layout"><file name="delhiverylastmile.xml" hash="5d1b41205a24a6ed1ad4ba76c5a2167f"/></dir><dir name="template"><dir name="delhiverylastmile"><file name="banners.phtml" hash="9d31c3614149e0d5b3df6997add5c701"/><dir name="invoice"><file name="tracking.phtml" hash="b47e0f141eadc894742b70dcf1915076"/></dir><dir name="shipment"><file name="tracking.phtml" hash="3ebef88e077bc605a869b4d32c037365"/><file name="tracking02-04-2014.phtml" hash="069a11d8144d0e87388856365e0f8389"/></dir><dir name="shipmentview"><file name="tracking.phtml" hash="44f2fc7e4845b71c6bba7172e8c61bb7"/></dir></dir></dir></dir></dir></dir></target><target name="magemedia"><dir name="delhivery"><dir name="font"><file name="FRE3OF9X.TTF" hash="db21b37656c8c12c17a48c38655165f0"/><file name="FREE3OF9.TTF" hash="af6436932f7fe1393a22c63b9966d0df"/><file name="FREE3OF9.TXT" hash="653d49ece4733e8f37999c7232ee5d61"/></dir></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.1.0</min><max>6.0.0</max></php><package><name>Mage_Core_Modules</name><channel>community</channel><min>1.6.00</min><max>1.7</max></package></required></dependencies>
+</package>

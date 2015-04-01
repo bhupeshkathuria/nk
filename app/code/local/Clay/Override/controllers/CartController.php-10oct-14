@@ -1,0 +1,111 @@
+<?php
+require_once 'Mage/Checkout/controllers/CartController.php';
+class Clay_Override_CartController extends Mage_Checkout_CartController
+{
+	 public function addAction()
+    {
+        if (!$this->_validateFormKey()) {
+            $this->_goBack();
+            return;
+        }
+        $cart   = $this->_getCart();
+        $params = $this->getRequest()->getParams();
+		Mage::getSingleton('checkout/session')->setData('pincode', $params['pincode']);
+		
+		$courierDetails = $this->getCourierAwb();
+		Mage::getSingleton('checkout/session')->setData('awbno', $params['awbno']);
+		Mage::getSingleton('checkout/session')->setData('courier', $params['courier']);
+		
+        try {
+            if (isset($params['qty'])) {
+                $filter = new Zend_Filter_LocalizedToNormalized(
+                    array('locale' => Mage::app()->getLocale()->getLocaleCode())
+                );
+                $params['qty'] = $filter->filter($params['qty']);
+            }
+
+            $product = $this->_initProduct();
+            $related = $this->getRequest()->getParam('related_product');
+
+            /**
+             * Check product availability
+             */
+            if (!$product) {
+                $this->_goBack();
+                return;
+            }
+
+            $cart->addProduct($product, $params);
+            if (!empty($related)) {
+                $cart->addProductsByIds(explode(',', $related));
+            }
+
+            $cart->save();
+
+            $this->_getSession()->setCartWasUpdated(true);
+
+            /**
+             * @todo remove wishlist observer processAddToCart
+             */
+            Mage::dispatchEvent('checkout_cart_add_product_complete',
+                array('product' => $product, 'request' => $this->getRequest(), 'response' => $this->getResponse())
+            );
+
+            if (!$this->_getSession()->getNoCartRedirect(true)) {
+                if (!$cart->getQuote()->getHasError()) {
+                    $message = $this->__('%s was added to your shopping cart.', Mage::helper('core')->escapeHtml($product->getName()));
+                    $this->_getSession()->addSuccess($message);
+                }
+                $this->_goBack();
+            }
+        } catch (Mage_Core_Exception $e) {
+            if ($this->_getSession()->getUseNotice(true)) {
+                $this->_getSession()->addNotice(Mage::helper('core')->escapeHtml($e->getMessage()));
+            } else {
+                $messages = array_unique(explode("\n", $e->getMessage()));
+                foreach ($messages as $message) {
+                    $this->_getSession()->addError(Mage::helper('core')->escapeHtml($message));
+                }
+            }
+
+            $url = $this->_getSession()->getRedirectUrl(true);
+            if ($url) {
+                $this->getResponse()->setRedirect($url);
+            } else {
+                $this->_redirectReferer(Mage::helper('checkout/cart')->getCartUrl());
+            }
+        } catch (Exception $e) {
+            $this->_getSession()->addException($e, $this->__('Cannot add the item to shopping cart.'));
+            Mage::logException($e);
+            $this->_goBack();
+        }
+    }
+
+	 public function deleteAction()
+    {
+        $id = (int) $this->getRequest()->getParam('id');
+        if ($id) {
+            try {
+					Mage::getSingleton('checkout/session')->setData('pincode', '');
+                $this->_getCart()->removeItem($id)
+                  ->save();
+            } catch (Exception $e) {
+                $this->_getSession()->addError($this->__('Cannot remove the item.'));
+                Mage::logException($e);
+            }
+        }
+        $this->_redirectReferer(Mage::getUrl('*/*'));
+    }
+	
+	public function getCourierAwb(){
+		$connect = Mage::getSingleton( 'core/resource' )->getConnection('core_read');
+        $table = Mage::getSingleton('core/resource')->getTableName('redexpress_awb');
+		$table1 = Mage::getSingleton('core/resource')->getTableName('redexpress_courier');
+		$pin = Mage::getSingleton('checkout/session')->getData('pincode');
+		$query = "SELECT a.awbno,a.courier,c.pincode FROM ".$table." AS a INNER JOIN ".$table1." AS c ON a.courier = c.courierid WHERE c.pincode=".$pin." order by rand() limit 1";
+		$result = $connect->query( $query );
+        return $result->fetch();
+	}
+	
+}
+?> 

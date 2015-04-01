@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>     
+    <modules> 
+        <Clay_Operations> 
+            <version>0.1.0</version> 
+        </Clay_Operations> 
+    </modules> 
+     <!-- This node contains parameters, available on frontend --> 
+    <frontend> 
+        <!-- Module aliases are located in this block --> 
+        <routers> 
+            <!-- This node's name should be the same as our alias --> 
+            <operations> 
+                <!-- use parameter specifies which of basic routers needs to be used. 
+                This can be "standard" for frontend or "admin" for backend --> 
+                <use>standard</use> 
+                <!-- router arguments block --> 
+                <args> 
+                    <!-- This parameter specifies the full name of out module --> 
+                    <module>Clay_Operations</module> 
+                    <!-- This parameter sets module alias --> 
+                    <frontName>operations</frontName> 
+                </args> 
+            </operations> 
+        </routers> 
+ 		<layout> 
+            <updates>                
+                <operations>                     
+                    <file>operations.xml</file> 
+                </operations> 
+            </updates> 
+			
+        </layout> 
+		
+    </frontend>
+	<global>
+    <blocks>
+        <operations>
+            <class>Clay_Operations_Block</class>  <!-- Not Projects_Block_List -->
+        </operations> 
+    </blocks> 
+	
+		<models>
+			<operations>
+				<class>Clay_Operations_Model</class>
+				<resourceModel>operations_mysql4</resourceModel>
+			</operations>
+			<supplier_mysql4>
+				<class>Magentomasters_Supplier_Model_Mysql4</class>
+				<entities>
+					<operations>
+						<table>supplier_users</table>
+					</operations>
+					<dropshipitems>
+						<table>supplier_dropship_items</table>
+					</dropshipitems>
+				</entities>
+			</supplier_mysql4>
+		</models>
+	</global> 
+</config> 

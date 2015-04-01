@@ -1,0 +1,1 @@
+order.increment_id|order.created_at|order.status|product.sku|product1.name|product2.qty|product3.category|payment.method|customer.name|zipcode.pincode|city.city|product4.payment_to_be_made|product5.sale|product6.margin|product7.ddate|product8.supplier|product9.paymentdate|product10.paymentdue

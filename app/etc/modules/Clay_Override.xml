@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+<modules>
+<Clay_Override>
+<active>false</active>
+<codePool>local</codePool>
+</Clay_Override>
+</modules>
+</config> 

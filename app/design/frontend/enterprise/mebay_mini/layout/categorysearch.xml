@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>        
+        <reference name="top.menu">
+            <block type="categorysearch/categorysearch" name="top.categorysearch" before="-">
+				<action method="setTemplate" ifconfig="categorysearch/categorysearch/top" ifvalue="1">
+					<template>categorysearch/categorysearch.phtml</template> 
+				</action>
+				<block type="categorysearch/categorysearch" name="categorysearch" />
+				
+			</block>
+        </reference>
+        <reference name="left">
+			<block type="categorysearch/categorysearch" name="left.categorysearch" before="-">
+				<action method="setTemplate" ifconfig="categorysearch/categorysearch/left" ifvalue="1">
+					<template>categorysearch/rightleft.phtml</template> 
+				</action>
+				<block type="categorysearch/categorysearch" name="categorysearch" />				
+			</block>			
+        </reference>
+        <reference name="right">
+			<block type="categorysearch/categorysearch" name="right.categorysearch" before="-">
+				<action method="setTemplate" ifconfig="categorysearch/categorysearch/right" ifvalue="1">
+					<template>categorysearch/rightleft.phtml</template> 
+				</action>
+				<block type="categorysearch/categorysearch" name="categorysearch" />
+				
+			</block>
+			
+        </reference>
+    </default> 
+    <categorysearch_categorysearch_search translate="label">
+        <label>Quick Search Form</label>
+        <remove name="right.newsletter" />
+        <remove name="right.reports.product.viewed" />        
+        <reference name="left">
+            <block type="catalogsearch/layer" name="catalogsearch.leftnav" after="currency" template="catalog/layer/view.phtml"/>
+            <block type="newsletter/subscribe" name="left.newsletter" template="newsletter/subscribe.phtml"/>
+        </reference>
+        <reference name="content">
+            <block type="categorysearch/result" name="search.result" template="categorysearch/result.phtml">
+                <block type="catalog/product_list" name="search_result_list" template="catalog/product/list.phtml">
+                    <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                        <block type="page/html_pager" name="product_list_toolbar_pager"/>
+                    </block>
+                    <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action>
+                    <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
+                </block>
+                <action method="setListOrders"/>
+                <action method="setListModes"/>
+                <action method="setListCollection"/>
+            </block>
+        </reference>        
+    </categorysearch_categorysearch_search>
+
+</layout>

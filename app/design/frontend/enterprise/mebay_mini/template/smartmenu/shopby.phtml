@@ -1,0 +1,134 @@
+<?php
+/**
+ * Category layered navigation
+ *
+ * 
+ */
+?>
+
+<?php $allows = Mage::getStoreConfig("smartmenu/smartmenu/override"); ?>
+<?php if($allows==1):?>
+	<?php if(Mage::getStoreConfig('smartmenu/smartmenu/expanding')==true ):?>
+		<?php if($this->canShowBlock()): ?>
+		    <div class="mw_shopby">
+		       <div class="mw_shopby_head">
+		            <h3 class="title"><?php echo $this->__('Shop by') ?></h3>
+		        </div>
+		        <?php echo $this->getStateHtml() ?>
+		        <?php if($this->canShowOptions()): ?>
+		        <h4><?php echo $this->__('Shopping Options') ?></h4>
+		        <div class="mw_shopby_content">
+		            <div class="narrow-by">
+		                <?php $_filters = $this->getFilters() ?>
+						<ul id="menu">
+							<?php foreach ($_filters as $_filter): ?>
+			                    <?php if($_filter->getItemsCount()): ?>
+									<li>
+										<a href="#" class="title_auto" onclick="return false;"><?php  echo $this->__($_filter->getName()) ?></a>
+										<?php echo $_filter->getHtml() ?>
+
+									</li>
+								 <?php endif; ?>
+			                <?php endforeach; ?>
+						</ul>
+					</div>
+		        </div>
+		        <?php endif; ?>
+		    </div>
+		<?php endif; ?>
+	<?php else:?>
+		<?php if(Mage::getStoreConfig('smartmenu/smartmenu/collapse')==true ):?>
+			<?php if($this->canShowBlock()): ?>
+			    <div class="mw_shopby">
+			       <div class="mw_shopby_head">
+			            <h3 class="title"><?php echo $this->__('Shop by') ?></h3>
+			        </div>
+			        <?php echo $this->getStateHtml() ?>
+			        <?php if($this->canShowOptions()): ?>
+			        <h4><?php echo $this->__('Shopping Options') ?></h4>
+			        <div class="mw_shopby_content">
+			            <div class="narrow-by">
+			                <?php $_filters = $this->getFilters() ?>
+							<ul id="shopby">
+								<?php foreach ($_filters as $_filter): ?>
+				                    <?php if($_filter->getItemsCount()): ?>
+										<li>
+											<span class="title"><a href="javascript:;"><?php  echo $this->__($_filter->getName()) ?></a></span>
+											<?php echo $_filter->getHtml() ?>
+
+										</li>
+									 <?php endif; ?>
+				                <?php endforeach; ?>
+							</ul>
+						</div>
+			        </div>
+			        <?php endif; ?>
+			    </div>
+			<?php endif; ?>
+		<?php else:?>
+				
+				<?php if($this->canShowBlock()): ?>
+			    <div class="mw_shopby">
+			       <div class="mw_shopby_head">
+			            <h3 class="title"><?php echo $this->__('Shop by') ?></h3>
+			        </div>
+			        <?php echo $this->getStateHtml() ?>
+			        <?php if($this->canShowOptions()): ?>
+			        <h4><?php echo $this->__('Shopping Options') ?></h4>
+			        <div class="mw_shopby_content">
+			            <div class="narrow-by">
+			                <?php $_filters = $this->getFilters() ?>
+							<ul id="menu_collap">
+								<?php foreach ($_filters as $_filter): ?>
+				                    <?php if($_filter->getItemsCount()): ?>
+										<li>
+											<a href="#" class="select_collap" onclick="return false;"><?php  echo $this->__($_filter->getName()) ?></a>
+											<?php echo $_filter->getHtml() ?>
+
+										</li>
+									 <?php endif; ?>
+				                <?php endforeach; ?>
+							</ul>
+						</div>
+			        </div>
+			        <?php endif; ?>
+			    </div>
+			<?php endif; ?>
+				
+		<?php endif; ?>
+			<!-- [ends] .browse-by // -->
+	<?php endif; ?>
+<?php else:?>
+	<?php if($this->canShowBlock()): ?>
+			    <div class="mw_shopby1">
+			       <div class="mw_shopby1_head">
+			            <h3 class="title"><?php echo $this->__('Shop by') ?></h3>
+			        </div>
+			        <?php echo $this->getStateHtml() ?>
+			        <?php if($this->canShowOptions()): ?>
+			        <h4><?php echo $this->__('Shopping Options') ?></h4>
+			        <div class="mw_shopby1_content">
+			            <div class="narrow-by">
+			                <?php $_filters = $this->getFilters() ?>
+							<ul class="sf-menu sf-vertical sf-js-enabled sf-shadow"> 
+								<?php foreach ($_filters as $_filter): ?>
+									<?php if($_filter->getItemsCount()): ?>
+										<li>
+											<a href="#" onclick="return false;"><?php  echo $this->__($_filter->getName()) ?></a>
+												<?php $a= $_filter->getHtml();
+												
+												$a = str_replace("ol","ul",$a); 
+												echo $a;
+																	
+												?>
+
+										</li>
+									 <?php endif; ?>
+								<?php endforeach; ?>
+							</ul>
+						</div>
+			        </div>
+			        <?php endif; ?>
+			    </div>
+			<?php endif; ?>
+<?php endif;?>

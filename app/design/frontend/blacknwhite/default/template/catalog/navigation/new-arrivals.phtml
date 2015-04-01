@@ -1,0 +1,33 @@
+<?php
+/*$_productCollection = Mage::getModel('catalog/product')->getCollection();
+$_productCollection->addAttributeToSelect(array(
+                                   'image',
+                                   'name',
+                                   'short_description'
+                   ))
+                   ->addFieldToFilter('visibility', array(
+                               Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+                               Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG
+                   )) //showing just products visible in catalog or both search and catalog
+                   ->addFinalPrice()
+//                        ->addAttributeToSort('price', 'asc') //in case we would like to sort products by price
+                   ->getSelect()
+                   ->where('price_index.final_price < price_index.price')
+//                        ->limit(30) //we can specify how many products we want to show on this page
+//                        ->order(new Zend_Db_Expr('RAND()')) //in case we would like to sort products randomly
+                   ;
+Mage::getModel('review/review')->appendSummary($_productCollection);
+$_helper = $this->helper('catalog/output');
+
+
+$todayDate  = Mage::app()->getLocale()->date()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+
+
+$product = Mage::getModel('catalog/product')->load(20);
+
+$cats = $product->getCategoryIds();
+foreach ($cats as $category_id) {
+    $_cat = Mage::getModel('catalog/category')->load($category_id) ;
+    echo $_cat->getName();
+} */
+?>

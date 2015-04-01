@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<default>
+		<reference name="head">
+			<action method="addJs"><script>mw_js/jquery.js</script></action>
+			<action method="addJs"><script>mw_js/jquery_noconflict.js</script></action>
+			
+			<action method="addItem"><type>skin_js</type><name>smartmenu/js/accordion.js</name></action>
+			<action method="addItem"><type>skin_js</type><name>smartmenu/js/accordion_menu.js</name></action>
+			<action method="addItem"><type>skin_js</type><name>smartmenu/js/hoverIntent.js</name></action>
+			<action method="addItem"><type>skin_js</type><name>smartmenu/js/superfish.js</name></action>
+			<action method="addItem"><type>skin_js</type><name>smartmenu/js/jquery-accordion-menu.js</name></action>
+			<action method="addCss"><stylesheet>smartmenu/css/smartmenu.css</stylesheet></action>
+			<action method="addCss"><stylesheet>smartmenu/css/superfish.css</stylesheet></action>
+			<action method="addCss"><stylesheet>smartmenu/css/superfish-vertical.css</stylesheet></action>
+		</reference>
+		 
+		<reference name="left">			
+			<block type="catalog/navigation"  before="-" name="left_navigation" template="">
+				<action method="setTemplate" ifconfig="smartmenu/smartmenu/leftmenu" ifvalue="2">
+					<template>smartmenu/dropdown_left.phtml</template>
+				</action>
+			</block>
+			<block type="catalog/navigation" before="-" name="left_smartmenu" template="">
+				<action method="setTemplate" ifconfig="smartmenu/smartmenu/leftmenu" ifvalue="1">
+					<template>smartmenu/accordion_left.phtml</template>
+				</action>
+			</block>
+		</reference>
+		
+		<reference name="right">			
+			<block type="catalog/navigation"  before="-" name="right_navigation" template="">
+				<action method="setTemplate" ifconfig="smartmenu/smartmenu/rightmenu" ifvalue="1">
+					<template>smartmenu/accordion_right.phtml</template>
+				</action>
+			</block>
+			<block type="catalog/navigation" before="-" name="right_smartmenu" template="">
+				<action method="setTemplate" ifconfig="smartmenu/smartmenu/rightmenu" ifvalue="2">
+					<template>smartmenu/dropdown_right.phtml</template>
+				</action>
+			</block>
+		</reference>
+	</default>
+	
+	<catalog_category_default>
+	</catalog_category_default>
+	<catalog_category_layered>
+		<reference name="catalog.leftnav">
+			<action method="setTemplate" ifconfig="smartmenu/smartmenu/override"><template>smartmenu/shopby.phtml</template></action>
+		</reference>
+	</catalog_category_layered>
+	<catalogsearch_result_index>
+		<reference name="catalogsearch.leftnav">
+			<action method="setTemplate" ifconfig="smartmenu/smartmenu/override"><template>smartmenu/shopby.phtml</template></action>
+		</reference>
+	</catalogsearch_result_index>
+</layout>

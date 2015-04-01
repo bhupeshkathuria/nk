@@ -1,0 +1,105 @@
+<head>
+<style type = "text/css">
+body{ font-size: 18px; }
+h1 { font-size: 32px; }
+h2 { font-size: 28px; }
+td { margin: 0; padding: 0; }
+tr {margin: 0; padding: 0;}
+</style>
+</head>
+<body>
+<div>
+<table style="background:#FFF;" width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-top:-100px;">
+	<tr style="margin:0px; padding:0px;"><td colspan="2" align="center">{{var logo_pdf}}</td></tr>
+    <tr><td colspan="2"><hr></td></tr>
+	<tr>
+    	 <td colspan="2">
+              	<h2>{{var surname}},</h2>{{var saddress}}, {{var city}}, {{var state}}, {{var postalcode}}, {{var country}}
+         
+        </td>
+	</tr>
+    <tr><td colspan="2"><hr></td></tr>
+    <tr>
+    	<td><table width="100%" border = "1" cellspacing="0" cellpadding="4">
+        		<tr bgcolor="#CCCCCC"><td colspan="2"><h2>Order info</h2></td></tr>
+                <tr><td><strong>Order number</strong></td><td>{{var order.increment_id}}</td></tr>
+				<tr><td><strong>Order date</strong></td><td>{{var order.getCreatedAtFormated('short')}}</td></tr>
+				<tr><td><strong>Dropship date</strong></td><td>{{var dropship_date}}</td></tr>
+                <tr><td><strong>TIN</strong></td><td>{{var tin}}</td></tr>
+                <tr><td><strong>Service Tax #</strong></td><td>{{var servicetax}}</td></tr>
+        	</table></td>
+    	<td align="right">
+        		<table width="100%" border = "0" cellspacing="0" cellpadding="0">
+				<tr><td align="center"><i>*Keep this invoice and manufacturer box for warranty purposes</i></td></tr>
+                </table>        	
+        </td>
+    </tr>
+    <tr><td colspan="2">&nbsp;</td></tr>
+    <tr>
+    	<td>
+        	<table width="100%" border = "1" cellspacing="0" cellpadding="4">
+				<tr bgcolor="#CCCCCC">
+                	<td><h2>Billing address</h2></td>
+                </tr>
+                <tr>    
+                	<td>{{var order.getBillingAddress().format('html')}}</td>
+                </tr>
+			</table>	
+		</td>
+        <td>
+        	<table width="100%" border = "1" cellspacing="0" cellpadding="4">
+				<tr bgcolor="#CCCCCC">
+                	<td><h2>Shipping address</h2></td>
+                </tr>
+                <tr>    
+                	<td>{{var order.getShippingAddress().format('html')}}</td>
+                </tr>
+			</table>
+        </td>
+	</tr>
+    <tr>
+    	<td>
+	    	<table>
+	        	<tr>
+	            	<td>
+	                    <h1>{{var pdf_header}}</h1>
+	                    <p>{{var pdf_message}}</p>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td>
+	                	<br/><br/><h2>Ordered items</h2><br/>
+	                </td> 
+	            </tr>
+	        </table>
+        </td>
+    </tr>
+    <tr>
+    	<td colspan="2">
+        	<table width="100%" border = "1" cellspacing="0" cellpadding="4">
+                <tr bgcolor="#CCCCCC">
+                    <td width="250">Product Name</td>
+                    <td>Details</td>
+                    <td width="100">SKU</td>
+                    <td width="50">Quantity</td>
+                    <td width="50">Price</td>
+                </tr>
+                {{var pdf_items}}
+            </table>
+        </td>
+    </tr> 
+    <tr><td colspan="2"><br><br><br><br><br><br><br><br><br><br>&nbsp;</td></tr>
+     
+    <tr>
+    	<td colspan="2"><table width="100%"><tr><td><hr></td></tr></table></td>
+    
+    </tr>
+    <tr>
+    	<td colspan="2"><table width="100%"><tr><td>
+        <p><strong>Return Policy:</strong>&nbsp;&nbsp;At NET.A.KART we try to deliver perfectly every time. But on the off-chance if you need to return the item, please do so keeping the original Brand box/price tag, original packing and invoice intact, without which it will be difficult for us to act on your request. Terms and conditions apply.</p>
+ <p>The good sold as part of this shipment are intended for end user consumption of retail sale and no for re-sale.</p></td></tr></table></td>
+    
+    </tr>
+</table> 
+
+</body>   

@@ -1,0 +1,24 @@
+<div class="header-wrapper">
+	<header id="header">
+ <div class="container_12">
+			<div class="grid_12">
+            
+				<?php if ($customlogo['logo_status'] == 0): ?>
+					<h2 class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" <?php echo MAGE::helper('ThemeOptionsBlacknwhite/Retina')->getRetinaData('logo'); ?> alt="<?php echo $this->getLogoAlt() ?>" /></a></h2>
+					<?php else:?>
+					<h2 class="logo"><strong><?php echo $customlogo['logo_alt']; ?></strong><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $customlogo['logo_alt']; ?>" class="logo"><img src="<?php echo $mediaurl.$customlogo['logo']; ?>" <?php echo MAGE::helper('ThemeOptionsBlacknwhite/Retina')->getRetinaData('logo_custom'); ?> alt="<?php echo $customlogo['logo_alt']; ?>" /></a></h2>
+				<?php endif; ?>
+                <div class="right-icons">
+              <!--<img src="<?php echo $this->getSkinUrl('images/free-shipping.jpg') ?>" />-->
+              <img src="<?php echo $this->getSkinUrl('images/cash-dilivery.jpg') ?>" />
+               <img src="<?php echo $this->getSkinUrl('images/returns-days.jpg') ?>" />
+               <img src="<?php echo $this->getSkinUrl('images/customer-care.jpg') ?>" />
+</div>
+                
+				
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+	</header>
+</div>

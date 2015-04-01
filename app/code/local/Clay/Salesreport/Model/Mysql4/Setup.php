@@ -1,0 +1,3 @@
+<?php
+class Clay_Salesreport_Model_Mysql4_Setup extends Mage_Salesreport_Model_Mysql4_Setup
+{}

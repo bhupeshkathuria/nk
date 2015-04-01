@@ -1,0 +1,100 @@
+<?php
+require_once('app/Mage.php');
+Mage::app();
+$status = array('pending','complete');
+$orderPayment = new Mage_Sales_Model_Order();
+$conn = Mage::getSingleton('core/resource')->getConnection('core_read');
+$table = Mage::getSingleton('core/resource')->getTableName('supplier_dropship_items');
+
+$comment = 'Please find the shipping tracking code below:';
+$isCustomerNotified = false;
+
+$orders = Mage::getModel('sales/order')->getCollection()
+			->addFieldToFilter('status', 'handed_courier')
+			;
+			foreach ($orders as $order) {
+				$orderStatus = $order->getStatus();
+				$id = $order->getIncrementId();
+				if(!in_array($orderStatus,$status)):
+				$shipmentCollection = Mage::getResourceModel('sales/order_shipment_collection')
+				->setOrderFilter($order)
+				->load();
+				
+				foreach ($shipmentCollection as $shipment){
+
+
+					foreach($shipment->getAllTracks() as $tracknum)
+					{
+						$model = Mage::getModel('lastmile/dlastmile')->getTrackingInfo($tracknum->getNumber());
+						//echo $model->getData('order_id')."<br>";
+						//print_r($tracknum);
+						
+						//echo $id .'---'.$tracknum->getNumber().'---'.strip_tags($model->getData('status'));
+						if(strip_tags($model->getData('status')) == 'Delivered')
+						{
+							
+							
+													
+							//print_r($m);
+							$orderPayment->loadByIncrementId($id);
+							$payment_method = $orderPayment->getPayment()->getMethodInstance()->getTitle();
+									if($payment_method == 'Cash On Delivery'){
+										$method = CAPTURE_OFFLINE;
+									} else {
+										$method = CAPTURE_ONLINE;	
+									}
+									
+								$orderIn[] = Mage::getModel("sales/order")->loadByIncrementId($id);
+							
+							if($order->canInvoice()){
+								$conn->query('UPDATE '.$table.' SET `status` = 5 WHERE `awbno` = '.$model->getData('tracking').'');	
+							}
+							
+						}
+						if(strip_tags($model->getData('status')) == 'Returned')
+						{
+						if($tracknum->getNumber() == $model->getData('tracking')){
+						$orderTrack = Mage::getModel('sales/order')->load($tracknum->getData('order_id'));
+						
+						$orderTrack->setState('returns', 'returns', $comment, $isCustomerNotified);
+						$orderTrack->save();
+						$conn->query('UPDATE '.$table.' SET `status` = 8 WHERE `order_number` = '.$orderTrack->getData('increment_id').'');
+						}
+						}
+				//}
+					}
+				}
+				endif;
+			}
+			
+			if($orderIn){
+			foreach($orderIn as $ordInv){
+				
+				try {
+						if(!$ordInv->canInvoice())
+						{
+						Mage::throwException(Mage::helper('core')->__('Cannot create an invoice.'));
+						}
+						  
+						$invoice = Mage::getModel('sales/service_order', $ordInv)->prepareInvoice();
+						  
+						if (!$invoice->getTotalQty()) {
+						Mage::throwException(Mage::helper('core')->__('Cannot create an invoice without products.'));
+						}
+						  
+						$invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_ONLINE);
+						//Or you can use
+						//$invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_OFFLINE);
+						$invoice->register();
+						$transactionSave = Mage::getModel('core/resource_transaction')
+						->addObject($invoice)
+						->addObject($invoice->getOrder());
+						  
+						$transactionSave->save();
+						}
+						catch (Mage_Core_Exception $e) {
+						  
+						}
+				}
+			}
+ 

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>     
+    <modules> 
+        <Clay_Courier> 
+            <version>0.1.0</version> 
+        </Clay_Courier> 
+    </modules> 
+     <!-- This node contains parameters, available on frontend --> 
+    <frontend> 
+        <!-- Module aliases are located in this block --> 
+        <routers> 
+            <!-- This node's name should be the same as our alias --> 
+            <courier> 
+                <!-- use parameter specifies which of basic routers needs to be used. 
+                This can be "standard" for frontend or "admin" for backend --> 
+                <use>standard</use> 
+                <!-- router arguments block --> 
+                <args> 
+                    <!-- This parameter specifies the full name of out module --> 
+                    <module>Clay_Courier</module> 
+                    <!-- This parameter sets module alias --> 
+                    <frontName>courier</frontName> 
+                </args> 
+            </courier> 
+        </routers> 
+ 		<layout> 
+            <updates>                
+                <courier>                     
+                    <file>courier.xml</file> 
+                </courier> 
+            </updates> 
+			
+        </layout> 
+		
+    </frontend>
+	<global>
+    <blocks>
+        <courier>
+            <class>Clay_Courier_Block</class>  <!-- Not Projects_Block_List -->
+        </courier> 
+    </blocks> 
+	
+		<models>
+			<courier>
+				<class>Clay_Courier_Model</class>
+				<resourceModel>courier_mysql4</resourceModel>
+			</courier>
+			<supplier_mysql4>
+				<class>Magentomasters_Supplier_Model_Mysql4</class>
+				<entities>
+					<courier>
+						<table>supplier_users</table>
+					</courier>
+					<dropshipitems>
+						<table>supplier_dropship_items</table>
+					</dropshipitems>
+				</entities>
+			</supplier_mysql4>
+		</models>
+	</global> 
+</config> 

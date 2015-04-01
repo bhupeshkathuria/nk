@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+<modules>
+<Clay_Override> <!--Change Anjan To Your Module NameSpace and Override to Your Module name-->
+<version>0.1.0</version>
+</Clay_Override>
+</modules>
+<frontend>
+<routers>
+<checkout>
+<args>
+<modules>
+<Clay_Override before="Mage_Checkout">Clay_Override</Clay_Override><!--Change Anjan To Your Module NameSpace and Override to Your Module name-->
+</modules>
+</args>
+</checkout>
+</routers>
+</frontend>
+</config>

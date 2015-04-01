@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <ES_ActiveReviewStars>
+      <version>1.1.4</version>
+    </ES_ActiveReviewStars>
+  </modules>
+  
+  <default>
+    <ActiveReviewStars>
+      <general>
+        <enabled>1</enabled>
+        <review_star_mode>1</review_star_mode>
+        <show_label>1</show_label>
+      </general>
+      <additional>
+        <enabled_jquery>1</enabled_jquery>
+      </additional>
+    </ActiveReviewStars>
+  </default>
+
+  <frontend>
+    <layout>
+      <updates>
+        <ActiveReviewStars>
+          <file>es_active_review_stars.xml</file>
+        </ActiveReviewStars>
+      </updates>
+    </layout>
+  </frontend>
+      
+  <global>
+    <blocks>
+      <ActiveReviewStars>
+        <class>ES_ActiveReviewStars_Block</class>
+      </ActiveReviewStars>
+      <review>
+        <rewrite>
+            <form>ES_ActiveReviewStars_Block_Review_Form</form>
+        </rewrite>
+      </review>
+    </blocks>
+    <helpers>
+      <ActiveReviewStars>
+        <class>ES_ActiveReviewStars_Helper</class>
+      </ActiveReviewStars>
+    </helpers>
+    <models>
+      <ActiveReviewStars>
+        <class>ES_ActiveReviewStars_Model</class>
+        <resourceModel>ActiveReviewStars_mysql4</resourceModel>
+      </ActiveReviewStars>
+      <ActiveReviewStars_mysql4>
+        <class>ES_ActiveReviewStars_Model_Mysql4</class>
+        <entities>
+        </entities>
+      </ActiveReviewStars_mysql4>
+    </models>
+  </global>
+  
+  <adminhtml>
+    <acl>
+      <resources>
+        <admin>
+          <children>
+            <system>
+              <children>
+                <config>
+                  <children>
+                    <ActiveReviewStars translate="title" module="ActiveReviewStars">
+                      <title>Active Review Stars</title>
+                      <sort_order>50</sort_order>
+                    </ActiveReviewStars>
+                  </children>
+                </config>
+              </children>
+            </system>
+          </children>
+        </admin>
+      </resources>
+    </acl>
+  </adminhtml>
+</config>

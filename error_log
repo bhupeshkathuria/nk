@@ -1,0 +1,102 @@
+[22-Jan-2015 11:04:17 UTC] PHP Fatal error:  Call to a member function getTableName() on a non-object in /home/netakart/public_html/dev/app/code/local/Magentomasters/Supplier/Model/Observer.php on line 112
+[22-Jan-2015 11:58:22 UTC] PHP Fatal error:  Call to a member function getTableName() on a non-object in /home/netakart/public_html/dev/app/code/local/Magentomasters/Supplier/Model/Observer.php on line 112
+[22-Jan-2015 11:59:23 UTC] PHP Fatal error:  Call to a member function getTableName() on a non-object in /home/netakart/public_html/dev/app/code/local/Magentomasters/Supplier/Model/Observer.php on line 112
+[22-Jan-2015 12:03:29 UTC] PHP Fatal error:  Call to undefined method Varien_Db_Statement_Pdo_Mysql::fetchOne() in /home/netakart/public_html/dev/app/code/local/Magentomasters/Supplier/Model/Observer.php on line 275
+[30-Jan-2015 10:48:50 UTC] PHP Fatal error:  Call to undefined function getPaymentMade() in /home/netakart/public_html/dev/app/code/local/Magentomasters/Supplier/Model/Observer.php on line 414
+[30-Jan-2015 11:14:22 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/netakart/public_html/dev/app/code/local/Magentomasters/Supplier/Model/Observer.php on line 462
+[30-Jan-2015 12:07:26 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 166
+[30-Jan-2015 12:07:27 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 166
+[30-Jan-2015 12:09:34 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 166
+[30-Jan-2015 12:12:01 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 166
+[30-Jan-2015 12:16:40 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 168
+[30-Jan-2015 12:19:06 UTC] PHP Parse error:  syntax error, unexpected '<' in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 168
+[30-Jan-2015 12:19:51 UTC] PHP Parse error:  syntax error, unexpected '<' in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 168
+[30-Jan-2015 12:23:51 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 168
+[30-Jan-2015 12:26:46 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 168
+[30-Jan-2015 12:29:24 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 168
+[30-Jan-2015 12:29:27 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 168
+[30-Jan-2015 12:29:41 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 168
+[30-Jan-2015 12:30:01 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 168
+[30-Jan-2015 12:30:46 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 168
+[30-Jan-2015 12:32:03 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 168
+[30-Jan-2015 12:32:39 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 168
+[30-Jan-2015 12:39:42 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 168
+[31-Jan-2015 08:30:20 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 295
+[31-Jan-2015 08:31:52 UTC] PHP Parse error:  syntax error, unexpected 'endif' (T_ENDIF) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 335
+[31-Jan-2015 08:42:18 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 295
+[31-Jan-2015 08:43:42 UTC] PHP Parse error:  syntax error, unexpected 'endif' (T_ENDIF) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 296
+[31-Jan-2015 08:45:14 UTC] PHP Parse error:  syntax error, unexpected 'endif' (T_ENDIF) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 335
+[31-Jan-2015 08:46:18 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 542
+[03-Feb-2015 06:05:33 UTC] PHP Parse error:  syntax error, unexpected 'endif' (T_ENDIF) in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/review/product/view/list.phtml on line 173
+[03-Feb-2015 06:08:43 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/netakart/public_html/dev/app/design/frontend/base/default/template/es_active_review_stars/review/form.phtml on line 149
+[03-Feb-2015 11:10:24 UTC] PHP Fatal error:  Call to a member function children() on a non-object in /home/netakart/public_html/dev/ecom-status.php on line 21
+[03-Feb-2015 11:15:48 UTC] PHP Fatal error:  Call to a member function children() on a non-object in /home/netakart/public_html/dev/ecom-status.php on line 20
+[03-Feb-2015 11:39:13 UTC] PHP Fatal error:  Call to a member function children() on a non-object in /home/netakart/public_html/dev/ecom-status.php on line 20
+[03-Feb-2015 12:08:48 UTC] PHP Fatal error:  Call to a member function query() on a non-object in /home/netakart/public_html/dev/ecom-status.php on line 24
+[04-Feb-2015 07:31:33 UTC] PHP Fatal error:  Call to a member function children() on a non-object in /home/netakart/public_html/dev/dtdc-status.php on line 39
+[04-Feb-2015 07:32:03 UTC] PHP Fatal error:  Call to a member function attributes() on a non-object in /home/netakart/public_html/dev/dtdc-status.php on line 39
+[04-Feb-2015 08:46:21 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'I30000712747' in 'where clause'' in /home/netakart/public_html/dev/lib/Zend/Db/Statement/Pdo.php:228
+Stack trace:
+#0 /home/netakart/public_html/dev/lib/Zend/Db/Statement/Pdo.php(228): PDOStatement->execute(Array)
+#1 /home/netakart/public_html/dev/lib/Varien/Db/Statement/Pdo/Mysql.php(110): Zend_Db_Statement_Pdo->_execute(Array)
+#2 /home/netakart/public_html/dev/app/code/core/Zend/Db/Statement.php(291): Varien_Db_Statement_Pdo_Mysql->_execute(Array)
+#3 /home/netakart/public_html/dev/lib/Zend/Db/Adapter/Abstract.php(480): Zend_Db_Statement->execute(Array)
+#4 /home/netakart/public_html/dev/lib/Zend/Db/Adapter/Pdo/Abstract.php(238): Zend_Db_Adapter_Abstract->query('UPDATE clay_sup...', Array)
+#5 /home/netakart/public_html/dev/lib/Varien/Db/Adapter/Pdo/Mysql.php(429): Zend_Db_Adapter_Pdo_Abstract->query('UPDATE clay_sup...', Array)
+#6 /home/netakart/public_html/dev/dtdc-status.php(33): Varien_Db_Adapter_Pdo_Mysq in /home/netakart/public_html/dev/lib/Zend/Db/Statement/Pdo.php on line 234
+[04-Feb-2015 08:50:05 UTC] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'I30000712747' in 'where clause'' in /home/netakart/public_html/dev/lib/Zend/Db/Statement/Pdo.php:228
+Stack trace:
+#0 /home/netakart/public_html/dev/lib/Zend/Db/Statement/Pdo.php(228): PDOStatement->execute(Array)
+#1 /home/netakart/public_html/dev/lib/Varien/Db/Statement/Pdo/Mysql.php(110): Zend_Db_Statement_Pdo->_execute(Array)
+#2 /home/netakart/public_html/dev/app/code/core/Zend/Db/Statement.php(291): Varien_Db_Statement_Pdo_Mysql->_execute(Array)
+#3 /home/netakart/public_html/dev/lib/Zend/Db/Adapter/Abstract.php(480): Zend_Db_Statement->execute(Array)
+#4 /home/netakart/public_html/dev/lib/Zend/Db/Adapter/Pdo/Abstract.php(238): Zend_Db_Adapter_Abstract->query('UPDATE clay_sup...', Array)
+#5 /home/netakart/public_html/dev/lib/Varien/Db/Adapter/Pdo/Mysql.php(429): Zend_Db_Adapter_Pdo_Abstract->query('UPDATE clay_sup...', Array)
+#6 /home/netakart/public_html/dev/dtdc-status.php(33): Varien_Db_Adapter_Pdo_Mysq in /home/netakart/public_html/dev/lib/Zend/Db/Statement/Pdo.php on line 234
+[04-Feb-2015 09:19:28 UTC] PHP Fatal error:  Uncaught exception 'Mage_Core_Exception' with message 'The Order State "complete" must not be set manually.' in /home/netakart/public_html/dev/app/Mage.php:595
+Stack trace:
+#0 /home/netakart/public_html/dev/app/code/core/Mage/Sales/Model/Order.php(1003): Mage::throwException('The Order State...')
+#1 /home/netakart/public_html/dev/app/code/core/Mage/Sales/Model/Order.php(980): Mage_Sales_Model_Order->_setState('complete', 'complete', 'Please find the...', false, true)
+#2 /home/netakart/public_html/dev/dtdc-status.php(37): Mage_Sales_Model_Order->setState('complete', 'complete', 'Please find the...', false)
+#3 /home/netakart/public_html/dev/dtdc-status.php(88): getDtdc('I30000712747', '100002394')
+#4 {main}
+  thrown in /home/netakart/public_html/dev/app/Mage.php on line 595
+[10-Feb-2015 07:11:22 UTC] PHP Warning:  Unknown: Input variables exceeded 1000. To increase the limit change max_input_vars in php.ini. in Unknown on line 0
+[10-Feb-2015 07:11:35 UTC] PHP Warning:  Unknown: Input variables exceeded 1000. To increase the limit change max_input_vars in php.ini. in Unknown on line 0
+[10-Feb-2015 07:11:36 UTC] PHP Warning:  Unknown: Input variables exceeded 1000. To increase the limit change max_input_vars in php.ini. in Unknown on line 0
+[10-Feb-2015 07:11:42 UTC] PHP Warning:  Unknown: Input variables exceeded 1000. To increase the limit change max_input_vars in php.ini. in Unknown on line 0
+[18-Feb-2015 10:51:08 UTC] PHP Parse error:  syntax error, unexpected ')' in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 234
+[18-Feb-2015 11:09:25 UTC] PHP Fatal error:  Call to a member function getParentCategory() on a non-object in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 230
+[18-Feb-2015 11:09:27 UTC] PHP Fatal error:  Call to a member function getParentCategory() on a non-object in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 230
+[18-Feb-2015 11:10:45 UTC] PHP Fatal error:  Call to a member function getParentCategory() on a non-object in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 230
+[18-Feb-2015 11:11:30 UTC] PHP Fatal error:  Call to a member function getParentCategory() on a non-object in /home/netakart/public_html/dev/app/design/frontend/blacknwhite/default/template/ajax/catalog/product/view.phtml on line 229
+[19-Feb-2015 09:17:17 UTC] PHP Fatal error:  Call to a member function getId() on a non-object in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 35
+[19-Feb-2015 09:24:30 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 57
+[19-Feb-2015 09:37:25 UTC] PHP Parse error:  syntax error, unexpected '.' in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 56
+[19-Feb-2015 09:37:57 UTC] PHP Fatal error:  Call to a member function getAttributeText() on a non-object in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 56
+[19-Feb-2015 09:39:39 UTC] PHP Fatal error:  Call to a member function getResource() on a non-object in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 56
+[19-Feb-2015 10:26:59 UTC] PHP Fatal error:  Call to a member function getTypeInstance() on a non-object in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 58
+[19-Feb-2015 11:00:17 UTC] PHP Fatal error:  Cannot use [] for reading in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 44
+[19-Feb-2015 11:05:38 UTC] PHP Fatal error:  Call to a member function getSku() on a non-object in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 58
+[19-Feb-2015 11:08:53 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 51
+[19-Feb-2015 11:22:30 UTC] PHP Fatal error:  Call to a member function getId() on a non-object in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 60
+[19-Feb-2015 11:23:52 UTC] PHP Fatal error:  Call to undefined method Mage_Catalog_Model_Resource_Product::getAttributeText() in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 60
+[19-Feb-2015 11:44:33 UTC] PHP Fatal error:  Call to a member function getSku() on a non-object in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 66
+[19-Feb-2015 11:45:58 UTC] PHP Parse error:  syntax error, unexpected 'endforeach' (T_ENDFOREACH) in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 76
+[19-Feb-2015 11:47:49 UTC] PHP Parse error:  syntax error, unexpected 'endforeach' (T_ENDFOREACH) in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 76
+[19-Feb-2015 13:04:41 UTC] PHP Fatal error:  Call to undefined method Mage_Bundle_Model_Resource_Selection::getId() in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 68
+[19-Feb-2015 13:39:30 UTC] PHP Fatal error:  Call to a member function getId() on a non-object in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 68
+[20-Feb-2015 06:08:00 UTC] PHP Fatal error:  Call to a member function getProductOptions() on a non-object in /home/netakart/public_html/dev/app/design/frontend/base/default/template/checkout/success.phtml on line 123
+[20-Feb-2015 07:32:38 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 48
+[20-Feb-2015 07:56:25 UTC] PHP Fatal error:  Call to a member function getSource() on a non-object in /home/netakart/public_html/dev/app/code/core/Mage/Catalog/Model/Product.php on line 1390
+[20-Feb-2015 07:56:45 UTC] PHP Fatal error:  Call to a member function getSource() on a non-object in /home/netakart/public_html/dev/app/code/core/Mage/Catalog/Model/Product.php on line 1390
+[20-Feb-2015 07:57:07 UTC] PHP Fatal error:  Call to a member function getSource() on a non-object in /home/netakart/public_html/dev/app/code/core/Mage/Catalog/Model/Product.php on line 1390
+[20-Feb-2015 07:57:37 UTC] PHP Parse error:  syntax error, unexpected '$bundledsizewomen' (T_VARIABLE), expecting ',' or ';' in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 63
+[20-Feb-2015 07:58:24 UTC] PHP Parse error:  syntax error, unexpected '$bundledsizewomen' (T_VARIABLE), expecting ',' or ';' in /home/netakart/public_html/dev/app/design/frontend/base/default/template/bundle/catalog/product/view/type/bundle/option/select.phtml on line 63
+[20-Feb-2015 07:59:23 UTC] PHP Fatal error:  Call to a member function getSource() on a non-object in /home/netakart/public_html/dev/app/code/core/Mage/Catalog/Model/Product.php on line 1390
+[20-Feb-2015 08:00:08 UTC] PHP Fatal error:  Call to a member function getSource() on a non-object in /home/netakart/public_html/dev/app/code/core/Mage/Catalog/Model/Product.php on line 1390
+[20-Feb-2015 08:57:22 UTC] PHP Parse error:  syntax error, unexpected ')' in /home/netakart/public_html/dev/app/code/core/Mage/Bundle/Helper/Catalog/Product/Configuration.php on line 130
+[20-Feb-2015 08:59:25 UTC] PHP Parse error:  syntax error, unexpected '.' in /home/netakart/public_html/dev/app/code/core/Mage/Bundle/Helper/Catalog/Product/Configuration.php on line 128
+[20-Feb-2015 08:59:52 UTC] PHP Fatal error:  Call to a member function getId() on a non-object in /home/netakart/public_html/dev/app/code/core/Mage/Bundle/Helper/Catalog/Product/Configuration.php on line 128
+[20-Feb-2015 09:01:00 UTC] PHP Fatal error:  Call to undefined method Mage_Catalog_Model_Resource_Product::getAttributeText() in /home/netakart/public_html/dev/app/code/core/Mage/Bundle/Helper/Catalog/Product/Configuration.php on line 128
+[20-Feb-2015 09:08:26 UTC] PHP Parse error:  syntax error, unexpected '.' in /home/netakart/public_html/dev/app/code/core/Mage/Bundle/Helper/Catalog/Product/Configuration.php on line 128

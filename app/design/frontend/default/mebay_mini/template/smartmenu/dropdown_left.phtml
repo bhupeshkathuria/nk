@@ -1,0 +1,261 @@
+<?php 
+/**
+ * Smart menu for store
+ *
+ * @see Mage_Catalog_Block_Navigation
+ */
+?> 
+<?php $deeplevel = Mage::getStoreConfig("smartmenu/smartmenu/deeplevel"); ?> 
+<?php $allows1 = Mage::getStoreConfig("smartmenu/smartmenu/leftmenu"); ?>      
+<?php $allows1 = Mage::getStoreConfig("smartmenu/smartmenu/leftmenu"); ?>
+<?php if($allows1==2):?>	
+	<?php if(Mage::getStoreConfig('smartmenu/smartmenu/toplevel')==true ):?>
+		
+		<div class="mw_menu">
+			<div class="mw_menu_head">
+				<h4 class="title">
+				<?php
+				$_main_categories=$this->getStoreCategories();
+				$i=0;
+				foreach ($_main_categories as $_main_category):	
+				if($this->isCategoryActive($_main_category)):
+					 echo $_main_category->getName();
+				endif;
+				endforeach;
+				?>
+				</h4>
+			</div>
+			<ul class="sf-menu sf-vertical sf-js-enabled sf-shadow"> 
+			<?php
+				$_main_categories=$this->getStoreCategories();
+				foreach ($_main_categories as $_main_category):	
+				if($this->isCategoryActive($_main_category)) {
+			?>
+		
+			<?php 
+				
+				if (Mage::helper('catalog/category_flat')->isEnabled()) {
+					$_sub_categories = $_main_category->getChildrenNodes(); 	
+				} else {
+					$_sub_categories = $_main_category->getChildren(); 	
+				}
+				if($_main_category->hasChildren()):
+			?> 
+			    
+			<?php foreach ($_sub_categories as $_sub_category):
+				if($deeplevel==1): break;  endif;
+				if ($_sub_category->getIsActive()) {?>
+				<li <?php if($deeplevel==2): echo 'class="display_li"';  endif;?>>
+					<a href="<?php echo $this->getCategoryUrl($_sub_category)?>"><?php echo $_sub_category->getName()?></a>
+					<?php 
+					$_sub2s = Mage::getModel('catalog/category')->load($_sub_category->getId())->getChildren();
+					if ($_sub2s):
+					$_sub2s = explode(',',$_sub2s);
+					?>
+					
+					<ul <?php if($deeplevel==2): echo 'class="display"';  endif;?>>
+					<?php foreach ($_sub2s as $_sub2id):
+						if($deeplevel==2): break;  endif;
+						$_sub2 = Mage::getModel('catalog/category')->load($_sub2id);?>
+							<li <?php if($deeplevel==3): echo 'class="display_li"';  endif;?>>
+								<a href="<?php echo $this->getCategoryUrl($_sub2)?>"><?php echo $_sub2->getName()?></a>
+								
+								<?php $_sub3s = Mage::getModel('catalog/category')->load($_sub2->getId())->getChildren();
+								if ($_sub3s):
+								$_sub3s = explode(',',$_sub3s);
+								?>
+								<ul <?php if($deeplevel==3): echo 'class="display"';  endif;?>>
+								<?php foreach ($_sub3s as $_sub3id):
+									if($deeplevel==3): break;  endif;
+									$_sub3 = Mage::getModel('catalog/category')->load($_sub3id);?>
+										<li <?php if($deeplevel==4): echo 'class="display_li"';  endif;?>>
+											<a href="<?php echo $this->getCategoryUrl($_sub3)?>"><?php echo $_sub3->getName()?></a>
+											
+											<?php $_sub4s = Mage::getModel('catalog/category')->load($_sub3->getId())->getChildren();
+											if ($_sub4s):
+											$_sub4s = explode(',',$_sub4s);
+											?>
+											<ul <?php if($deeplevel==4): echo 'class="display"';  endif;?>>
+											<?php foreach ($_sub4s as $_sub4id):
+												if($deeplevel==4): break;  endif;
+												$_sub4 = Mage::getModel('catalog/category')->load($_sub4id);?>
+													<li <?php if($deeplevel==5): echo 'class="display_li"';  endif;?>>
+														<a href="<?php echo $this->getCategoryUrl($_sub4)?>">
+															<?php echo $_sub4->getName()?>
+														</a>
+														
+														<?php $_sub5s = Mage::getModel('catalog/category')->load($_sub4->getId())->getChildren();
+														if ($_sub5s):
+														$_sub5s = explode(',',$_sub5s);
+														?>
+														<ul <?php if($deeplevel==5): echo 'class="display"';  endif;?>>
+														<?php foreach ($_sub5s as $_sub5id):
+															if($deeplevel==4): break;  endif;
+															$_sub5 = Mage::getModel('catalog/category')->load($_sub5id);?>
+																<li>
+																	<a href="<?php echo $this->getCategoryUrl($_sub5)?>">
+																		<?php echo $_sub5->getName()?>
+																	</a>
+																</li>
+																
+														<?php
+														endforeach;?>
+														</ul>		
+														<?php endif; ?>
+														
+													</li>
+													
+											<?php
+											endforeach;?>
+											</ul>		
+											<?php endif; ?>
+											
+										</li>
+										
+								<?php
+								endforeach;?>
+								</ul>		
+								<?php endif; ?>
+								
+							</li>
+							
+					<?php
+					endforeach;?>
+					</ul>		
+					<?php endif; ?>
+				</li>
+				<?php
+				
+				}
+			endforeach;?>
+					
+			<?php endif; ?> 
+		
+			<?php 
+			}
+			endforeach;?>  	
+		</ul>
+		</div>  
+		<div style="clear:both;"></div>	
+		
+	<?php else:?>
+		<div class="mw_menu">
+			<div class="mw_menu_head">
+				<h4 class="title"><?php echo $this->__('Categories');?></h4>
+			</div>
+			<ul class="sf-menu sf-vertical sf-js-enabled sf-shadow">       	
+			<?php
+				$_main_categories=$this->getStoreCategories();
+				foreach ($_main_categories as $_main_category):	
+				if ($_main_category->getIsActive()) {
+			?>
+		        <li <?php if($deeplevel==1): echo 'class="display_li"';  endif;?>>
+		            <a href="<?php echo $this->getCategoryUrl($_main_category)?>"><?php echo $_main_category->getName()?></a>
+				<?php 
+					if (Mage::helper('catalog/category_flat')->isEnabled()) {
+						$_sub_categories = $_main_category->getChildrenNodes(); 	
+					} else {
+						$_sub_categories = $_main_category->getChildren(); 	
+					}
+					if($_main_category->hasChildren()):
+				?> 
+					
+					<ul <?php if($deeplevel==1): echo 'class="display"';  endif;?>>
+					<?php foreach ($_sub_categories as $_sub_category):
+						if($deeplevel==1): break;  endif;
+						if ($_sub_category->getIsActive()) {?>
+						<li <?php if($deeplevel==2): echo 'class="display_li"';  endif;?>>
+							<a href="<?php echo $this->getCategoryUrl($_sub_category)?>"><?php echo $_sub_category->getName()?></a>
+							<?php 
+							$_sub2s = Mage::getModel('catalog/category')->load($_sub_category->getId())->getChildren();
+							if ($_sub2s):
+							$_sub2s = explode(',',$_sub2s);
+							?>
+							
+							<ul <?php if($deeplevel==2): echo 'class="display"';  endif;?>>
+							<?php foreach ($_sub2s as $_sub2id):
+								if($deeplevel==2): break;  endif;
+								$_sub2 = Mage::getModel('catalog/category')->load($_sub2id);?>
+									<li <?php if($deeplevel==3): echo 'class="display_li"';  endif;?>>
+										<a href="<?php echo $this->getCategoryUrl($_sub2)?>"><?php echo $_sub2->getName()?></a>
+										
+										<?php $_sub3s = Mage::getModel('catalog/category')->load($_sub2->getId())->getChildren();
+										if ($_sub3s):
+										$_sub3s = explode(',',$_sub3s);
+										?>
+										<ul <?php if($deeplevel==3): echo 'class="display"';  endif;?>>
+										<?php foreach ($_sub3s as $_sub3id):
+											if($deeplevel==3): break;  endif;
+											$_sub3 = Mage::getModel('catalog/category')->load($_sub3id);?>
+												<li <?php if($deeplevel==4): echo 'class="display_li"';  endif;?>>
+													<a href="<?php echo $this->getCategoryUrl($_sub3)?>"><?php echo $_sub3->getName()?></a>
+													
+													<?php $_sub4s = Mage::getModel('catalog/category')->load($_sub3->getId())->getChildren();
+													if ($_sub4s):
+													$_sub4s = explode(',',$_sub4s);
+													?>
+													<ul <?php if($deeplevel==4): echo 'class="display"';  endif;?>>
+													<?php foreach ($_sub4s as $_sub4id):
+														if($deeplevel==4): break;  endif;
+														$_sub4 = Mage::getModel('catalog/category')->load($_sub4id);?>
+															<li <?php if($deeplevel==5): echo 'class="display_li"';  endif;?>>
+																<a href="<?php echo $this->getCategoryUrl($_sub4)?>">
+																	<?php echo $_sub4->getName()?>
+																</a>
+																
+																<?php $_sub5s = Mage::getModel('catalog/category')->load($_sub4->getId())->getChildren();
+																if ($_sub5s):
+																$_sub5s = explode(',',$_sub5s);
+																?>
+																<ul <?php if($deeplevel==5): echo 'class="display"';  endif;?>>
+																<?php foreach ($_sub5s as $_sub5id):
+																	if($deeplevel==4): break;  endif;
+																	$_sub5 = Mage::getModel('catalog/category')->load($_sub5id);?>
+																		<li>
+																			<a href="<?php echo $this->getCategoryUrl($_sub5)?>">
+																				<?php echo $_sub5->getName()?>
+																			</a>
+																		</li>
+																		
+																<?php
+																endforeach;?>
+																</ul>		
+																<?php endif; ?>
+																
+															</li>
+															
+													<?php
+													endforeach;?>
+													</ul>		
+													<?php endif; ?>
+													
+												</li>
+												
+										<?php
+										endforeach;?>
+										</ul>		
+										<?php endif; ?>
+										
+									</li>
+									
+							<?php
+							endforeach;?>
+							</ul>		
+							<?php endif; ?>
+						</li>
+						<?php
+						
+						}
+				    endforeach;?>
+		            </ul>		
+		           <?php endif; ?> 
+		        </li>
+		         <?php 
+				}
+				endforeach;?>   
+				
+			</ul>
+			<div style="clear:both;"></div>	
+		</div>
+	<?php endif;?>
+<?php endif;?>

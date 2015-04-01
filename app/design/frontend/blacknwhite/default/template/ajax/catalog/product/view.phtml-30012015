@@ -1,0 +1,536 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+?>
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_product = $this->getProduct(); ?>
+<?php 
+	$meigee_blacknwhite_productpage = MAGE::helper('ThemeOptionsBlacknwhite')->getThemeOptionsBlacknwhite('meigee_blacknwhite_productpage');
+    if ($_product->getBlacknwhitePrcolleteral() == 0):
+    	$productpage_collateral = $meigee_blacknwhite_productpage['layout']['collateral'];
+    else:
+    	switch ($_product->getBlacknwhitePrcolleteral()) {
+	        case 1:
+	            $productpage_collateral = 'collateral_list';
+	        break;
+	        case 2:
+	            $productpage_collateral = 'collateral_tabs';
+	        break;
+	        case 3:
+	            $productpage_collateral = 'collateral_accordion';
+	        break;
+        }
+    endif;
+    $productpage_sku = $meigee_blacknwhite_productpage['general']['product_sku'];
+    $productpage_additional = $meigee_blacknwhite_productpage['additional'];
+    if ($_product->getBlacknwhitePrlayout() == 0):
+    	$productpage_pagelayout = $meigee_blacknwhite_productpage['layout']['pagelayout'];
+    else:
+    	$productpage_pagelayout = $_product->getBlacknwhitePrlayout();
+		switch ($productpage_pagelayout) {
+			case 1:
+				$productpage_pagelayout = 'productpage_small';
+            break;
+			case 2:
+				$productpage_pagelayout = 'productpage_medium';
+            break;
+			case 3:
+				$productpage_pagelayout = 'productpage_large';
+            break;
+			case 4:
+				$productpage_pagelayout = 'productpage_extralarge';
+            break;
+		}
+    endif;
+    switch ($productpage_pagelayout) {
+        case 'productpage_extralarge':
+            $leftcol = 'grid_12';
+			$rightcol = 'grid_9';
+			$rightcol_no_rel = 'grid_12';
+            break;
+        case 'productpage_large':
+            $leftcol = 'grid_4';
+            $rightcol = 'grid_5';
+			$rightcol_no_rel = 'grid_8';
+            break;
+        case 'productpage_medium':
+            $leftcol = 'grid_5';
+            $rightcol = 'grid_4';
+			$rightcol_no_rel = 'grid_7';
+            break;
+        case 'productpage_small':
+            $leftcol = 'grid_6';
+            $rightcol = 'grid_3';
+			$rightcol_no_rel = 'grid_6';
+            break;
+        default:
+            $leftcol = 'grid_5';
+            $rightcol = 'grid_4';
+			$rightcol_no_rel = 'grid_7';
+            break;
+    }
+    if ($_product->getBlacknwhitePrbrand() == 0) {
+		$pr_brand = $meigee_blacknwhite_productpage['brand']['productbrand'];
+		$pr_brandsearch = $meigee_blacknwhite_productpage['brand']['brandsearch'];
+		$pr_brandtarget = $meigee_blacknwhite_productpage['brand']['brandtarget'];
+    }
+    else {
+    	$pr_brand = $_product->getBlacknwhitePrbrand();
+    	$pr_brandsearch = $_product->getBlacknwhitePrbrandlink();
+    	$pr_brandtarget = $_product->getBlacknwhitePrbrandtarget();
+    }
+
+    if ($_product->getBlacknwhitePrsidebar() == 0):
+    	$productpageSidebar = $meigee_blacknwhite_productpage['layout']['productsidebar'];
+    else:
+    	$productpageSidebar = $_product->getBlacknwhitePrsidebar();
+		switch ($productpageSidebar) {
+			case 1:
+				$productpageSidebar = 'left';
+            break;
+			case 2:
+				$productpageSidebar = 'right';
+            break;
+			case 3:
+				$productpageSidebar = 'none';
+            break;
+		}
+    endif;
+?>
+<script type="text/javascript">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="product-view">
+	<?php if($productpageSidebar == 'left' and $productpage_pagelayout != 'productpage_extralarge'): ?>
+		<aside class="grid_3 alpha">
+			<?php echo $this->getChildHtml('product_col'); ?>
+		</aside>
+	<?php endif; ?>
+	<?php if($productpageSidebar != 'none' and $productpage_pagelayout == 'productpage_extralarge'): ?>
+		<div class="grid_12 alpha omega">
+	<?php elseif($productpageSidebar == 'left'): ?>
+		<div class="grid_9 omega">
+	<?php elseif($productpageSidebar == 'right'): ?>
+		<div class="grid_9 alpha">
+	<?php else: ?>
+		<div class="grid_12 alpha omega">
+	<?php endif; ?>
+		<div class="product-essential <?php echo $productpage_pagelayout; ?>">
+			<div class="<?php echo $leftcol .' '. $productpage_pagelayout; ?> alpha <?php if($productpage_pagelayout == 'productpage_extralarge' and $productpageSidebar == 'none'): ?> omega<?php endif; ?> product-img-box">
+               <?php echo $this->getChildHtml('media'); ?>
+            </div>
+			
+			<?php if($productpageSidebar == 'left' and $productpage_pagelayout == 'productpage_extralarge'): ?>
+				<aside class="grid_3 alpha">
+					<?php echo $this->getChildHtml('product_col'); ?>
+				</aside>
+			<?php endif; ?>
+			
+			<div class="<?php if($productpageSidebar != 'none') echo $rightcol; else echo $rightcol_no_rel; ?> <?php if($productpage_pagelayout == 'productpage_extralarge' and $productpageSidebar == 'right'): ?> alpha<?php elseif($productpage_pagelayout == 'productpage_extralarge' and $productpageSidebar == 'none'): ?> alpha omega<?php else: ?> omega<?php endif; ?> product-shop">
+				<?php echo $this->getChildHtml('manufacturer.center'); ?>
+				
+			<div class="pro_logo_left">
+			            	<!-- <div class="pro_logo"><img src="http://www.netakart.com/dev/skin/frontend/blacknwhite/default/images/logo.jpg" /></div> -->
+			            	<div class="pro_logo"><img src="http://www.netakart.com/dev/skin/frontend/blacknwhite/default/images/logos/<?php echo  $_product->getAttributeText('men_brands'); ?>.jpg" /></div>
+		
+				 
+             </div>
+			 
+			 
+				
+			<div class="pro_logo_right">  <?php //echo $this->getChildHtml('addto') ?>
+					<div class="product-name<?php if(!$this->getChildHtml('catalog.product.related')){echo ' no-rel';} ?>">
+				
+					<!-- <h1><?php// echo  $_product->getAttributeText('men_brands'); ?></h1> -->
+					
+					<h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+					
+					<?php if ($_product->getBlacknwhitePrsku() < 2 ):
+						if ($_product->getBlacknwhitePrsku() == 1 or $productpage_sku): ?>
+							<div class="sku"><?php echo $this->__('SKU') . ':<span>' . $_product->getSku() . '</span>'; ?></div>
+					<?php 
+						endif; 
+					endif; ?>
+					<?php echo $_product->getProductSku(); ?>
+				</div>
+				
+				
+			
+			  <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+			  
+			</div>
+              
+                 
+				<?php echo MAGE::helper('ThemeOptionsBlacknwhite')->prevnext($_product) ?>
+				<?php if((($_product->isSaleable() && $this->hasOptions()) and $this->getChildChildHtml('container1', '', true, true)) or !($_product->isSaleable() && $this->hasOptions())): ?>
+				<form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+				<div class="no-display">
+					<input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+					<input type="hidden" name="related_product" id="related-products-field" value="" />
+				</div>
+				<?php endif; ?>
+					
+
+					   <div class="price-block">
+							<?php $priceAvaliable = false; ?>
+							<?php if(!$this->hasOptions()): ?>
+								<?php $priceAvaliable = true; ?>
+								<?php //echo $this->getChildHtml('product_type_data'); ?>
+							<?php elseif($_product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE): ?>
+								<?php $priceAvaliable = true; ?>
+								<?php echo $this->getChildHtml('product_type_data'); ?>
+							<?php endif; ?>
+							<?php if($_product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_GROUPED): ?>
+								<?php $priceAvaliable = false; ?>
+							<?php endif; ?>
+							<?php if ($this->displayProductStockStatus()): ?>
+								<?php if ($_product->isAvailable()): ?>
+								 <?php /*?>  <p class="availability<?php if($priceAvaliable == false){echo ' left';} ?> in-stock"><?php echo $this->__('Availability:') ?><span><?php echo $this->__('In stock') ?></span></p><?php */?>
+								<?php else: ?>
+								   <p class="availability<?php if($priceAvaliable == false){echo ' left';} ?> out-of-stock"><?php echo $this->__('Availability:') ?><span><?php echo $this->__('Out of stock') ?></span></p>
+								<?php endif; ?>
+							<?php endif; ?>
+						</div>
+						<div class="clear "></div>
+						
+<div class="new-bg-block">
+
+<div class="new_bg_block_left">
+   <?php echo $this->getChildHtml('alert_urls') ?>
+					   
+					   <?php $optionsAvailability = false; if($_product->isSaleable() && $this->hasOptions()){$optionsAvailability = true;}?>
+                    
+					   
+				<?php /*?>	   <?php if ($_product->getShortDescription()):?>
+						   <div class="short-description">
+							   <div class="std"><h2><?php echo $this->__('Details:') ?></h2><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
+						   </div>
+					   <?php endif;?><?php */?>
+                    
+                      
+					
+					   <?php if (!$this->hasOptions()):?>
+                       <!--<p class="pin-code-status">
+					   
+					   <input id="pincode" type="text" title="Enter your PIN code, help us ship to your location." placeholder="Enter Your Area Pin Code" name="pincode" /> <input class="button" type="button" name="" onclick="check_pincode();" value="check" />
+<img id="pp-pincode-loader" width="20" height="20" src="http://1.fimg.in/images/local_v2/icons/loader.gif" style="display: none;"><br />
+<span class="pincode_msg" style="display:none;"></span>
+<span class="pincode_success_continue" style="display:none;"></span></p>-->
+					   <!-- <div class="product-type-block"> -->
+							<!-- <div class="add-to-box"> -->
+								<?php // if($_product->isSaleable()): ?>
+							   <?php // endif; ?>
+							<!-- </div> -->
+							<!-- <div class="add-to-links-box">
+                            	<?php //echo $this->getChildHtml('addtocart') ?>
+							</div>
+							<div class="clear"></div>
+							
+							
+							<?php //echo $this->getChildHtml('extra_buttons') ?>
+					   </div> -->
+					   <?php endif; ?>
+					  
+					   <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+							<div class="bundled-price">
+								<?php echo $this->getChildHtml('product_type_data'); ?>
+							</div>
+					   <?php endif;?>
+                        
+					   <?php echo $this->getChildHtml('extrahint') ?>
+					   <?php echo $this->getChildHtml('other');?>
+					   <?php echo $this->getTierPriceHtml() ?>
+						
+						
+						
+						<?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                         	<?php echo $this->getChildChildHtml('container1', '', false, false) ?>
+                          
+						<?php endif;?>
+						<?php if((($_product->isSaleable() && $this->hasOptions()) and $this->getChildChildHtml('container1', '', true, true)) or !($_product->isSaleable() && $this->hasOptions())): ?>
+						
+						<?php 
+						if ($_product->getBlacknwhitePrcustom()):
+							echo '<div class="product-custom">' . $_product->getBlacknwhitePrcustom() . '</div>';
+						else:
+							$product_custom_blocks = explode(",", $productpage_additional['product_custom']);
+							foreach ($product_custom_blocks as $product_custom_block) {
+								echo '<div class="product-custom">' . $this->getLayout()->createBlock('cms/block')->setBlockId(trim($product_custom_block))->toHtml() . '</div>';
+							};
+							endif;
+						?>
+                         <?php //echo $this->getReviewsSummaryHtml($_product, false, true)?>
+
+</div>
+
+<div class="new_bg_block_right">
+<ul>
+<li><h1>DELIVERED BY ?</h1>Usually Delivered in 2-3 business days.
+</li>
+<li><h1>CASH ON DELIVERY  ?</h1>May be available! Enter Pincode to confirm.
+</li>
+<li><h1>30 day Exchange Guarantee.</h1>
+</li>
+</ul>
+</div>
+
+
+					
+
+<div class="bottom-content">
+<div class="free-delivery"><a href="#">Free delivery<em>*</em></a>
+</div>
+<!--<p class="returns-free">30 day returns Free Delivery <em>*</em></p>-->
+Call <span style="color:#000;">  - 011 – 66470123</span> to buy
+
+</div>
+
+						<?php //echo $this->getChildHtml('upsell_products_slider'); ?>
+						
+						
+						
+<div style="clear:both"></div>
+</div>			
+		
+				</form>
+				
+				<div><img src="http://www.netakart.com/dev/skin/frontend/blacknwhite/default/images/easy.jpg"> <img src="http://www.netakart.com/dev/skin/frontend/blacknwhite/default/images/100.jpg"> <img src="http://www.netakart.com/dev/skin/frontend/blacknwhite/default/images/pay.jpg"></div>
+   
+				<?php endif; ?>
+   
+				<?php if ($meigee_blacknwhite_productpage['layout']['collateral_position'] == 'details'): ?>
+				<div class="product-collateral"<?php if ($productpage_collateral == 'collateral_accordion') echo " id='collateral-accordion'"; ?>>
+					<?php 
+					if ($productpage_collateral == 'collateral_tabs'):
+					   echo $this->getChildHtml('info_tabs');
+					else:
+					    foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html):
+				           if ($title = $this->getChildData($alias, 'title')):
+				           	echo '<h2>' . $this->escapeHtml($title) . '</h2>';
+				           endif;
+				           echo $html;
+					    endforeach;
+						//echo $this->getChildHtml('upsell_products');
+						echo $this->getChildHtml('product_additional_data');
+					   
+						if ($_product->getBlacknwhitePrtabs()):
+						  $productpage_additional = $_product->getBlacknwhitePrtabs();
+						else:
+						  $productpage_additional = $meigee_blacknwhite_productpage['additional'];
+						  $productpage_additional = $productpage_additional['product_tabs'];
+						endif;
+
+						$custom_tabs = array();
+						$product_custom_tabs = explode(",", $productpage_additional);
+						foreach ($product_custom_tabs as $product_custom_tab) {
+						  $custom_tabs[] = trim($product_custom_tab);
+						}; 
+						foreach ($custom_tabs as $key) {
+							 if(!empty($key)):
+						    ?>
+						    <h2 id="<?php echo $key; ?>"><?php echo Mage::getModel('cms/block')->setStoreId(Mage::app()->getStore()->getId())->load($key)->getTitle(); ?></h2>
+							<div class="box-collateral" id="<?php echo $key; ?>_contents"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId(trim($key))->toHtml() ?></div>
+						    <?php endif; 
+						}
+			        endif;
+					?>
+			        </div>
+				<?php endif; ?>
+				   
+           </div>
+		   <?php if($productpageSidebar == 'right' and $productpage_pagelayout == 'productpage_extralarge'): ?>
+				<aside class="grid_3 omega">
+				<?php echo $this->getChildHtml('product_col'); ?>
+				</aside>
+			<?php endif; ?>
+         <!--    <div class="enquir">  <b>PRODUCT ENQUIRIES</b> For all enquiries Tel. +11 (0)11 3333 4444. Or email infot@clay.com</div>-->
+           <div class="clear"></div>
+		</div>
+	</div>
+	<?php if($productpageSidebar == 'right' and $productpage_pagelayout != 'productpage_extralarge'): ?>
+    
+    <?php 
+		$_helper = $this->helper('catalog/output');
+    	$_category_detail=Mage::registry('current_category');
+        
+		if($_category_detail):
+    ?>
+    
+    <aside class="grid_3 omega" style="display:none;">
+    <div class="heading-style">STYLE IT WITH</div>
+    <ul class="style-product">
+		<?php
+		
+		$_category_detail->getId(); //gives current category id
+		$catagory_model = Mage::getModel('catalog/category')->load($_category_detail->getId()); //where $category_id is the id of the category
+    	$collection = Mage::getResourceModel('catalog/product_collection');
+    	$collection->addCategoryFilter($catagory_model); //category filter
+    	$collection->addAttributeToFilter('status',1); //only enabled product
+    	$collection->addAttributeToSelect(array('name','url','small_image','price')); //add product attribute to be fetched
+		$collection->getSelect()->order('RAND()');
+		$collection->getSelect()->limit(2);
+		foreach ($collection as $product)  : ?>
+		 <li>
+        <a href="<?php echo $product->getProductUrl()?>"><img src="<?php echo Mage::helper('catalog/image')->init($product, 'small_image')->resize(100, 150)?>" alt=""></a>
+        <div class="details">
+        <a href="<?php echo $product->getProductUrl()?>"><?php echo $product->getName()?></a>
+        <span class="price"><?php echo Mage::app()->getStore()->getCurrentCurrency()->format($product->getFinalPrice());?></span>
+       <button type="button" title="<?php echo $this->__('Add to cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $product->getProductUrl() ?>')"><span><span><?php echo $this->__('Add to cart') ?></span></span></button>
+        </div>
+        </li>
+      
+<?php endforeach; ?>
+</ul>
+</aside>
+<?php endif; ?>
+	<?php endif; ?>
+	<div class="clear"></div>
+            <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+            <?php if (($_product->isSaleable() && $this->hasOptions()) and !$this->getChildChildHtml('container1', '', true, true)): ?>
+                <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+				<div class="no-display">
+					<input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+					<input type="hidden" name="related_product" id="related-products-field" value="" />
+				</div>
+				<div class="bundled-price">
+ 					<?php echo $this->getChildHtml('product_type_data'); ?>
+ 				</div>
+            <?php endif; ?>
+                    <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+            <?php if (($_product->isSaleable() && $this->hasOptions()) and !$this->getChildChildHtml('container1', '', true, true)): ?>
+                </form>
+            <?php endif; ?>
+            <?php endif; ?>
+        
+			<script type="text/javascript">
+    //<![CDATA[
+        var productAddToCartForm = new VarienForm('product_addtocart_form');
+		        productAddToCartForm.submit = function(button, url) {
+			var pincode1=jQuery(".pin-code-status #pincode").val();
+			
+            if (this.validator.validate()) {
+                var form = this.form;
+                var oldUrl = form.action;
+
+                if (url) {
+                   form.action = url;
+                }
+                var e = null;
+                try {
+                    
+					//if(pincode1!="" && (jQuery('span.pincode-msg').hasClass('pincode-success'))){
+							this.form.submit();
+					//} else {
+						//check_pincode();
+						//return false;
+					//}
+					
+                } catch (e) {
+                }
+                this.form.action = oldUrl;
+                if (e) {
+                    throw e;
+                }
+
+                if (button && button != 'undefined') {
+                    button.disabled = true;
+                }
+            }
+        }.bind(productAddToCartForm);
+
+        productAddToCartForm.submitLight = function(button, url){
+            if(this.validator) {
+                var nv = Validation.methods;
+                delete Validation.methods['required-entry'];
+                delete Validation.methods['validate-one-required'];
+                delete Validation.methods['validate-one-required-by-name'];
+                // Remove custom datetime validators
+                for (var methodName in Validation.methods) {
+                    if (methodName.match(/^validate-datetime-.*/i)) {
+                        delete Validation.methods[methodName];
+                    }
+                }
+
+                if (this.validator.validate()) {
+                    if (url) {
+                        this.form.action = url;
+                    }
+                    this.form.submit();
+                }
+                Object.extend(Validation.methods, nv);
+            }
+        }.bind(productAddToCartForm);
+    //]]>
+    </script>
+	<?php if ($meigee_blacknwhite_productpage['layout']['collateral_position'] == 'underdetails'): ?>
+	<div class="product-collateral"<?php if ($productpage_collateral == 'collateral_accordion') echo " id='collateral-accordion'"; ?>>
+		<?php 
+		if ($productpage_collateral == 'collateral_tabs'):
+		   echo $this->getChildHtml('info_tabs');
+		else:
+		    foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html):
+	           if ($title = $this->getChildData($alias, 'title')):
+	           	echo '<h2>' . $this->escapeHtml($title) . '</h2>';
+	           endif;
+	           echo $html;
+		    endforeach;
+			//echo $this->getChildHtml('upsell_products');
+			echo $this->getChildHtml('product_additional_data');
+		   
+			if ($_product->getBlacknwhitePrtabs()):
+			  $productpage_additional = $_product->getBlacknwhitePrtabs();
+			else:
+			  $productpage_additional = $meigee_blacknwhite_productpage['additional'];
+			  $productpage_additional = $productpage_additional['product_tabs'];
+			endif;
+
+			$custom_tabs = array();
+			$product_custom_tabs = explode(",", $productpage_additional);
+			foreach ($product_custom_tabs as $product_custom_tab) {
+			  $custom_tabs[] = trim($product_custom_tab);
+			}; 
+			foreach ($custom_tabs as $key) {
+				 if(!empty($key)):
+			    ?>
+			    <h2 id="<?php echo $key; ?>"><?php echo Mage::getModel('cms/block')->setStoreId(Mage::app()->getStore()->getId())->load($key)->getTitle(); ?></h2>
+				<div class="box-collateral" id="<?php echo $key; ?>_contents"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId(trim($key))->toHtml() ?></div>
+			    <?php endif; 
+			}
+        endif;
+		?>
+        </div>
+	<?php endif; ?>
+    <?php //echo $this->getChildHtml('upsell_products'); ?>
+	<?php //echo $this->getChildHtml('catalog.product.related.bottom'); ?>
+    <?php echo $this->getChildHtml('product.info.review_list'); ?>
+</div>

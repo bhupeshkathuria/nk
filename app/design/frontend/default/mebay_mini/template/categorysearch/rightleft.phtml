@@ -1,0 +1,123 @@
+<style>
+.block-search .actions button.button {float:left;}
+.block-search .actions a {float:right;}
+.block-search .block-title {text-transform:uppercase;color:#E26703;}
+</style>
+
+<div class="box base-mini block block-search">
+  <div class="head block-title">
+        <strong><span><?php echo $this->__('Search By Category') ?></span></strong>
+    </div>
+    <form id="search_mini_form" action="<?php echo $this->getUrl('categorysearch/categorysearch/search')?>" onsubmit="return validate_form(this)" method="get">
+     <div class="block-content">
+      <p><ul>          
+          <li>           
+           <p>&nbsp;<input size="30" id="casearch"  type="text" name="<?php echo $this->helper('catalogSearch')->getQueryParamName() ?>" value="<?php echo $this->getProductName()?>" class="input-text" />
+          </li>          
+          <li>
+           <p>&nbsp;<select id="s" name="s">
+        <?php if($this->getCategoryId()!=""){?>
+        <option value="<?php echo $this->getCategoryId() ?>" selected>
+             <?php echo $this->getCatName($this->getCategoryId())?>
+        </option>
+        <?php $i=$this->getCategoryId();?>        
+        <?php while($this->getParentId($i)!=""){?>
+          <option value="<?php echo $this->getParentId($i)?>">
+             <?php echo '+&nbsp;'.$this->getCatName($this->getParentId($i))?>
+          </option>           
+          <?php $i=$this->getParentId($i);?>
+        <?php }?>
+        <option value="">+ All Categories</option>
+        <optgroup label="--&nbsp;--&nbsp;--&nbsp;--&nbsp;--&nbsp;--&nbsp;--&nbsp;"></optgroup>
+        <option value="<?php echo $this->getLastParent($this->getCategoryId())?>">
+        <?php echo $this->getCatName($this->getLastParent($this->getCategoryId()))?>
+        </option>
+        <?php echo $this->getCatCollection($this->getLastParent($this->getCategoryId()))?>
+        <?php foreach ($this->getCategoryCollection($this->getLastParent($this->getCategoryId())) as $cat):?>
+            <option value="<?php echo $cat->getEntityId()?>"><?php echo $cat->getName()?></option>
+            <?php echo $this->getCatCollection($cat->getEntityId())?>
+        <?php endforeach;?>
+        
+        <?php }else{?>
+        
+           <option value="">All Categories</option>
+           <optgroup label="--&nbsp;--&nbsp;--&nbsp;--&nbsp;--&nbsp;--&nbsp;--&nbsp;"></optgroup>
+        <?php foreach ($this->getCategoryCollection(0) as $cat):?>
+            <option value="<?php echo $cat->getEntityId()?>"><?php echo $cat->getName()?></option>
+            <?php echo $this->getCatCollection($cat->getEntityId())?>
+        <?php endforeach;?>
+        <?php }?>
+        </select>
+          </li>          
+      </ul>
+      <div class="actions">
+        <button type="submit" title="<?php echo $this->__('Search') ?>" class="form-button-alt button"><span><span><?php echo $this->__('Search') ?></span></span></button>
+		<a href="<?php echo $this->getBaseUrl()?>catalogsearch/advanced/"><?php echo $this->__('Advanced Search')?></a>
+      </div>
+     </div>
+	 <div id="divex">
+	<input type="hidden" name="expec" id="expec" />
+	</div>
+    </form>
+		<script type="text/javascript">
+		
+		function validate_required(field,alerttxt)
+			{
+			with (field)
+			  {
+			  if (value==null||value=="")
+				{
+				alert(alerttxt);return false;
+				}
+			  else
+				{						
+						var v =document.getElementById("casearch").value;			
+						if(isNaN(v)) 
+							{		
+								var k=v.indexOf('-',0) ;
+								if(k<=0||k>=(v.length-1)) {
+									document.getElementById("divex").innerHTML='<input type="hidden" name="expec" id="expec" value ="t"/>'	;	
+									return true;
+								}else
+									{
+										var u =v.replace('-','3');t=u.replace('.','3');
+										var min=  v.substring(0,k);
+										var max= v.substring(k+1,v.length);
+										if(isNaN(t)){
+											document.getElementById("divex").innerHTML='<input type="hidden" name="expec" id="expec" value ="t"/>'	;	
+											return true;
+										}else
+										{
+											if( parseFloat(min) <= parseFloat (max)){ 
+												document.getElementById("divex").innerHTML='<input type="hidden" name="expec" id="expec" value ="p"/> <input type="hidden" name="max" id="max" value ="'+max+'"/><input type="hidden" name="min" id="min" value ="'+min+'"/>'	;	
+												return true;
+											}else
+											{
+												document.getElementById("divex").innerHTML='<input type="hidden" name="expec" id="expec" value ="t"/>'	;												
+												return true;
+											}
+										}
+									}
+								
+							}
+						else 
+						{
+						document.getElementById("divex").innerHTML='<input type="hidden" name="expec" id="expec" value ="n"/>'	;	
+							return true;	
+						}
+				
+				}
+			  }
+			}
+
+		function validate_form(thisform)
+			{
+			with (thisform)
+			  {
+			  if (validate_required(casearch,"Searching box must be filled out!")==false)
+			  {casearch.focus();return false;}
+			  }
+			}	
+		</script>
+
+</div>

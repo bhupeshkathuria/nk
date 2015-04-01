@@ -1,0 +1,11 @@
+<?php
+$attribute = Mage::getSingleton('eav/config')->getAttribute('catalog_product', 'men_designer');
+if ($attribute->usesSource()) {
+    $options = $attribute->getSource()->getAllOptions(false); ?>
+	<ul class="level0">
+    <?php foreach ($options as $option)  { ?>
+       <!-- echo '<a href="'.Mage::getUrl('allproducts?', array('brand='=>$option['value'])).'">'.$option['label'].'</a>';-->
+       <li class="level2"> <a href="<?php echo Mage::getBaseUrl();?>allproducts?=<?php echo $option['value']; ?>"><span><?php echo $option['label']; ?></span></a></li>
+    <?php }	?>
+    </ul>
+    <?php } ?>

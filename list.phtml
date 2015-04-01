@@ -1,0 +1,269 @@
+<?php	 $orders = $this->getOrders();
+		 echo $this->getChildHtml("order_list_toolbar"); ?>
+<?php //$status =  $this->getOrderStatus();
+
+$status = $this->getCustomStatus();
+$session = Mage::getSingleton('core/session');
+$supplierId = $session->getData('supplierId');
+$orderStatus = array('paypal_canceled_reversal','payment_review', 'paypal_reversed','pending_payment', 'pending_paypal', 'fraud','closed','pending');
+
+
+?>
+
+<?php if(!isset($_GET['s'])){ ?>
+<div class="supllier_admin_content  supplier_admin_order_list">
+ 
+<h1>Order Summary</h1>
+<table class="supplier_order_list st" style="width:100%" >
+	    <tr class="menu_font_style " id="padd">
+	        <th><?php echo $this->__('Index') ?></th>
+	        <th><?php echo $this->__('Orders') ?></th>
+	        <th><?php echo $this->__('Value') ?></th>
+	        <!--<th><?php echo $this->__('Status') ?></th>-->
+	        <th><?php echo $this->__('Details') ?></th>
+	    </tr>
+	    <?php $i = 0;
+		$priceTotal = 0;
+		 foreach($status as $order) : $i++; ?>
+        	
+            <?php switch($order['status']){
+			case 'processing':
+			$customStatus = 1;
+			break;	
+			case 'ready_for_dispatch':
+			$customStatus = 2;
+			break;	
+			case 'readypickup':
+			$customStatus = 3;
+			break;	
+			case 'handed_courier':
+			$customStatus = 4;
+			break;	
+			case 'complete':
+			$customStatus = 5;
+			break;
+			case 'canceled':
+			$customStatus = 6;
+			break;
+			case 'holded':
+			$customStatus = 7;
+			break;	
+			case 'returns':
+			$customStatus = 8;
+			break;	
+		
+	}
+		?>
+        
+        <?php $countStatus = $this->getOrderByStatus($supplierId, $order['status']); ?>
+        
+        
+         <?php 
+		 
+		 if(!in_array($order['status'],$orderStatus)){
+			 	$priceTotal = $countStatus['price'];
+			 ?>
+	    <tr class="position  <?php if(($i%2) == 0){?>even<?php }else{?>odd<?php } ?>"> 
+	        <td><?php echo $order['label']; ?></td>
+	        <td><?php 
+					if($countStatus['countOrder'] > 0){
+					echo $countStatus['countOrder'];
+					}
+					else {
+					echo 0;
+					}
+			
+			 ?></td>
+	        <td>Rs. <?php echo number_format($priceTotal); ?></td>
+	        <td><a href="<?php echo Mage::getUrl('supplier/order/' ).'?s='. $customStatus; ?>"><?php echo $this->__('View') ?></a></td>
+	    </tr>
+        <?php } ?>
+	    <?php endforeach; ?>
+	</table>
+
+
+</div>
+<?php } else { 
+			$cstatus = Mage::app()->getRequest()->getParam('s');
+			switch($cstatus){
+				case '1':
+				$customStatus = 2;
+				$buttonLabel = 'Ready for Dispatch';
+				$statusO = 'ready_for_dispatch';
+				break;	
+				case '2':
+				$customStatus = 3;
+				$buttonLabel = 'Change Status to Ready for Pickup';
+				$statusO = 'readypickup';
+				break;	
+				case '3':
+				$customStatus = 4;
+				$buttonLabel = 'Change Status to Handed to Courier';
+				$statusO = 'handed_courier';
+				break;	
+				case '4':
+				$customStatus = 5;
+				$buttonLabel = 'Change Status to Delivered';
+				$statusO = 'complete';
+				break;	
+				case '5':
+				$customStatus = 5;
+				break;
+				default:
+				$customStatus = 0;
+				$buttonLabel = '';
+			}
+?>
+<h1>Order Acception</h1>
+<div class="supllier_admin_content  supplier_admin_order_list">
+<?php
+ 	if($cstatus == 4):
+ 	 $acition = Mage::getUrl('supplier/order/shippingprint');
+ 	else:
+	$acition = Mage::getUrl('supplier/order/customstatus');
+	endif;
+ 
+  ?>
+<form name="order-status" id="order-status" action="<?php echo $acition ?>" target="_blank" method="post">
+	<table class="supplier_order_list st" style="width:100%" >
+    	<tr><td colspan="7">&nbsp;</td><td align="right">Actions:</td>
+        <td>
+        	<input type="hidden" name="supplier_id" value="<?php echo $supplierId; ?>"/>
+        	<select name="chkAction" id="dept">
+        	<option></option>
+        	<option value="print">Download invoice</option>
+        	<option value="manifest">Generate Manifest</option>
+        	<option value="customstatus">Ready for Pickup</option>
+          	<option value="customstatus">Handed to Courier</option>
+           	</select>
+     	</td><td><button id="cstatus" name="cstatus" title="<?php echo $this->__($buttonLabel) ?>" class="button" type="submit"><span><?php echo $this->__('Submit') ?></span></button></td></tr>
+	    <tr class="menu_font_style " id="padd">
+	        <th><?php echo $this->__('Order ID') ?></th>
+            <th><?php echo $this->__('OrderType') ?></th>
+            <th><?php echo $this->__('Courier') ?></th>
+            <th><?php echo $this->__('AwbNo') ?></th>
+            <th><?php echo $this->__('SKUCode') ?></th>
+            <th><?php echo $this->__('Product Name') ?></th>
+            <th><?php echo $this->__('Size') ?></th>
+	        <th><?php echo $this->__('OrderDate') ?></th>
+            <th><?php echo $this->__('Qty') ?></th>
+            <th><?php echo $this->__('Total Amt') ?></th>
+            <?php if($customStatus != 5):?>
+	        <th><?php echo $this->__('Action') ?></th>
+             <?php endif; ?>
+             <th><?php echo $this->__('Download Invoice') ?></th>
+	    </tr>
+	    <?php
+		
+		
+		 $i = 0; foreach($orders as $order) :  ?>
+        
+        <?php
+			$orderPayment = new Mage_Sales_Model_Order();
+			$orderPayment->loadByIncrementId($order->getRealOrderId());
+			$payment_method = $orderPayment->getPayment()->getMethodInstance()->getTitle();
+			?>
+            
+        <?php 
+			  $sku = $this->getCustomSku($order->getRealOrderId());
+			  
+		      $courier = $this->getCourierName($sku['courier_id']);
+			 
+			  $awb = $this->getAwb($sku['awbno']);
+			  $orderCustom = Mage::getModel('sales/order')->loadByIncrementId($order->getRealOrderId());
+			  $order->getOrderId();
+			  
+			  //$product = Mage::getModel('catalog/product')->setStoreId($storeId)->load($sku['product_id']);
+			 // $text = $product->getAttributeText('my_attribute');
+			 
+			 
+			 
+			 
+		 ?>
+	    <tr class="position  <?php if(($i%2) == 0){ ?> even <?php } else { ?>odd<?php } ?>"> 
+	        <td><a href="<?php echo Mage::getUrl('supplier/order/view/' ) . 'order_id/' . $order->getEntityId(); ?>"><?php echo $order->getRealOrderId(); ?></a></td>
+            <td><?php echo $payment_method; ?></td>
+            <td><?php echo $courier['surname']; ?></td>
+            <td><?php echo $sku['awbno']; ?></td>
+            <td><?php echo $sku['sku']; ?></td>
+            <td><?php echo $sku['product_name']; ?></td>
+            <td><?php 
+			//echo $sku['product_id'];
+							foreach ($orderCustom->getAllItems() as $item) {
+							$options = $item->getProductOptions();
+							$customOptions = $options['options'];  
+							if(!empty($customOptions))
+							{
+							foreach ($customOptions as $option)
+							{      
+								$optionTitle = $option['label'];
+								$optionId = $option['option_id'];
+								$optionType = $option['type'];
+								echo $optionValue = $option['value'].',';
+							}
+							}
+						}
+			
+			 ?></td>
+            <td><?php echo Mage::helper('core')->formatDate($order->getCreatedAt(), 'short', $showTime=true); ?></td>
+            <td><?php $qty = $this->getTotalQty($order->getRealOrderId());
+						echo $qty['totalQty'];
+			 
+			 ?></td>
+            <td><?php $price = $this->getTotalQty($order->getRealOrderId());
+						echo $price['totalPrice'];
+			 
+			 ?></td>
+            <?php if($customStatus == 5):?>
+            <td>
+                <input type="checkbox" class="massaction-checkbox" value="<?php echo $awb['lastmile_id']; ?>" name="lastmile[]">
+            </td>
+            <?php else:?>
+            <td>
+                <input type="checkbox" name="aOrderid[]" value="<?php echo $order->getRealOrderId();?>" />
+               
+            </td>
+            <td>
+                <input type="checkbox" class="massaction-checkbox" value="<?php echo $awb['lastmile_id']; ?>" name="lastmile[]">
+            </td>
+            <?php endif; ?>
+	    </tr>
+	    <?php $i++; 
+		endforeach; ?>
+        <input type="hidden" name="chkStatus" value="<?php echo $customStatus?>">
+        <input type="hidden" name="aStatus" value="<?php echo $statusO;?>" />
+        
+        
+	</table>
+    </form>
+</div>
+<?php } ?>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+
+jQuery("#dept").change(function(){
+ // change fn on dept id
+ var selected_dept = jQuery(this).children(":selected").val(); // Get the selected option value
+ switch(selected_dept){
+ case "print":
+ jQuery("#order-status").attr('action','<?php echo Mage::getUrl('supplier/order/shippingprint'); ?>');
+ jQuery("#order-status").attr('target','_self');
+ break;
+
+ case "customstatus":
+ jQuery("#order-status").attr('action','<?php echo Mage::getUrl('supplier/order/customstatus'); ?>');
+ jQuery("#order-status").attr('target','_self');
+ break;
+ case "manifest":
+ jQuery("#order-status").attr('action','http://www.netakart.com/manifest.php');
+ jQuery("#order-status").attr('target','_blank');
+ break;
+ default:
+ jQuery("#order-status").attr('action','#');
+ jQuery("#order-status").attr('target','_self');
+ // Default action
+ }
+ });
+ });
+
+</script>
