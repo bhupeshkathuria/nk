@@ -41,9 +41,9 @@
             <default_setup>
                 <connection>
                     <host><![CDATA[localhost]]></host>
-                    <username><![CDATA[netakart_testdev]]></username>
-                    <password><![CDATA[Feb03th2015]]></password>
-                    <dbname><![CDATA[netakart_testdev]]></dbname>
+                    <username><![CDATA[kgsolcon_roaab]]></username>
+                    <password><![CDATA[legacy123]]></password>
+                    <dbname><![CDATA[kgosolcon_roaab]]></dbname>
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>
                     <type><![CDATA[pdo_mysql]]></type>
